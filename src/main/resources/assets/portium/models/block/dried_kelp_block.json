@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "portium:blocks/dried_kelp_top",
+    "bottom": "portium:blocks/dried_kelp_bottom",
+    "side": "portium:blocks/dried_kelp_side"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:acacia_button"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:planks",
+      "data": 4
+    }
+  ],
+  "result": {
+    "item": "portium:acacia_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

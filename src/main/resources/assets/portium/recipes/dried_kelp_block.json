@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:dried_kelp"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:dried_kelp_block"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "portium:dried_kelp"
+    }
+  },
+  "result": {
+    "item": "portium:dried_kelp_block",
+    "count": 1
+  }
+}

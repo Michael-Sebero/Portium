@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:dark_oak_button"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:planks",
+      "data": 5
+    }
+  ],
+  "result": {
+    "item": "portium:dark_oak_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

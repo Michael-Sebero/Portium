@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "wet=false": { "model": "sponge" },
+        "wet=true": { "model": "wet_sponge" }
+    }
+}

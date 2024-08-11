@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "portium:conduit"
+    },
+    "waterlogged=true": {
+      "model": "portium:conduit"
+    }
+  }
+}

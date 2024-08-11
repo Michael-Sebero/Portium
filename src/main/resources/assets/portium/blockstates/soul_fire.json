@@ -1,0 +1,90 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "portium:soul_fire_floor0"
+        },
+        {
+          "model": "portium:soul_fire_floor1"
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portium:soul_fire_side0"
+        },
+        {
+          "model": "portium:soul_fire_side1"
+        },
+        {
+          "model": "portium:soul_fire_side_alt0"
+        },
+        {
+          "model": "portium:soul_fire_side_alt1"
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portium:soul_fire_side0",
+          "y": 90
+        },
+        {
+          "model": "portium:soul_fire_side1",
+          "y": 90
+        },
+        {
+          "model": "portium:soul_fire_side_alt0",
+          "y": 90
+        },
+        {
+          "model": "portium:soul_fire_side_alt1",
+          "y": 90
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portium:soul_fire_side0",
+          "y": 180
+        },
+        {
+          "model": "portium:soul_fire_side1",
+          "y": 180
+        },
+        {
+          "model": "portium:soul_fire_side_alt0",
+          "y": 180
+        },
+        {
+          "model": "portium:soul_fire_side_alt1",
+          "y": 180
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portium:soul_fire_side0",
+          "y": 270
+        },
+        {
+          "model": "portium:soul_fire_side1",
+          "y": 270
+        },
+        {
+          "model": "portium:soul_fire_side_alt0",
+          "y": 270
+        },
+        {
+          "model": "portium:soul_fire_side_alt1",
+          "y": 270
+        }
+      ]
+    }
+  ]
+}

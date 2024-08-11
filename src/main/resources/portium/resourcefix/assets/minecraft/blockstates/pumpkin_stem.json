@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "age=0,facing=up": { "model": "pumpkin_stem_stage0" },
+        "age=1,facing=up": { "model": "pumpkin_stem_stage1" },
+        "age=2,facing=up": { "model": "pumpkin_stem_stage2" },
+        "age=3,facing=up": { "model": "pumpkin_stem_stage3" },
+        "age=4,facing=up": { "model": "pumpkin_stem_stage4" },
+        "age=5,facing=up": { "model": "pumpkin_stem_stage5" },
+        "age=6,facing=up": { "model": "pumpkin_stem_stage6" },
+        "age=7,facing=up": { "model": "pumpkin_stem_stage7" },
+        "facing=west": { "model": "attached_pumpkin_stem" },
+        "facing=east": { "model": "attached_pumpkin_stem", "y": 180 },
+        "facing=north": { "model": "attached_pumpkin_stem", "y": 90 },
+        "facing=south": { "model": "attached_pumpkin_stem", "y": 270 }
+    }
+}

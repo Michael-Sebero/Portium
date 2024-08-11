@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:birch_button"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:planks",
+      "data": 2
+    }
+  ],
+  "result": {
+    "item": "portium:birch_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

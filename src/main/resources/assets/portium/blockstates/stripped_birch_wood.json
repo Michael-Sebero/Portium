@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:stripped_birch_wood"
+    },
+    "axis=z": {
+      "model": "portium:stripped_birch_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:stripped_birch_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

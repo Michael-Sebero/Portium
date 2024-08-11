@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:scute"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:turtle_helmet"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "portium:scute"
+    }
+  },
+  "result": {
+    "item": "portium:turtle_helmet",
+    "count": 1
+  }
+}

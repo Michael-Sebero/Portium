@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_seagrass",
+  "textures": {
+    "texture": "portium:blocks/seagrass",
+    "particle": "portium:blocks/seagrass"
+  }
+}

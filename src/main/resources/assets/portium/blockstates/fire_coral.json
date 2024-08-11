@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=true": {
+      "model": "portium:fire_coral"
+    },
+    "waterlogged=false": {
+      "model": "portium:fire_coral"
+    }
+  }
+}

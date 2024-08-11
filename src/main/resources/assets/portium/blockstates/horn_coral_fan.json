@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "facing=up,waterlogged=true": {
+      "model": "portium:horn_coral_fan"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "portium:horn_coral_wall_fan"
+    },
+    "facing=east,waterlogged=true": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 90
+    },
+    "facing=south,waterlogged=true": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 180
+    },
+    "facing=west,waterlogged=true": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 270
+    },
+    "facing=up,waterlogged=false": {
+      "model": "portium:horn_coral_fan"
+    },
+    "facing=north,waterlogged=false": {
+      "model": "portium:horn_coral_wall_fan"
+    },
+    "facing=east,waterlogged=false": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 90
+    },
+    "facing=south,waterlogged=false": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "portium:horn_coral_wall_fan",
+      "y": 270
+    }
+  }
+}

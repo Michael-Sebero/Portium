@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "portium:blocks/stripped_warped_stem",
+    "side": "portium:blocks/stripped_warped_stem"
+  }
+}

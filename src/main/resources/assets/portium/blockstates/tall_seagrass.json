@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "portium:tall_seagrass_bottom"
+    },
+    "half=upper": {
+      "model": "portium:tall_seagrass_top"
+    }
+  }
+}

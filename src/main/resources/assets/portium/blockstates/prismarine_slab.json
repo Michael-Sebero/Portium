@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:prismarine_slab"
+    },
+    "half=top": {
+      "model": "portium:prismarine_slab_top"
+    }
+  }
+}

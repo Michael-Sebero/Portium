@@ -1,0 +1,26 @@
+{
+    "variants": {
+        "contents=empty":            { "model": "flower_pot" },
+        "contents=rose":             { "model": "potted_poppy" },
+        "contents=blue_orchid":      { "model": "potted_blue_orchid" },
+        "contents=allium":           { "model": "potted_allium" },
+        "contents=houstonia":        { "model": "potted_azure_bluet" },
+        "contents=red_tulip":        { "model": "potted_red_tulip" },
+        "contents=orange_tulip":     { "model": "potted_orange_tulip" },
+        "contents=white_tulip":      { "model": "potted_white_tulip" },
+        "contents=pink_tulip":       { "model": "potted_pink_tulip" },
+        "contents=oxeye_daisy":      { "model": "potted_oxeye_daisy" },
+        "contents=dandelion":        { "model": "potted_dandelion" },
+        "contents=oak_sapling":      { "model": "potted_oak_sapling" },
+        "contents=spruce_sapling":   { "model": "potted_spruce_sapling" },
+        "contents=birch_sapling":    { "model": "potted_birch_sapling" },
+        "contents=jungle_sapling":   { "model": "potted_jungle_sapling" },
+        "contents=acacia_sapling":   { "model": "potted_acacia_sapling" },
+        "contents=dark_oak_sapling": { "model": "potted_dark_oak_sapling" },
+        "contents=mushroom_red":     { "model": "potted_red_mushroom" },
+        "contents=mushroom_brown":   { "model": "potted_brown_mushroom" },
+        "contents=dead_bush":        { "model": "potted_dead_bush" },
+        "contents=fern":             { "model": "potted_fern" },
+        "contents=cactus":           { "model": "potted_cactus" }
+    }
+}

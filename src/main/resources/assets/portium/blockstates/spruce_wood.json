@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:spruce_wood"
+    },
+    "axis=z": {
+      "model": "portium:spruce_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:spruce_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

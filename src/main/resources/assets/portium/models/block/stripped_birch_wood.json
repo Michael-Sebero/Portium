@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "portium:blocks/stripped_birch_log",
+    "side": "portium:blocks/stripped_birch_log"
+  }
+}

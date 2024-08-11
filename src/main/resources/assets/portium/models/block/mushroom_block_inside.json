@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_single_face",
+  "textures": {
+    "texture": "blocks/mushroom_block_inside",
+    "particle": "blocks/mushroom_block_inside"
+  }
+}

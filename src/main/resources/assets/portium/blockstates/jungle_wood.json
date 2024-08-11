@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:jungle_wood"
+    },
+    "axis=z": {
+      "model": "portium:jungle_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:jungle_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

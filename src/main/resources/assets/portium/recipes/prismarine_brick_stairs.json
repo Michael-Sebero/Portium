@@ -1,0 +1,24 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:prismarine_brick_stairs"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:prismarine",
+      "data": 1
+    }
+  },
+  "result": {
+    "item": "portium:prismarine_brick_stairs",
+    "count": 4
+  }
+}

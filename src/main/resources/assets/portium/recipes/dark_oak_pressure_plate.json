@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:dark_oak_pressure_plate"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:planks",
+      "data": 5
+    }
+  },
+  "result": {
+    "item": "portium:dark_oak_pressure_plate",
+    "count": 1
+  },
+  "group": "wooden_pressure_plate"
+}

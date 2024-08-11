@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=true": {
+      "model": "portium:brain_coral"
+    },
+    "waterlogged=false": {
+      "model": "portium:brain_coral"
+    }
+  }
+}

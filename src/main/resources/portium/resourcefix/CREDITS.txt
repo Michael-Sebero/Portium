@@ -1,0 +1,7 @@
+resourcefix 1.1 ("Load packs from 1.19 on 1.12.2")
+https://modrinth.com/resourcepack/resourcefix
+
+Released under CC0 1.0 (public domain dedication): https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
+
+These blockstate and model files are bundled unchanged. Portium serves them only while an enabled resource pack
+provides Minecraft 1.13+ block models, pointing 1.12's blocks at those models so modern resource packs work.

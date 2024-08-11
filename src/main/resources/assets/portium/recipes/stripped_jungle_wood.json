@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:stripped_jungle_log"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:stripped_jungle_wood"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "portium:stripped_jungle_log"
+    }
+  },
+  "result": {
+    "item": "portium:stripped_jungle_wood",
+    "count": 3
+  },
+  "group": "bark"
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_turtle_egg",
+  "textures": {
+    "all": "portium:blocks/turtle_egg",
+    "particle": "portium:blocks/turtle_egg"
+  }
+}

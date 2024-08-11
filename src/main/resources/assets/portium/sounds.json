@@ -1,0 +1,3674 @@
+{
+  "ambient.underwater.enter": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/enter1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:ambient/underwater/enter2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:ambient/underwater/enter3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.ambient.underwater.enter"
+  },
+  "ambient.underwater.exit": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/exit1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ambient/underwater/exit2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ambient/underwater/exit3",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portium.ambient.underwater.exit"
+  },
+  "ambient.underwater.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/underwater_ambience",
+        "stream": true,
+        "volume": 0.65
+      }
+    ]
+  },
+  "ambient.underwater.loop.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/additions/bubbles1"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bubbles2"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bubbles3"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bubbles4"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bubbles5"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bubbles6"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/water1"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/water2"
+      }
+    ]
+  },
+  "ambient.underwater.loop.additions.rare": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/additions/animal1"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bass_whale1",
+        "volume": 0.45
+      },
+      {
+        "name": "portium:ambient/underwater/additions/bass_whale2",
+        "volume": 0.45
+      },
+      {
+        "name": "portium:ambient/underwater/additions/crackles1"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/crackles2"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/driplets1"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/driplets2"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/earth_crack"
+      }
+    ]
+  },
+  "ambient.underwater.loop.additions.ultra_rare": {
+    "sounds": [
+      {
+        "name": "portium:ambient/underwater/additions/animal2"
+      },
+      {
+        "name": "portium:ambient/underwater/additions/dark1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:ambient/underwater/additions/dark2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:ambient/underwater/additions/dark3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:ambient/underwater/additions/dark4",
+        "volume": 0.7
+      }
+    ]
+  },
+  "block.bubble_column.bubble_pop": {
+    "sounds": [
+      {
+        "name": "portium:block/bubble_column/bubble1",
+        "volume": 0.1
+      },
+      {
+        "name": "portium:block/bubble_column/bubble2",
+        "volume": 0.1
+      },
+      {
+        "name": "portium:block/bubble_column/bubble3",
+        "volume": 0.1
+      }
+    ],
+    "subtitle": "subtitles.portium.block.bubble_column.bubble_pop"
+  },
+  "block.bubble_column.upwards_ambient": {
+    "sounds": [
+      {
+        "name": "portium:block/bubble_column/upwards_ambient1",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/upwards_ambient2",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/upwards_ambient3",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/upwards_ambient4",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/upwards_ambient5",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.portium.block.bubble_column.upwards_ambient"
+  },
+  "block.bubble_column.upwards_inside": {
+    "sounds": [
+      {
+        "name": "portium:block/bubble_column/upwards_inside",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portium.block.bubble_column.upwards_inside"
+  },
+  "block.bubble_column.whirlpool_ambient": {
+    "sounds": [
+      {
+        "name": "portium:block/bubble_column/whirlpool_ambient1",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/whirlpool_ambient2",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/whirlpool_ambient3",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/whirlpool_ambient4",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:block/bubble_column/whirlpool_ambient5",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.portium.block.bubble_column.whirlpool_ambient"
+  },
+  "block.bubble_column.whirlpool_inside": {
+    "sounds": [
+      {
+        "name": "portium:block/bubble_column/whirlpool_inside",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portium.block.bubble_column.whirlpool_inside"
+  },
+  "block.conduit.activate": {
+    "sounds": [
+      {
+        "name": "portium:block/conduit/activate",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.block.conduit.activate"
+  },
+  "block.conduit.ambient": {
+    "sounds": [
+      {
+        "name": "portium:block/conduit/ambient",
+        "attenuation_distance": 8
+      }
+    ],
+    "subtitle": "subtitles.portium.block.conduit.ambient"
+  },
+  "block.conduit.ambient.short": {
+    "sounds": [
+      {
+        "name": "portium:block/conduit/short1",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short2",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short3",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short4",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short5",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short6",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short7",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short8",
+        "attenuation_distance": 8
+      },
+      {
+        "name": "portium:block/conduit/short9",
+        "attenuation_distance": 8
+      }
+    ],
+    "subtitle": "subtitles.portium.block.conduit.ambient"
+  },
+  "block.conduit.attack.target": {
+    "sounds": [
+      {
+        "name": "portium:block/conduit/attack1"
+      },
+      {
+        "name": "portium:block/conduit/attack2"
+      },
+      {
+        "name": "portium:block/conduit/attack3"
+      }
+    ],
+    "subtitle": "subtitles.portium.block.conduit.attack.target"
+  },
+  "block.conduit.deactivate": {
+    "sounds": [
+      {
+        "name": "portium:block/conduit/deactivate",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portium.block.conduit.deactivate"
+  },
+  "block.coral_block.break": {
+    "sounds": [
+      {
+        "name": "portium:dig/coral1"
+      },
+      {
+        "name": "portium:dig/coral2"
+      },
+      {
+        "name": "portium:dig/coral3"
+      },
+      {
+        "name": "portium:dig/coral4"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.coral_block.fall": {
+    "sounds": [
+      {
+        "name": "portium:step/coral1"
+      },
+      {
+        "name": "portium:step/coral2"
+      },
+      {
+        "name": "portium:step/coral3"
+      },
+      {
+        "name": "portium:step/coral4"
+      },
+      {
+        "name": "portium:step/coral5"
+      },
+      {
+        "name": "portium:step/coral6"
+      }
+    ]
+  },
+  "block.coral_block.hit": {
+    "sounds": [
+      {
+        "name": "portium:step/coral1"
+      },
+      {
+        "name": "portium:step/coral2"
+      },
+      {
+        "name": "portium:step/coral3"
+      },
+      {
+        "name": "portium:step/coral4"
+      },
+      {
+        "name": "portium:step/coral5"
+      },
+      {
+        "name": "portium:step/coral6"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.coral_block.place": {
+    "sounds": [
+      {
+        "name": "portium:dig/coral1"
+      },
+      {
+        "name": "portium:dig/coral2"
+      },
+      {
+        "name": "portium:dig/coral3"
+      },
+      {
+        "name": "portium:dig/coral4"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.coral_block.step": {
+    "sounds": [
+      {
+        "name": "portium:step/coral1"
+      },
+      {
+        "name": "portium:step/coral2"
+      },
+      {
+        "name": "portium:step/coral3"
+      },
+      {
+        "name": "portium:step/coral4"
+      },
+      {
+        "name": "portium:step/coral5"
+      },
+      {
+        "name": "portium:step/coral6"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.wet_grass.break": {
+    "sounds": [
+      {
+        "name": "portium:dig/wet_grass1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.wet_grass.fall": {
+    "sounds": [
+      {
+        "name": "portium:step/wet_grass1"
+      },
+      {
+        "name": "portium:step/wet_grass2"
+      },
+      {
+        "name": "portium:step/wet_grass3"
+      },
+      {
+        "name": "portium:step/wet_grass4"
+      },
+      {
+        "name": "portium:step/wet_grass5"
+      },
+      {
+        "name": "portium:step/wet_grass6"
+      }
+    ]
+  },
+  "block.wet_grass.hit": {
+    "sounds": [
+      {
+        "name": "portium:step/wet_grass1"
+      },
+      {
+        "name": "portium:step/wet_grass2"
+      },
+      {
+        "name": "portium:step/wet_grass3"
+      },
+      {
+        "name": "portium:step/wet_grass4"
+      },
+      {
+        "name": "portium:step/wet_grass5"
+      },
+      {
+        "name": "portium:step/wet_grass6"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.wet_grass.place": {
+    "sounds": [
+      {
+        "name": "portium:dig/wet_grass1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:dig/wet_grass4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.wet_grass.step": {
+    "sounds": [
+      {
+        "name": "portium:step/wet_grass1"
+      },
+      {
+        "name": "portium:step/wet_grass2"
+      },
+      {
+        "name": "portium:step/wet_grass3"
+      },
+      {
+        "name": "portium:step/wet_grass4"
+      },
+      {
+        "name": "portium:step/wet_grass5"
+      },
+      {
+        "name": "portium:step/wet_grass6"
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.pumpkin.carve": {
+    "sounds": [
+      {
+        "name": "portium:block/pumpkin/carve1"
+      },
+      {
+        "name": "portium:block/pumpkin/carve2"
+      }
+    ],
+    "subtitle": "subtitles.portium.block.pumpkin.carve"
+  },
+  "entity.turtle.egg_break": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/egg/egg_break1"
+      },
+      {
+        "name": "portium:mob/turtle/egg/egg_break2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.egg_break"
+  },
+  "entity.turtle.egg_crack": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/egg/egg_crack1"
+      },
+      {
+        "name": "portium:mob/turtle/egg/egg_crack2"
+      },
+      {
+        "name": "portium:mob/turtle/egg/egg_crack3"
+      },
+      {
+        "name": "portium:mob/turtle/egg/egg_crack4"
+      },
+      {
+        "name": "portium:mob/turtle/egg/egg_crack5"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.egg_crack"
+  },
+  "entity.turtle.egg_hatch": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/baby/egg_hatched1"
+      },
+      {
+        "name": "portium:mob/turtle/baby/egg_hatched2"
+      },
+      {
+        "name": "portium:mob/turtle/baby/egg_hatched3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.egg_hatch"
+  },
+  "entity.squid.squirt": {
+    "sounds": [
+      {
+        "name": "portium:entity/squid/squirt1"
+      },
+      {
+        "name": "portium:entity/squid/squirt2"
+      },
+      {
+        "name": "portium:entity/squid/squirt3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.squid.squirt"
+  },
+  "entity.husk.converted_to_zombie": {
+    "sounds": [
+      {
+        "name": "portium:mob/husk/convert1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/husk/convert2",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.husk.converted_to_zombie"
+  },
+  "item.armor.equip_turtle": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/armor"
+      },
+      {
+        "name": "portium:mob/turtle/armor",
+        "pitch": 0.85
+      },
+      {
+        "name": "portium:mob/turtle/armor",
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.portium.item.armor.equip_turtle"
+  },
+  "item.axe.strip": {
+    "sounds": [
+      {
+        "name": "portium:item/axe/strip1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/axe/strip2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/axe/strip3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/axe/strip4",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.item.axe.strip"
+  },
+  "item.trident.hit": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/pierce1"
+      },
+      {
+        "name": "portium:item/trident/pierce2"
+      },
+      {
+        "name": "portium:item/trident/pierce3"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.hit"
+  },
+  "item.trident.hit_ground": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/ground_impact1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/trident/ground_impact2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/trident/ground_impact3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:item/trident/ground_impact4",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.hit_ground"
+  },
+  "item.trident.return": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/return1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/trident/return2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/trident/return3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.return"
+  },
+  "item.trident.riptide_1": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/riptide1"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.riptide"
+  },
+  "item.trident.riptide_2": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/riptide2"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.riptide"
+  },
+  "item.trident.riptide_3": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/riptide3"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.riptide"
+  },
+  "item.trident.throw": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/throw1"
+      },
+      {
+        "name": "portium:item/trident/throw2"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.throw"
+  },
+  "item.trident.thunder": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/thunder1"
+      },
+      {
+        "name": "portium:item/trident/thunder2"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.trident.thunder"
+  },
+  "entity.cod.death": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.death"
+  },
+  "entity.cod.flop": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/flop1",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop2",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop3",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop4",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.flop"
+  },
+  "entity.cod.hurt": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.hurt"
+  },
+  "entity.salmon.death": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.death"
+  },
+  "entity.salmon.flop": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/flop1",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop2",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop3",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop4",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.flop"
+  },
+  "entity.salmon.hurt": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.hurt"
+  },
+  "entity.tropical_fish.death": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.death"
+  },
+  "entity.tropical_fish.flop": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/flop1",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop2",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop3",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/fish/flop4",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.flop"
+  },
+  "entity.tropical_fish.hurt": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/hurt1"
+      },
+      {
+        "name": "portium:entity/fish/hurt2"
+      },
+      {
+        "name": "portium:entity/fish/hurt3"
+      },
+      {
+        "name": "portium:entity/fish/hurt4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.hurt"
+  },
+  "entity.fish.swim": {
+    "sounds": [
+      {
+        "name": "portium:entity/fish/swim1"
+      },
+      {
+        "name": "portium:entity/fish/swim2"
+      },
+      {
+        "name": "portium:entity/fish/swim3"
+      },
+      {
+        "name": "portium:entity/fish/swim4"
+      },
+      {
+        "name": "portium:entity/fish/swim5"
+      },
+      {
+        "name": "portium:entity/fish/swim6"
+      },
+      {
+        "name": "portium:entity/fish/swim7"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.fish.swim"
+  },
+  "entity.puffer_fish.blow_out": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/blow_out1"
+      },
+      {
+        "name": "portium:entity/pufferfish/blow_out2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.blow_out"
+  },
+  "entity.puffer_fish.blow_up": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/blow_up1"
+      },
+      {
+        "name": "portium:entity/pufferfish/blow_up2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.blow_up"
+  },
+  "entity.puffer_fish.death": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/death1"
+      },
+      {
+        "name": "portium:entity/pufferfish/death2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.death"
+  },
+  "entity.puffer_fish.flop": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/flop1",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/pufferfish/flop2",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/pufferfish/flop3",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:entity/pufferfish/flop4",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.flop"
+  },
+  "entity.puffer_fish.hurt": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/hurt1"
+      },
+      {
+        "name": "portium:entity/pufferfish/hurt2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.hurt"
+  },
+  "entity.puffer_fish.sting": {
+    "sounds": [
+      {
+        "name": "portium:entity/pufferfish/sting1"
+      },
+      {
+        "name": "portium:entity/pufferfish/sting2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.puffer_fish.sting"
+  },
+  "entity.dolphin.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/idle1"
+      },
+      {
+        "name": "portium:mob/dolphin/idle2"
+      },
+      {
+        "name": "portium:mob/dolphin/idle3"
+      },
+      {
+        "name": "portium:mob/dolphin/idle4"
+      },
+      {
+        "name": "portium:mob/dolphin/idle5"
+      },
+      {
+        "name": "portium:mob/dolphin/idle6"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.ambient"
+  },
+  "entity.dolphin.ambient_water": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/idle_water1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water6",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water7",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water8",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water9",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/dolphin/idle_water10",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.ambient_water"
+  },
+  "entity.dolphin.attack": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/attack1"
+      },
+      {
+        "name": "portium:mob/dolphin/attack2"
+      },
+      {
+        "name": "portium:mob/dolphin/attack3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.attack"
+  },
+  "entity.dolphin.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/death1"
+      },
+      {
+        "name": "portium:mob/dolphin/death2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.death"
+  },
+  "entity.dolphin.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/eat1"
+      },
+      {
+        "name": "portium:mob/dolphin/eat2"
+      },
+      {
+        "name": "portium:mob/dolphin/eat3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.eat"
+  },
+  "entity.dolphin.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/hurt1"
+      },
+      {
+        "name": "portium:mob/dolphin/hurt2"
+      },
+      {
+        "name": "portium:mob/dolphin/hurt3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.hurt"
+  },
+  "entity.dolphin.jump": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/jump1",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/dolphin/jump2",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/dolphin/jump3",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.jump"
+  },
+  "entity.dolphin.play": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/play1"
+      },
+      {
+        "name": "portium:mob/dolphin/play2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.play"
+  },
+  "entity.dolphin.splash": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/splash1"
+      },
+      {
+        "name": "portium:mob/dolphin/splash2"
+      },
+      {
+        "name": "portium:mob/dolphin/splash3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.splash"
+  },
+  "entity.dolphin.swim": {
+    "sounds": [
+      {
+        "name": "portium:mob/dolphin/swim1"
+      },
+      {
+        "name": "portium:mob/dolphin/swim2"
+      },
+      {
+        "name": "portium:mob/dolphin/swim3"
+      },
+      {
+        "name": "portium:mob/dolphin/swim4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.dolphin.swim"
+  },
+  "entity.turtle.ambient_land": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/idle1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/turtle/idle2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/turtle/idle3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.ambient_land"
+  },
+  "entity.turtle.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/death1"
+      },
+      {
+        "name": "portium:mob/turtle/death2"
+      },
+      {
+        "name": "portium:mob/turtle/death3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.death"
+  },
+  "entity.turtle.death_baby": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/baby/death1"
+      },
+      {
+        "name": "portium:mob/turtle/baby/death2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.death_baby"
+  },
+  "entity.turtle.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/hurt1"
+      },
+      {
+        "name": "portium:mob/turtle/hurt2"
+      },
+      {
+        "name": "portium:mob/turtle/hurt3"
+      },
+      {
+        "name": "portium:mob/turtle/hurt4"
+      },
+      {
+        "name": "portium:mob/turtle/hurt5"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.hurt"
+  },
+  "entity.turtle.hurt_baby": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/baby/hurt1"
+      },
+      {
+        "name": "portium:mob/turtle/baby/hurt2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.hurt_baby"
+  },
+  "entity.turtle.lay_egg": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/egg/drop_egg1"
+      },
+      {
+        "name": "portium:mob/turtle/egg/drop_egg2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.lay_egg"
+  },
+  "entity.turtle.shamble": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/walk1"
+      },
+      {
+        "name": "portium:mob/turtle/walk2"
+      },
+      {
+        "name": "portium:mob/turtle/walk3"
+      },
+      {
+        "name": "portium:mob/turtle/walk4"
+      },
+      {
+        "name": "portium:mob/turtle/walk5"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.shamble"
+  },
+  "entity.turtle.shamble_baby": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/baby/shamble1"
+      },
+      {
+        "name": "portium:mob/turtle/baby/shamble2"
+      },
+      {
+        "name": "portium:mob/turtle/baby/shamble3"
+      },
+      {
+        "name": "portium:mob/turtle/baby/shamble4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.shamble_baby"
+  },
+  "entity.turtle.swim": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/swim/swim1"
+      },
+      {
+        "name": "portium:mob/turtle/swim/swim2"
+      },
+      {
+        "name": "portium:mob/turtle/swim/swim3"
+      },
+      {
+        "name": "portium:mob/turtle/swim/swim4"
+      },
+      {
+        "name": "portium:mob/turtle/swim/swim5"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.turtle.swim"
+  },
+  "entity.drowned.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/idle1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/idle2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/idle3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/idle4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/idle5",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.ambient"
+  },
+  "entity.drowned.ambient_water": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/water/idle1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/idle2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/idle3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/idle4",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.ambient_water"
+  },
+  "entity.drowned.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/death1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/death2",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.death"
+  },
+  "entity.drowned.death_water": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/water/death1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/death2",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.death"
+  },
+  "entity.drowned.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/hurt1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/hurt2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/hurt3",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.hurt"
+  },
+  "entity.drowned.hurt_water": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/water/hurt1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/hurt2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/drowned/water/hurt3",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.hurt"
+  },
+  "entity.drowned.shoot": {
+    "sounds": [
+      {
+        "name": "portium:item/trident/throw1"
+      },
+      {
+        "name": "portium:item/trident/throw2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.shoot"
+  },
+  "entity.drowned.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/step1"
+      },
+      {
+        "name": "portium:mob/drowned/step2"
+      },
+      {
+        "name": "portium:mob/drowned/step3"
+      },
+      {
+        "name": "portium:mob/drowned/step4"
+      },
+      {
+        "name": "portium:mob/drowned/step5"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.step"
+  },
+  "entity.drowned.swim": {
+    "sounds": [
+      {
+        "name": "minecraft:liquid/swim1"
+      },
+      {
+        "name": "minecraft:liquid/swim2"
+      },
+      {
+        "name": "minecraft:liquid/swim3"
+      },
+      {
+        "name": "minecraft:liquid/swim4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.drowned.swim"
+  },
+  "entity.zombie.converted_to_drowned": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/convert1"
+      },
+      {
+        "name": "portium:mob/drowned/convert2"
+      },
+      {
+        "name": "portium:mob/drowned/convert3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.zombie.converted_to_drowned"
+  },
+  "entity.zombie.destroy_egg": {
+    "sounds": [
+      {
+        "name": "portium:mob/turtle/egg/jump_egg1"
+      },
+      {
+        "name": "portium:mob/turtle/egg/jump_egg2"
+      },
+      {
+        "name": "portium:mob/turtle/egg/jump_egg3"
+      },
+      {
+        "name": "portium:mob/turtle/egg/jump_egg4"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.zombie.destroy_egg"
+  },
+  "entity.phantom.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/idle1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/phantom/idle2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/phantom/idle3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/phantom/idle4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/phantom/idle5",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.ambient"
+  },
+  "entity.parrot.imitate.drowned": {
+    "sounds": [
+      {
+        "name": "portium:mob/drowned/idle1",
+        "pitch": 1.8,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/drowned/idle2",
+        "pitch": 1.8,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/drowned/idle3",
+        "pitch": 1.8,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/drowned/idle4",
+        "pitch": 1.8,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/drowned/idle5",
+        "pitch": 1.8,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.entity.parrot.imitate.drowned"
+  },
+  "entity.parrot.imitate.phantom": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/idle1",
+        "pitch": 1.7,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/phantom/idle2",
+        "pitch": 1.7,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/phantom/idle3",
+        "pitch": 1.7,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/phantom/idle4",
+        "pitch": 1.7,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/phantom/idle5",
+        "pitch": 1.7,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.entity.parrot.imitate.phantom"
+  },
+  "entity.phantom.bite": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/bite1"
+      },
+      {
+        "name": "portium:mob/phantom/bite2"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.bite"
+  },
+  "entity.phantom.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/death1"
+      },
+      {
+        "name": "portium:mob/phantom/death2"
+      },
+      {
+        "name": "portium:mob/phantom/death3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.death"
+  },
+  "entity.phantom.flap": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/flap1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/phantom/flap2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/phantom/flap3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/phantom/flap4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/phantom/flap5",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/phantom/flap6",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.flap"
+  },
+  "entity.phantom.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/hurt1"
+      },
+      {
+        "name": "portium:mob/phantom/hurt2"
+      },
+      {
+        "name": "portium:mob/phantom/hurt3"
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.hurt"
+  },
+  "entity.phantom.swoop": {
+    "sounds": [
+      {
+        "name": "portium:mob/phantom/swoop1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/phantom/swoop2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/phantom/swoop3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/phantom/swoop4",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portium.entity.phantom.swoop"
+  },
+  "item.bucket.empty_fish": {
+    "sounds": [
+      {
+        "name": "portium:item/bucket/empty_fish1"
+      },
+      {
+        "name": "portium:item/bucket/empty_fish2"
+      },
+      {
+        "name": "portium:item/bucket/empty_fish3"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.bucket.empty_fish"
+  },
+  "item.bucket.fill_fish": {
+    "sounds": [
+      {
+        "name": "portium:item/bucket/fill_fish1"
+      },
+      {
+        "name": "portium:item/bucket/fill_fish2"
+      },
+      {
+        "name": "portium:item/bucket/fill_fish3"
+      }
+    ],
+    "subtitle": "subtitles.portium.item.bucket.fill_fish"
+  },
+  "block.nylium.break": {
+    "sounds": [
+      {
+        "name": "portium:block/nylium/break1",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break2",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break3",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break4",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break5",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break6",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.nylium.step": {
+    "sounds": [
+      "portium:block/nylium/step1",
+      "portium:block/nylium/step2",
+      "portium:block/nylium/step3",
+      "portium:block/nylium/step4",
+      "portium:block/nylium/step5",
+      "portium:block/nylium/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.nylium.place": {
+    "sounds": [
+      {
+        "name": "portium:block/nylium/break1",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break2",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break3",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break4",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break5",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/nylium/break6",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.nylium.hit": {
+    "sounds": [
+      "portium:block/nylium/step1",
+      "portium:block/nylium/step2",
+      "portium:block/nylium/step3",
+      "portium:block/nylium/step4",
+      "portium:block/nylium/step5",
+      "portium:block/nylium/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.nylium.fall": {
+    "sounds": [
+      "portium:block/nylium/step1",
+      "portium:block/nylium/step2",
+      "portium:block/nylium/step3",
+      "portium:block/nylium/step4",
+      "portium:block/nylium/step5",
+      "portium:block/nylium/step6"
+    ]
+  },
+  "block.stem.break": {
+    "sounds": [
+      "portium:block/stem/break1",
+      "portium:block/stem/break2",
+      "portium:block/stem/break3",
+      "portium:block/stem/break4",
+      "portium:block/stem/break5",
+      "portium:block/stem/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.stem.step": {
+    "sounds": [
+      "portium:block/stem/step1",
+      "portium:block/stem/step2",
+      "portium:block/stem/step3",
+      "portium:block/stem/step4",
+      "portium:block/stem/step5",
+      "portium:block/stem/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.stem.place": {
+    "sounds": [
+      {
+        "name": "portium:block/stem/break1",
+        "volume": 0.8,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/stem/break2",
+        "volume": 0.8,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/stem/break3",
+        "volume": 0.8,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/stem/break4",
+        "volume": 0.8,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/stem/break5",
+        "volume": 0.8,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/stem/break6",
+        "volume": 0.8,
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.stem.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/stem/step1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/stem/step2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/stem/step3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/stem/step4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/stem/step5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/stem/step6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.stem.fall": {
+    "sounds": [
+      "portium:block/stem/step1",
+      "portium:block/stem/step2",
+      "portium:block/stem/step3",
+      "portium:block/stem/step4",
+      "portium:block/stem/step5",
+      "portium:block/stem/step6"
+    ]
+  },
+  "block.wart_block.break": {
+    "sounds": [
+      {
+        "name": "portium:block/netherwart/break1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.wart_block.step": {
+    "sounds": [
+      "portium:block/netherwart/step1",
+      "portium:block/netherwart/step2",
+      "portium:block/netherwart/step3",
+      "portium:block/netherwart/step4",
+      "portium:block/netherwart/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.wart_block.place": {
+    "sounds": [
+      {
+        "name": "portium:block/netherwart/break1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/netherwart/break6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.wart_block.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/netherwart/step1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/netherwart/step2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/netherwart/step3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/netherwart/step4",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/netherwart/step5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.wart_block.fall": {
+    "sounds": [
+      "portium:block/netherwart/step1",
+      "portium:block/netherwart/step2",
+      "portium:block/netherwart/step3",
+      "portium:block/netherwart/step4",
+      "portium:block/netherwart/step5"
+    ]
+  },
+  "block.shroomlight.break": {
+    "sounds": [
+      "portium:block/shroomlight/break1",
+      "portium:block/shroomlight/break2",
+      "portium:block/shroomlight/break3",
+      "portium:block/shroomlight/break4",
+      "portium:block/shroomlight/break5"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.shroomlight.step": {
+    "sounds": [
+      "portium:block/shroomlight/step1",
+      "portium:block/shroomlight/step2",
+      "portium:block/shroomlight/step3",
+      "portium:block/shroomlight/step4",
+      "portium:block/shroomlight/step5",
+      "portium:block/shroomlight/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.shroomlight.place": {
+    "sounds": [
+      "portium:block/shroomlight/break1",
+      "portium:block/shroomlight/break2",
+      "portium:block/shroomlight/break3",
+      "portium:block/shroomlight/break4",
+      "portium:block/shroomlight/break5"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.shroomlight.hit": {
+    "sounds": [
+      "portium:block/shroomlight/step1",
+      "portium:block/shroomlight/step2",
+      "portium:block/shroomlight/step3",
+      "portium:block/shroomlight/step4",
+      "portium:block/shroomlight/step5",
+      "portium:block/shroomlight/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.shroomlight.fall": {
+    "sounds": [
+      "portium:block/shroomlight/step1",
+      "portium:block/shroomlight/step2",
+      "portium:block/shroomlight/step3",
+      "portium:block/shroomlight/step4",
+      "portium:block/shroomlight/step5",
+      "portium:block/shroomlight/step6"
+    ]
+  },
+  "block.fungus.break": {
+    "sounds": [
+      "portium:block/fungus/break1",
+      "portium:block/fungus/break2",
+      "portium:block/fungus/break3",
+      "portium:block/fungus/break4",
+      "portium:block/fungus/break5",
+      "portium:block/fungus/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.fungus.step": {
+    "sounds": [
+      {
+        "name": "portium:item/plant/netherwart1",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart2",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart3",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart4",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart5",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart6",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/plant/netherwart1",
+        "volume": 0.9,
+        "pitch": 1.12
+      },
+      {
+        "name": "portium:item/plant/netherwart2",
+        "volume": 0.9,
+        "pitch": 1.12
+      },
+      {
+        "name": "portium:item/plant/netherwart3",
+        "volume": 0.9,
+        "pitch": 1.12
+      },
+      {
+        "name": "portium:item/plant/netherwart4",
+        "volume": 0.9,
+        "pitch": 1.12
+      },
+      {
+        "name": "portium:item/plant/netherwart5",
+        "volume": 0.9,
+        "pitch": 1.12
+      },
+      {
+        "name": "portium:item/plant/netherwart6",
+        "volume": 0.9,
+        "pitch": 1.12
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.fungus.place": {
+    "sounds": [
+      "portium:block/fungus/break1",
+      "portium:block/fungus/break2",
+      "portium:block/fungus/break3",
+      "portium:block/fungus/break4",
+      "portium:block/fungus/break5",
+      "portium:block/fungus/break6"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.fungus.hit": {
+    "sounds": [],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.fungus.fall": {
+    "sounds": []
+  },
+  "block.roots.break": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.roots.step": {
+    "sounds": [],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.roots.place": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.roots.hit": {
+    "sounds": [],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.roots.fall": {
+    "sounds": []
+  },
+  "block.weeping_vines.break": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.weeping_vines.step": {
+    "sounds": [
+      "portium:block/roots/step1",
+      "portium:block/roots/step2",
+      "portium:block/roots/step3",
+      "portium:block/roots/step4",
+      "portium:block/roots/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.weeping_vines.place": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.weeping_vines.hit": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.weeping_vines.fall": {
+    "sounds": [
+      "portium:block/roots/break1",
+      "portium:block/roots/break2",
+      "portium:block/roots/break3",
+      "portium:block/roots/break4",
+      "portium:block/roots/break5",
+      "portium:block/roots/break6"
+    ]
+  },
+  "block.soul_soil.break": {
+    "sounds": [
+      {
+        "name": "portium:block/soul_soil/break1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.soul_soil.step": {
+    "sounds": [
+      "portium:block/soul_soil/step1",
+      "portium:block/soul_soil/step2",
+      "portium:block/soul_soil/step3",
+      "portium:block/soul_soil/step4",
+      "portium:block/soul_soil/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.soul_soil.place": {
+    "sounds": [
+      {
+        "name": "portium:block/soul_soil/break1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/soul_soil/break6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.soul_soil.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/soul_soil/step1",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:block/soul_soil/step2",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:block/soul_soil/step3",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:block/soul_soil/step4",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:block/soul_soil/step5",
+        "volume": 0.66
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.soul_soil.fall": {
+    "sounds": [
+      "portium:block/soul_soil/step1",
+      "portium:block/soul_soil/step2",
+      "portium:block/soul_soil/step3",
+      "portium:block/soul_soil/step4",
+      "portium:block/soul_soil/step5"
+    ]
+  },
+  "block.soul_sand.break": {
+    "sounds": [
+      "portium:block/soul_sand/break1",
+      "portium:block/soul_sand/break2",
+      "portium:block/soul_sand/break3",
+      "portium:block/soul_sand/break4",
+      "portium:block/soul_sand/break5",
+      "portium:block/soul_sand/break6",
+      "portium:block/soul_sand/break7",
+      "portium:block/soul_sand/break8",
+      "portium:block/soul_sand/break9"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.soul_sand.step": {
+    "sounds": [
+      "portium:block/soul_sand/step1",
+      "portium:block/soul_sand/step2",
+      "portium:block/soul_sand/step3",
+      "portium:block/soul_sand/step4",
+      "portium:block/soul_sand/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.soul_sand.place": {
+    "sounds": [
+      "portium:block/soul_sand/break1",
+      "portium:block/soul_sand/break2",
+      "portium:block/soul_sand/break3",
+      "portium:block/soul_sand/break4",
+      "portium:block/soul_sand/break5",
+      "portium:block/soul_sand/break6",
+      "portium:block/soul_sand/break7",
+      "portium:block/soul_sand/break8",
+      "portium:block/soul_sand/break9"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.soul_sand.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/soul_sand/step1",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/soul_sand/step2",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/soul_sand/step3",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/soul_sand/step4",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/soul_sand/step5",
+        "volume": 0.55
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.soul_sand.fall": {
+    "sounds": [
+      "portium:block/soul_sand/step1",
+      "portium:block/soul_sand/step2",
+      "portium:block/soul_sand/step3",
+      "portium:block/soul_sand/step4",
+      "portium:block/soul_sand/step5"
+    ]
+  },
+  "block.netherrack.break": {
+    "sounds": [
+      "portium:block/netherrack/break1",
+      "portium:block/netherrack/break2",
+      "portium:block/netherrack/break3",
+      "portium:block/netherrack/break4",
+      "portium:block/netherrack/break5",
+      "portium:block/netherrack/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.netherrack.step": {
+    "sounds": [
+      "portium:block/netherrack/step1",
+      "portium:block/netherrack/step2",
+      "portium:block/netherrack/step3",
+      "portium:block/netherrack/step4",
+      "portium:block/netherrack/step5",
+      "portium:block/netherrack/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.netherrack.place": {
+    "sounds": [
+      "portium:block/netherrack/break1",
+      "portium:block/netherrack/break2",
+      "portium:block/netherrack/break3",
+      "portium:block/netherrack/break4",
+      "portium:block/netherrack/break5",
+      "portium:block/netherrack/break6"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.netherrack.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/netherrack/step1",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/netherrack/step2",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/netherrack/step3",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/netherrack/step4",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/netherrack/step5",
+        "volume": 0.55
+      },
+      {
+        "name": "portium:block/netherrack/step6",
+        "volume": 0.55
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.netherrack.fall": {
+    "sounds": [
+      "portium:block/netherrack/step1",
+      "portium:block/netherrack/step2",
+      "portium:block/netherrack/step3",
+      "portium:block/netherrack/step4",
+      "portium:block/netherrack/step5",
+      "portium:block/netherrack/step6"
+    ]
+  },
+  "block.basalt.break": {
+    "sounds": [
+      "portium:block/basalt/break1",
+      "portium:block/basalt/break2",
+      "portium:block/basalt/break3",
+      "portium:block/basalt/break4",
+      "portium:block/basalt/break5"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.basalt.step": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.basalt.place": {
+    "sounds": [
+      "portium:block/basalt/break1",
+      "portium:block/basalt/break2",
+      "portium:block/basalt/break3",
+      "portium:block/basalt/break4",
+      "portium:block/basalt/break5"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.basalt.hit": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.basalt.fall": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ]
+  },
+  "block.ancient_debris.break": {
+    "sounds": [
+      "portium:block/ancient_debris/break1",
+      "portium:block/ancient_debris/break2",
+      "portium:block/ancient_debris/break3",
+      "portium:block/ancient_debris/break4",
+      "portium:block/ancient_debris/break5"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.ancient_debris.step": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.ancient_debris.place": {
+    "sounds": [
+      "portium:block/ancient_debris/break1",
+      "portium:block/ancient_debris/break2",
+      "portium:block/ancient_debris/break3",
+      "portium:block/ancient_debris/break4",
+      "portium:block/ancient_debris/break5"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.ancient_debris.hit": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.ancient_debris.fall": {
+    "sounds": [
+      "portium:block/basalt/step1",
+      "portium:block/basalt/step2",
+      "portium:block/basalt/step3",
+      "portium:block/basalt/step4",
+      "portium:block/basalt/step5",
+      "portium:block/basalt/step6"
+    ]
+  },
+  "block.nether_gold_ore.break": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.nether_gold_ore.step": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.nether_gold_ore.place": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.nether_gold_ore.hit": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.nether_gold_ore.fall": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ]
+  },
+  "block.gilded_blackstone.break": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.gilded_blackstone.step": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.gilded_blackstone.place": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.gilded_blackstone.hit": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.gilded_blackstone.fall": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ]
+  },
+  "block.nether_ore.break": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.nether_ore.step": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.nether_ore.place": {
+    "sounds": [
+      "portium:block/nether_ore/break1",
+      "portium:block/nether_ore/break2",
+      "portium:block/nether_ore/break3",
+      "portium:block/nether_ore/break4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.nether_ore.hit": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.nether_ore.fall": {
+    "sounds": [
+      "portium:block/nether_ore/step1",
+      "portium:block/nether_ore/step2",
+      "portium:block/nether_ore/step3",
+      "portium:block/nether_ore/step4",
+      "portium:block/nether_ore/step5"
+    ]
+  },
+  "block.nether_sprouts.break": {
+    "sounds": [
+      {
+        "name": "portium:block/nether_sprouts/break1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break4",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.nether_sprouts.step": {
+    "sounds": [
+      {
+        "name": "portium:block/nether_sprouts/step1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/nether_sprouts/step2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/nether_sprouts/step3",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/nether_sprouts/step4",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/nether_sprouts/step5",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.nether_sprouts.place": {
+    "sounds": [
+      {
+        "name": "portium:block/nether_sprouts/break1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:block/nether_sprouts/break4",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.nether_sprouts.hit": {
+    "sounds": [
+      "portium:block/nether_sprouts/step1",
+      "portium:block/nether_sprouts/step2",
+      "portium:block/nether_sprouts/step3",
+      "portium:block/nether_sprouts/step4",
+      "portium:block/nether_sprouts/step5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.nether_sprouts.fall": {
+    "sounds": [
+      "portium:block/nether_sprouts/step1",
+      "portium:block/nether_sprouts/step2",
+      "portium:block/nether_sprouts/step3",
+      "portium:block/nether_sprouts/step4",
+      "portium:block/nether_sprouts/step5"
+    ]
+  },
+  "ambient.basalt_deltas.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/basalt_deltas/ambience",
+        "stream": true,
+        "volume": 0.5
+      }
+    ]
+  },
+  "ambient.basalt_deltas.mood": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood4",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood5",
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.basalt_deltas.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/basalt_deltas/debris1",
+        "weight": 40,
+        "volume": 0.35
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/debris2",
+        "weight": 40,
+        "volume": 0.35
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/debris3",
+        "weight": 40,
+        "volume": 0.35
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/long_debris1",
+        "weight": 40,
+        "volume": 0.35
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/long_debris2",
+        "weight": 40,
+        "volume": 0.35
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind1",
+        "weight": 25,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind2",
+        "weight": 25,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind3",
+        "weight": 25,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind4",
+        "weight": 25,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click1",
+        "weight": 20,
+        "volume": 0.19
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click2",
+        "weight": 20,
+        "volume": 0.19
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click3",
+        "weight": 20,
+        "volume": 0.19
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click4",
+        "weight": 20,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click5",
+        "weight": 20,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click6",
+        "weight": 20,
+        "volume": 0.01
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click7",
+        "weight": 25,
+        "volume": 0.01
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/click8",
+        "weight": 25,
+        "volume": 0.01
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/heavy_click1",
+        "weight": 20,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/heavy_click2",
+        "weight": 20,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/twist1",
+        "weight": 1,
+        "volume": 0.66
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/twist2",
+        "weight": 1,
+        "volume": 0.66
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/twist3",
+        "weight": 1,
+        "volume": 0.77
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/twist4",
+        "weight": 1,
+        "volume": 0.66
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/basaltground1",
+        "weight": 10,
+        "volume": 0.55
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/basaltground2",
+        "weight": 10,
+        "volume": 0.55
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/basaltground3",
+        "weight": 10,
+        "volume": 0.55
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/plode1",
+        "weight": 10,
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/plode2",
+        "weight": 10,
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ambient/nether/basalt_deltas/plode3",
+        "weight": 10,
+        "volume": 0.5
+      }
+    ]
+  },
+  "ambient.crimson_forest.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/crimson_forest/ambience",
+        "stream": true,
+        "volume": 0.74
+      }
+    ]
+  },
+  "ambient.crimson_forest.mood": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/crimson_forest/mood1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/mood2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/mood3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/mood4",
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.crimson_forest.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/crimson_forest/addition1",
+        "volume": 0.4,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/twang1",
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/addition2",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/addition3",
+        "volume": 0.32,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shine1",
+        "volume": 0.1,
+        "pitch": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shine2",
+        "volume": 0.1,
+        "pitch": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shine3",
+        "volume": 0.1,
+        "pitch": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shroom1",
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shroom2",
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/shroom3",
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/voom1",
+        "volume": 0.7,
+        "weight": 4
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/voom1",
+        "volume": 0.7,
+        "pitch": 0.8,
+        "weight": 4
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/voom2",
+        "volume": 0.7,
+        "weight": 4
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/voom2",
+        "volume": 0.7,
+        "pitch": 0.8,
+        "weight": 4
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles1",
+        "volume": 0.4,
+        "weight": 35
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles2",
+        "volume": 0.4,
+        "weight": 35
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles3",
+        "volume": 0.4,
+        "weight": 35
+      }
+    ]
+  },
+  "ambient.nether_wastes.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/nether_wastes/ambience",
+        "stream": true,
+        "volume": 0.77
+      }
+    ]
+  },
+  "ambient.nether_wastes.mood": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood4",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/mood5",
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.nether_wastes.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition1",
+        "weight": 1,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition2",
+        "weight": 1,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition3",
+        "weight": 1,
+        "volume": 0.1
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition4",
+        "weight": 5,
+        "volume": 0.67
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition5",
+        "weight": 1,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition6",
+        "weight": 1,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition7",
+        "weight": 1,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/addition8",
+        "weight": 5,
+        "volume": 0.67
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/dark1",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/dark2",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/ground1",
+        "weight": 3,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/ground2",
+        "weight": 1,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/ground3",
+        "weight": 1,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/nether_wastes/ground4",
+        "weight": 1,
+        "volume": 0.4
+      }
+    ]
+  },
+  "ambient.soul_sand_valley.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/soulsand_valley/ambience",
+        "stream": true,
+        "volume": 0.85
+      }
+    ]
+  },
+  "ambient.soul_sand_valley.mood": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/soulsand_valley/mood1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/mood2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/mood3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/mood4",
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.soul_sand_valley.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind1",
+        "weight": 25,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind2",
+        "weight": 25,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind3",
+        "weight": 25,
+        "volume": 0.25
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind4",
+        "weight": 25,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind1",
+        "weight": 25,
+        "pitch": 0.75,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind2",
+        "weight": 25,
+        "pitch": 0.75,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind3",
+        "weight": 25,
+        "pitch": 0.75,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/wind4",
+        "weight": 25,
+        "pitch": 0.75,
+        "volume": 0.3
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/sand1",
+        "weight": 25,
+        "volume": 0.2
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/sand2",
+        "weight": 25,
+        "volume": 0.2
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/sand3",
+        "weight": 2,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices1",
+        "weight": 5,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices2",
+        "weight": 5,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices3",
+        "weight": 5,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices4",
+        "weight": 5,
+        "volume": 0.8
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices5",
+        "weight": 5,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/voices5",
+        "weight": 5,
+        "pitch": 0.7,
+        "volume": 0.15
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/with1",
+        "weight": 4,
+        "volume": 0.6
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper1",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper2",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper3",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper4",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper5",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper6",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper7",
+        "weight": 5,
+        "volume": 0.9
+      },
+      {
+        "name": "portium:ambient/nether/soulsand_valley/whisper8",
+        "weight": 5,
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.warped_forest.loop": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/warped_forest/ambience",
+        "stream": true,
+        "volume": 0.71
+      }
+    ]
+  },
+  "ambient.warped_forest.mood": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/warped_forest/creak1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/creak2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/creak3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/creak4",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/creak5",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood4",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood5",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood6",
+        "volume": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/mood7",
+        "volume": 1
+      }
+    ]
+  },
+  "ambient.warped_forest.additions": {
+    "sounds": [
+      {
+        "name": "portium:ambient/nether/crimson_forest/addition1",
+        "volume": 0.3,
+        "weight": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/enish1",
+        "volume": 0.1,
+        "pitch": 0.2,
+        "weight": 10
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/enish2",
+        "volume": 0.1,
+        "pitch": 0.2,
+        "weight": 6
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/enish3",
+        "volume": 0.07,
+        "pitch": 0.2,
+        "weight": 6
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition1",
+        "volume": 0.06,
+        "pitch": 0.8,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition2",
+        "volume": 0.06,
+        "pitch": 0.7,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition3",
+        "volume": 0.06,
+        "pitch": 0.1,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition4",
+        "volume": 0.07,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition5",
+        "volume": 0.07,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/addition6",
+        "volume": 0.15,
+        "weight": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/help1",
+        "volume": 0.2,
+        "weight": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/help2",
+        "volume": 0.2,
+        "weight": 1
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/here1",
+        "volume": 0.1,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/here1",
+        "volume": 0.1,
+        "pitch": 0.7,
+        "weight": 2
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/here2",
+        "volume": 0.2,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/here2",
+        "volume": 0.2,
+        "pitch": 0.7,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/warped_forest/here3",
+        "volume": 0.2,
+        "weight": 3
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles1",
+        "volume": 0.4,
+        "pitch": 0.8,
+        "weight": 40
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles2",
+        "volume": 0.3,
+        "pitch": 0.8,
+        "weight": 40
+      },
+      {
+        "name": "portium:ambient/nether/crimson_forest/particles3",
+        "volume": 0.3,
+        "pitch": 0.8,
+        "weight": 40
+      }
+    ]
+  },
+  "music.nether.basalt_deltas": {
+    "sounds": [
+      {
+        "name": "portium:music/game/nether/soulsand_valley/so_below",
+        "stream": true,
+        "volume": 0.5,
+        "weight": 7
+      },
+      {
+        "name": "minecraft:music/game/nether/nether1",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether2",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether3",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether4",
+        "stream": true,
+        "weight": 1
+      }
+    ]
+  },
+  "music.nether.crimson_forest": {
+    "sounds": [
+      {
+        "name": "portium:music/game/nether/crimson_forest/chrysopoeia",
+        "stream": true,
+        "volume": 0.5,
+        "weight": 7
+      },
+      {
+        "name": "minecraft:music/game/nether/nether1",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether2",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether3",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether4",
+        "stream": true,
+        "weight": 1
+      }
+    ]
+  },
+  "music.nether.nether_wastes": {
+    "sounds": [
+      {
+        "name": "portium:music/game/nether/nether_wastes/rubedo",
+        "stream": true,
+        "volume": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "minecraft:music/game/nether/nether1",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether2",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether3",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether4",
+        "stream": true,
+        "weight": 1
+      }
+    ]
+  },
+  "music.nether.soul_sand_valley": {
+    "sounds": [
+      {
+        "name": "portium:music/game/nether/soulsand_valley/so_below",
+        "stream": true,
+        "volume": 0.5,
+        "weight": 7
+      },
+      {
+        "name": "minecraft:music/game/nether/nether1",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether2",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether3",
+        "stream": true,
+        "weight": 1
+      },
+      {
+        "name": "minecraft:music/game/nether/nether4",
+        "stream": true,
+        "weight": 1
+      }
+    ]
+  },
+  "music.nether.warped_forest": {
+    "sounds": []
+  }
+}

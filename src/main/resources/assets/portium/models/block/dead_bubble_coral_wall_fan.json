@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/coral_wall_fan",
+  "textures": {
+    "fan": "portium:blocks/dead_bubble_coral_fan",
+    "particle": "portium:blocks/dead_bubble_coral_fan"
+  }
+}

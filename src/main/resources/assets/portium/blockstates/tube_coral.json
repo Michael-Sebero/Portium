@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=true": {
+      "model": "portium:tube_coral"
+    },
+    "waterlogged=false": {
+      "model": "portium:tube_coral"
+    }
+  }
+}

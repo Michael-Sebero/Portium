@@ -1,0 +1,369 @@
+plugins {
+    id 'java'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.3'
+}
+
+group = project.group
+version = project.mod_version
+base.archivesName = "${project.mod_id}-${project.minecraft_version}"
+
+// Compile against a real Java 8 class library so a Java 9+ API call fails here instead of in-game.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+def coremodClass = "${project.group}.core.PortiumLoadingPlugin"
+
+minecraft {
+    mcVersion.set(project.minecraft_version)
+    username.set('Developer')
+
+    injectedTags.put('MOD_ID', project.mod_id)
+    injectedTags.put('MOD_NAME', project.mod_name)
+    injectedTags.put('MOD_VERSION', project.mod_version)
+
+    extraRunJvmArguments.addAll(
+            "-ea:${project.group}",
+            '-Dmixin.checks.interfaces=true',
+            '-Dmixin.debug.export=true'
+    )
+}
+
+// Development runs load the mod from class folders, so the coremod is named on the command line. The obfuscated runs
+// load the built jar from mods/, where its manifest names the coremod; naming it early there makes the class loader
+// remember it as missing before the jar is on the classpath.
+// They also find Portium's 1.13 glue in its class folder, and translate 1.12 SRG names to the MCP names dev uses.
+['runClient', 'runServer'].each { name ->
+    tasks.named(name, JavaExec).configure {
+        dependsOn 'modernClasses', 'forge116Classes'
+        jvmArgs("-Dfml.coreMods.load=${coremodClass}",
+                "-Dportium.modern.classes=${sourceSets.modern.output.classesDirs.asPath}",
+                "-Dportium.forge116.classes=${sourceSets.forge116.output.classesDirs.asPath}",
+                "-Dportium.modern.srgMcp=${System.getProperty('user.home')}/.gradle/caches/minecraft/de/oceanlabs/mcp/mcp_stable/39/rfg_srgs/srg-mcp.srg")
+    }
+}
+
+tasks.named('injectTags').configure {
+    outputClassName.set("${project.group}.Tags")
+}
+
+repositories {
+    maven {
+        name = 'Forge'
+        url = 'https://maven.minecraftforge.net'
+        content {
+            includeGroup 'net.minecraftforge'
+            includeGroup 'de.oceanlabs.mcp'
+            // Forge 1.16.5's launcher and the type resolver its event bus uses.
+            includeGroup 'cpw.mods'
+            includeModule 'net.jodah', 'typetools'
+        }
+    }
+    maven {
+        name = 'CleanroomMC Maven'
+        url = 'https://maven.cleanroommc.com'
+    }
+    maven {
+        // Mojang's libraries 1.13 brought, for compiling the 1.13 glue against.
+        name = 'Mojang'
+        url = 'https://libraries.minecraft.net'
+        content {
+            includeModule 'com.mojang', 'brigadier'
+            includeModule 'com.mojang', 'datafixerupper'
+            includeModule 'com.mojang', 'authlib'
+        }
+    }
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    String mixin = modUtils.enableMixins("zone.rong:mixinbooter:${project.mixin_booter_version}", "mixins.${project.mod_id}.refmap.json")
+    implementation(mixin) {
+        transitive = false
+    }
+    annotationProcessor mixin
+
+    // Fetches newer vanilla textures and sounds on the client at first launch; nothing from Mojang is shipped in the jar.
+    implementation "com.cleanroommc:assetmover:${project.asset_mover_version}"
+
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+}
+
+// ---- 1.13.2 mod compatibility ----
+// Portium's glue for 1.13.2 mods is compiled against Forge 1.13.2 and Minecraft 1.13.2 by the SRG names those mods
+// use, apart from the 1.12 code. It ships as a jar inside Portium's jar, which only the 1.13 class loader reads, so
+// the 1.12 reobfuscation never touches it. Players download Forge 1.13.2 itself on first use.
+def modernForge = '1.13.2-25.0.223'
+def modernRefs = layout.buildDirectory.dir('ref113').get().asFile
+def modernClient = new File(modernRefs, 'client-1.13.2.jar')
+def modernClientSrg = new File(modernRefs, 'client-1.13.2-srg.jar')
+
+sourceSets {
+    remapTool {
+        java.srcDir 'tools/remap'
+    }
+    modern {
+        java.srcDir 'src/modern/java'
+    }
+    // Portium's glue for Forge 1.16.5 mods, compiled against Forge 1.16.5 and Minecraft 1.16.5 by SRG names.
+    forge116 {
+        java.srcDir 'src/forge116/java'
+    }
+    // A Forge 1.13.2 mod for testing the above; built by modernTestJar, never shipped.
+    modernTest {
+        // stubs: compile-only stand-ins for Forge's patches to Minecraft 1.13.2's classes, which the jar lacks.
+        java.srcDirs 'src/modernTest/java', 'src/modernTest/stubs'
+    }
+}
+
+configurations {
+    mcpConfig113
+    modernTestCompileOnly.extendsFrom modernCompileOnly
+}
+
+dependencies {
+    remapToolImplementation 'org.ow2.asm:asm-commons:9.8'
+    mcpConfig113 'de.oceanlabs.mcp:mcp_config:1.13.2-20190213.203750@zip'
+
+    modernCompileOnly "net.minecraftforge:forge:${modernForge}:universal"
+    modernCompileOnly "net.minecraftforge:forge:${modernForge}:launcher"
+    modernCompileOnly 'net.minecraftforge:eventbus:0.9.3:service'
+    modernCompileOnly 'net.minecraftforge:forgespi:0.13.0'
+    modernCompileOnly 'com.electronwill.night-config:core:3.6.0'
+    modernCompileOnly 'com.electronwill.night-config:toml:3.6.0'
+    modernCompileOnly 'net.jodah:typetools:0.6.0'
+    modernCompileOnly 'com.google.guava:guava:21.0'
+    modernCompileOnly 'org.apache.logging.log4j:log4j-api:2.8.1'
+    modernCompileOnly 'com.google.code.gson:gson:2.8.0'
+    modernCompileOnly 'com.mojang:brigadier:1.0.14'
+    // Mojang's data fixer library, the version Minecraft 1.13.2 ships; its own dependencies are already listed here.
+    modernCompileOnly('com.mojang:datafixerupper:1.0.19') { transitive = false }
+    modernCompileOnly 'io.netty:netty-all:4.1.9.Final'
+    modernCompileOnly 'org.apache.maven:maven-artifact:3.5.3'
+    modernCompileOnly 'org.ow2.asm:asm-debug-all:5.2'
+    modernCompileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    modernCompileOnly files(modernClientSrg).builtBy('remapModernMinecraft')
+    // Portium's side of the bridge; its signatures only use classes 1.12 and 1.13 share.
+    modernCompileOnly sourceSets.main.output
+}
+
+def downloadModernClient = tasks.register('downloadModernClient') {
+    description = "Downloads Mojang's 1.13.2 client jar, to compile Portium's 1.13 glue against."
+    outputs.file modernClient
+    doLast {
+        modernRefs.mkdirs()
+        ant.get(src: 'https://piston-data.mojang.com/v1/objects/30bfe37a8db404db11c7edf02cb5165817afb4d9/client.jar', dest: modernClient, skipexisting: true)
+        ant.checksum(file: modernClient, algorithm: 'SHA-1', property: '30bfe37a8db404db11c7edf02cb5165817afb4d9', verifyProperty: 'clientOk')
+        if (ant.properties['clientOk'] != 'true') throw new GradleException("1.13.2 client jar checksum mismatch: ${modernClient}")
+    }
+}
+
+tasks.register('remapModernMinecraft', JavaExec) {
+    description = 'Renames the 1.13.2 client jar to SRG names with MCPConfig.'
+    dependsOn downloadModernClient
+    classpath = sourceSets.remapTool.runtimeClasspath
+    mainClass = 'RemapJar'
+    inputs.file modernClient
+    inputs.files configurations.mcpConfig113
+    outputs.file modernClientSrg
+    doFirst {
+        args modernClient.absolutePath, configurations.mcpConfig113.singleFile.absolutePath, modernClientSrg.absolutePath
+    }
+}
+
+// ---- 1.16.5 reference ----
+// Minecraft 1.16.5 by the names Forge 1.16.5 mods use (SRG), and decompiled with MCP's readable names the way MCP
+// Reborn does, for reimplementing 1.16.5 in Portium. Run on demand (./gradlew decompile116); nothing ships from it.
+def ref116 = layout.buildDirectory.dir('ref116').get().asFile
+def client116 = new File(ref116, 'client-1.16.5.jar')
+def client116Srg = new File(ref116, 'client-1.16.5-srg.jar')
+def client116Mcp = new File(ref116, 'client-1.16.5-mcp.jar')
+
+configurations {
+    mcpConfig116
+    mcpMappings116
+}
+
+dependencies {
+    mcpConfig116 'de.oceanlabs.mcp:mcp_config:1.16.5-20210115.111550@zip'
+    mcpMappings116 'de.oceanlabs.mcp:mcp_snapshot:20210309-1.16.5@zip'
+}
+
+def download116 = tasks.register('download116') {
+    description = "Downloads Mojang's 1.16.5 client jar, its official mappings and its sound list into build/ref116."
+    def mappings = new File(ref116, 'client-1.16.5-mappings.txt')
+    outputs.files client116, mappings, new File(ref116, 'assets-1.16.json'), new File(ref116, 'sounds-1.16.5.json')
+    doLast {
+        ref116.mkdirs()
+        [[client116, 'https://piston-data.mojang.com/v1/objects/37fd3c903861eeff3bc24b71eed48f828b5269c8/client.jar', '37fd3c903861eeff3bc24b71eed48f828b5269c8'],
+         [mappings, 'https://piston-data.mojang.com/v1/objects/374c6b789574afbdc901371207155661e0509e17/client.txt', '374c6b789574afbdc901371207155661e0509e17']].each { file, url, sha1 ->
+            ant.get(src: url, dest: file, skipexisting: true)
+            ant.checksum(file: file, algorithm: 'SHA-1', property: sha1, verifyProperty: "ok-${sha1}")
+            if (ant.properties["ok-${sha1}"] != 'true') throw new GradleException("Checksum mismatch: ${file}")
+        }
+        // 1.16.5's sound list (sounds.json), found through the asset index, for its sound events.
+        def index = new File(ref116, 'assets-1.16.json')
+        ant.get(src: 'https://piston-meta.mojang.com/v1/packages/f3c4aa96e12951cd2781b3e1c0e8ab82bf719cf2/1.16.json', dest: index, skipexisting: true)
+        ant.checksum(file: index, algorithm: 'SHA-1', property: 'f3c4aa96e12951cd2781b3e1c0e8ab82bf719cf2', verifyProperty: 'indexOk')
+        if (ant.properties['indexOk'] != 'true') throw new GradleException("Checksum mismatch: ${index}")
+        def soundsHash = new groovy.json.JsonSlurper().parse(index).objects['minecraft/sounds.json'].hash
+        def sounds = new File(ref116, 'sounds-1.16.5.json')
+        ant.get(src: "https://resources.download.minecraft.net/${soundsHash.substring(0, 2)}/${soundsHash}", dest: sounds, skipexisting: true)
+        ant.checksum(file: sounds, algorithm: 'SHA-1', property: soundsHash, verifyProperty: 'soundsOk')
+        if (ant.properties['soundsOk'] != 'true') throw new GradleException("Checksum mismatch: ${sounds}")
+    }
+}
+
+tasks.register('remap116Srg', JavaExec) {
+    description = 'Renames the 1.16.5 client jar to SRG names with MCPConfig.'
+    dependsOn download116
+    classpath = sourceSets.remapTool.runtimeClasspath
+    mainClass = 'RemapJar'
+    inputs.files client116, configurations.mcpConfig116
+    outputs.file client116Srg
+    doFirst {
+        args client116.absolutePath, configurations.mcpConfig116.singleFile.absolutePath, client116Srg.absolutePath
+    }
+}
+
+def remap116Mcp = tasks.register('remap116Mcp', JavaExec) {
+    description = "Renames the 1.16.5 client jar to MCP's readable names."
+    dependsOn download116
+    classpath = sourceSets.remapTool.runtimeClasspath
+    mainClass = 'RemapJar'
+    inputs.files client116, configurations.mcpConfig116, configurations.mcpMappings116
+    outputs.file client116Mcp
+    doFirst {
+        args client116.absolutePath, configurations.mcpConfig116.singleFile.absolutePath, client116Mcp.absolutePath,
+                configurations.mcpMappings116.singleFile.absolutePath
+    }
+}
+
+tasks.register('decompile116', JavaExec) {
+    description = 'Decompiles Minecraft 1.16.5 with MCP names into build/ref116/src.'
+    dependsOn remap116Mcp, 'remap116Srg'
+    def out = new File(ref116, 'src')
+    // MixinBooter, which the mod already depends on, carries Fernflower for Mixin's debug output.
+    classpath = configurations.compileClasspath.filter { it.name.startsWith('mixinbooter') }
+    mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
+    maxHeapSize = '4g'
+    inputs.file client116Mcp
+    outputs.dir out
+    doFirst {
+        delete out
+        out.mkdirs()
+        args '-din=1', '-rbr=1', '-dgs=1', '-asc=1', '-rsy=1', '-iec=1', '-jvn=1', '-log=WARN', client116Mcp.absolutePath, out.absolutePath
+    }
+    // Fernflower writes a jar of sources; unpack it.
+    doLast {
+        def sources = new File(out, client116Mcp.name)
+        project.copy {
+            from project.zipTree(sources)
+            into out
+        }
+        project.delete sources
+    }
+}
+
+// ---- 1.16.5 mod compatibility ----
+// Portium's glue for 1.16.5 mods, like the 1.13 glue: compiled against Forge 1.16.5 and Minecraft 1.16.5 by the SRG
+// names those mods use, shipped as a jar inside Portium's that only the 1.16 class loader reads. Players download
+// Forge 1.16.5 itself on first use, and only when there are 1.16.5 mods.
+def forge116 = '1.16.5-36.2.39'
+
+dependencies {
+    forge116CompileOnly "net.minecraftforge:forge:${forge116}:universal"
+    forge116CompileOnly "net.minecraftforge:forge:${forge116}:launcher"
+    forge116CompileOnly('net.minecraftforge:eventbus:4.0.0') { transitive = false }
+    forge116CompileOnly('net.minecraftforge:forgespi:3.2.0') { transitive = false }
+    forge116CompileOnly('cpw.mods:modlauncher:8.1.3') { transitive = false }
+    forge116CompileOnly('net.minecraftforge:unsafe:0.2.0') { transitive = false }
+    forge116CompileOnly 'com.electronwill.night-config:core:3.6.3'
+    forge116CompileOnly 'com.electronwill.night-config:toml:3.6.3'
+    forge116CompileOnly 'net.jodah:typetools:0.8.3'
+    forge116CompileOnly 'com.google.guava:guava:21.0'
+    forge116CompileOnly 'org.apache.logging.log4j:log4j-api:2.8.1'
+    forge116CompileOnly 'com.google.code.gson:gson:2.8.0'
+    forge116CompileOnly('com.mojang:brigadier:1.0.17') { transitive = false }
+    forge116CompileOnly('com.mojang:datafixerupper:4.0.26') { transitive = false }
+    forge116CompileOnly('com.mojang:authlib:2.1.28') { transitive = false }
+    forge116CompileOnly 'it.unimi.dsi:fastutil:8.2.1'
+    forge116CompileOnly 'io.netty:netty-all:4.1.9.Final'
+    forge116CompileOnly 'org.apache.maven:maven-artifact:3.5.3'
+    forge116CompileOnly 'org.ow2.asm:asm-tree:9.8'
+    forge116CompileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    forge116CompileOnly files(client116Srg).builtBy('remap116Srg')
+    // Portium's side of the bridge; its signatures only use classes 1.12 and 1.16 share.
+    forge116CompileOnly sourceSets.main.output
+}
+
+def forge116Jar = tasks.register('forge116Jar', Jar) {
+    archiveFileName = 'portium-forge116.jar'
+    destinationDirectory = layout.buildDirectory.dir('forge116')
+    from sourceSets.forge116.output
+}
+
+def modernJar = tasks.register('modernJar', Jar) {
+    archiveFileName = 'portium-modern.jar'
+    destinationDirectory = layout.buildDirectory.dir('modern')
+    from sourceSets.modern.output
+}
+
+tasks.register('modernTestJar', Jar) {
+    description = 'Builds the Forge 1.13.2 test mod into build/modern-test, for mods/1.13.2 in a test run.'
+    archiveFileName = 'portiumtest-1.13.2.jar'
+    destinationDirectory = layout.buildDirectory.dir('modern-test')
+    from(sourceSets.modernTest.output) {
+        exclude 'net/**'
+    }
+    manifest {
+        attributes('Implementation-Version': '1.0')
+    }
+}
+
+jar {
+    from(modernJar) {
+        into 'META-INF/portium'
+    }
+    from(forge116Jar) {
+        into 'META-INF/portium'
+    }
+    manifest {
+        attributes(
+                'FMLCorePlugin': coremodClass,
+                'FMLCorePluginContainsFMLMod': true,
+                'ForceLoadAsMod': true
+        )
+    }
+}
+
+processResources {
+    inputs.property 'mod_id', project.mod_id
+    inputs.property 'mod_name', project.mod_name
+    inputs.property 'mod_version', project.mod_version
+    inputs.property 'mod_description', project.mod_description
+    inputs.property 'minecraft_version', project.minecraft_version
+
+    filesMatching(['mcmod.info', 'pack.mcmeta']) { fcd ->
+        fcd.expand(
+                'mod_id': project.mod_id,
+                'mod_name': project.mod_name,
+                'mod_version': project.mod_version,
+                'mod_description': project.mod_description,
+                'minecraft_version': project.minecraft_version
+        )
+    }
+}

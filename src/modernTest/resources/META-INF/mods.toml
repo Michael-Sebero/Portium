@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+[[mods]]
+modId="portiumtest"
+version="${file.jarVersion}"
+displayName="Portium 1.13 Test"
+description='''
+Tests Portium's support for Forge 1.13.2 mods. Not for release.
+'''
+[[dependencies.portiumtest]]
+    modId="forge"
+    mandatory=true
+    versionRange="[25,)"
+    ordering="NONE"
+    side="BOTH"

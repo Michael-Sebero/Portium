@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "portium:birch_pressure_plate_up"
+    },
+    "powered=true": {
+      "model": "portium:birch_pressure_plate_down"
+    }
+  }
+}

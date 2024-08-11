@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "pickles=1,waterlogged=true": {
+      "model": "portium:portium_sea_pickle"
+    },
+    "pickles=1,waterlogged=false": {
+      "model": "portium:portium_dead_sea_pickle"
+    },
+    "pickles=2,waterlogged=true": {
+      "model": "portium:portium_two_sea_pickles"
+    },
+    "pickles=2,waterlogged=false": {
+      "model": "portium:portium_two_dead_sea_pickles"
+    },
+    "pickles=3,waterlogged=true": {
+      "model": "portium:portium_three_sea_pickles"
+    },
+    "pickles=3,waterlogged=false": {
+      "model": "portium:portium_three_dead_sea_pickles"
+    },
+    "pickles=4,waterlogged=true": {
+      "model": "portium:portium_four_sea_pickles"
+    },
+    "pickles=4,waterlogged=false": {
+      "model": "portium:portium_four_dead_sea_pickles"
+    }
+  }
+}

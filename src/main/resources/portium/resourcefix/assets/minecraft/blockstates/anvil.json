@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "damage=0,facing=south": { "model": "anvil" },
+        "damage=0,facing=west": { "model": "anvil", "y": 90 },
+        "damage=0,facing=north": { "model": "anvil", "y": 180 },
+        "damage=0,facing=east": { "model": "anvil", "y": 270 },
+        "damage=1,facing=south": { "model": "chipped_anvil" },
+        "damage=1,facing=west": { "model": "chipped_anvil", "y": 90 },
+        "damage=1,facing=north": { "model": "chipped_anvil", "y": 180 },
+        "damage=1,facing=east": { "model": "chipped_anvil", "y": 270 },
+        "damage=2,facing=south": { "model": "damaged_anvil" },
+        "damage=2,facing=west": { "model": "damaged_anvil", "y": 90 },
+        "damage=2,facing=north": { "model": "damaged_anvil", "y": 180 },
+        "damage=2,facing=east": { "model": "damaged_anvil", "y": 270 }
+    }
+}

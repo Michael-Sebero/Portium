@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "portium:acacia_pressure_plate_up"
+    },
+    "powered=true": {
+      "model": "portium:acacia_pressure_plate_down"
+    }
+  }
+}

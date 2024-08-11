@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:stripped_oak_log"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "portium:stripped_oak_log"
+    }
+  ],
+  "result": {
+    "item": "minecraft:planks",
+    "data": 0,
+    "count": 4
+  },
+  "group": "planks"
+}

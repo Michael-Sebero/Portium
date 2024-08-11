@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:basalt"
+    },
+    "axis=z": {
+      "model": "portium:basalt",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:basalt",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

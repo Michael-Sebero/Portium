@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:warped_hyphae"
+    },
+    "axis=z": {
+      "model": "portium:warped_hyphae",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:warped_hyphae",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "portium:blocks/crimson_nylium",
+    "bottom": "blocks/netherrack",
+    "side": "portium:blocks/crimson_nylium_side"
+  }
+}

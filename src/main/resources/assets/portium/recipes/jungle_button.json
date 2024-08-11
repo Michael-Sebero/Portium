@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:jungle_button"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:planks",
+      "data": 3
+    }
+  ],
+  "result": {
+    "item": "portium:jungle_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

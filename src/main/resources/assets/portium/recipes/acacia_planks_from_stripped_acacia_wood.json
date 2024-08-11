@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:stripped_acacia_wood"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "portium:stripped_acacia_wood"
+    }
+  ],
+  "result": {
+    "item": "minecraft:planks",
+    "data": 4,
+    "count": 4
+  },
+  "group": "planks"
+}

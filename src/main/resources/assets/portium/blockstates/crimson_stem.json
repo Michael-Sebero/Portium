@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "portium:crimson_stem"
+    },
+    "axis=z": {
+      "model": "portium:crimson_stem",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "portium:crimson_stem",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

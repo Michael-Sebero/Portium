@@ -1,0 +1,136 @@
+{
+  "variants": {
+    "facing=up,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true
+    },
+    "facing=up,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=down,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=down,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,powered=false,rotated=false": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90
+    },
+    "facing=north,powered=false,rotated=true": {
+      "model": "portium:acacia_button",
+      "uvlock": true,
+      "x": 90
+    },
+    "facing=up,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true
+    },
+    "facing=up,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=down,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=down,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,powered=true,rotated=false": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90
+    },
+    "facing=north,powered=true,rotated=true": {
+      "model": "portium:acacia_button_pressed",
+      "uvlock": true,
+      "x": 90
+    }
+  }
+}

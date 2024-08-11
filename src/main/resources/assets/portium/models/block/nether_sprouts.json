@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "portium:blocks/nether_sprouts"
+  }
+}

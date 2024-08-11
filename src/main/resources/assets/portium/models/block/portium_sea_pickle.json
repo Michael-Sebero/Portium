@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/sea_pickle",
+  "textures": {
+    "all": "portium:blocks/sea_pickle",
+    "particle": "portium:blocks/sea_pickle"
+  }
+}

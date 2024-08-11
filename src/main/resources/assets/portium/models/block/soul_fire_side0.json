@@ -1,0 +1,7 @@
+{
+  "parent": "block/fire_side",
+  "textures": {
+    "particle": "portium:blocks/soul_fire_0",
+    "fire": "portium:blocks/soul_fire_0"
+  }
+}

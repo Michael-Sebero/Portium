@@ -1,0 +1,208 @@
+{
+  "variants": {
+    "eggs=1,hatch=0": [
+      {
+        "model": "portium:turtle_egg_1"
+      },
+      {
+        "model": "portium:turtle_egg_1",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_1",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_1",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=1": [
+      {
+        "model": "portium:turtle_egg_slightly_cracked_1"
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_1",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_1",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_1",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=2": [
+      {
+        "model": "portium:turtle_egg_very_cracked_1"
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_1",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_1",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_1",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=0": [
+      {
+        "model": "portium:turtle_egg_2"
+      },
+      {
+        "model": "portium:turtle_egg_2",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_2",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_2",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=1": [
+      {
+        "model": "portium:turtle_egg_slightly_cracked_2"
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_2",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_2",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_2",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=2": [
+      {
+        "model": "portium:turtle_egg_very_cracked_2"
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_2",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_2",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_2",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=0": [
+      {
+        "model": "portium:turtle_egg_3"
+      },
+      {
+        "model": "portium:turtle_egg_3",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_3",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_3",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=1": [
+      {
+        "model": "portium:turtle_egg_slightly_cracked_3"
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_3",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_3",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_3",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=2": [
+      {
+        "model": "portium:turtle_egg_very_cracked_3"
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_3",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_3",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_3",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=0": [
+      {
+        "model": "portium:turtle_egg_4"
+      },
+      {
+        "model": "portium:turtle_egg_4",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_4",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_4",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=1": [
+      {
+        "model": "portium:turtle_egg_slightly_cracked_4"
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_4",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_4",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_slightly_cracked_4",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=2": [
+      {
+        "model": "portium:turtle_egg_very_cracked_4"
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_4",
+        "y": 90
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_4",
+        "y": 180
+      },
+      {
+        "model": "portium:turtle_egg_very_cracked_4",
+        "y": 270
+      }
+    ]
+  }
+}

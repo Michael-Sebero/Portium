@@ -1,0 +1,24 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:birch_wood"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:log",
+      "data": 2
+    }
+  },
+  "result": {
+    "item": "portium:birch_wood",
+    "count": 3
+  },
+  "group": "bark"
+}

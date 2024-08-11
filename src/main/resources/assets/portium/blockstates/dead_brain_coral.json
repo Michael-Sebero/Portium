@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=true": {
+      "model": "portium:dead_brain_coral"
+    },
+    "waterlogged=false": {
+      "model": "portium:dead_brain_coral"
+    }
+  }
+}

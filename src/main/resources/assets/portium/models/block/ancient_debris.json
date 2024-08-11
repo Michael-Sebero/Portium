@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "portium:blocks/ancient_debris_top",
+    "side": "portium:blocks/ancient_debris_side"
+  }
+}

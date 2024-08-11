@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "portium:blocks/tube_coral_block"
+  }
+}

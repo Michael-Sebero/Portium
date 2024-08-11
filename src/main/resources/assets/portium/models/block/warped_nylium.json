@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "portium:blocks/warped_nylium",
+    "bottom": "blocks/netherrack",
+    "side": "portium:blocks/warped_nylium_side"
+  }
+}
