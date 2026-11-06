@@ -38,13 +38,21 @@ public final class CapabilityShims116 {
 
     /** Watches a world for entities leaving it. */
     public static void watch(World world) {
-        world.addEventListener(new Removals());
+        world.addEventListener(new Removals(world));
     }
 
     private static final class Removals implements IWorldEventListener {
 
+        private final World world;
+
+        Removals(World world) {
+            this.world = world;
+        }
+
         @Override
         public void onEntityRemoved(Entity entity) {
+            // Forge 1.16's EntityLeaveWorldEvent, then its capability invalidation.
+            com.michaelsebero.portium.mods116.Mods116.postEvent("entity_leave_world", entity, this.world);
             invalidate(entity);
         }
 

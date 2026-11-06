@@ -41,11 +41,17 @@ public final class Portium {
 
     @Mod.EventHandler
     public void construct(FMLConstructionEvent event) {
+        // Crash reports name Portium's own report of the crash, written for the developer or an AI assistant.
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().registerCrashCallable(new com.michaelsebero.portium.diagnostics.PortiumCrashSection());
+        com.michaelsebero.portium.diagnostics.LogFilters.install();
         // Both mods rework the same water behaviour; running them together would break both.
         if (Loader.isModLoaded("fluidlogged_api")) {
             throw new LoaderException("Portium has its own 1.13 waterlogging and can't run alongside Fluidlogged API. Remove one of the two mods.");
         }
         proxy.construct(event);
+        // Portium's blocks and items exist before newer mods load, as vanilla's do for them (see registerBlocks).
+        com.michaelsebero.portium.init.PortiumBlocks.registerBlocks(net.minecraftforge.fml.common.registry.ForgeRegistries.BLOCKS);
+        com.michaelsebero.portium.init.PortiumItems.registerItems(net.minecraftforge.fml.common.registry.ForgeRegistries.ITEMS);
         ModernMods.construct();
         Mods116.construct();
     }
@@ -59,6 +65,7 @@ public final class Portium {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        net.minecraftforge.fml.common.network.NetworkRegistry.INSTANCE.registerGuiHandler(instance, new com.michaelsebero.portium.inventory.PortiumGuis());
         PortiumRecipes.registerFurnaceAndBrewing();
         proxy.init(event);
         ModernMods.init();

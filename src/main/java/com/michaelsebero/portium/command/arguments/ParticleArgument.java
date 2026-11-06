@@ -101,6 +101,12 @@ public class ParticleArgument implements ArgumentType<ParticleArgument.Particle>
         PORTIUM.put("nautilus", ParticleKind.NAUTILUS);
         PORTIUM.put("dolphin", ParticleKind.DOLPHIN);
         PORTIUM.put("squid_ink", ParticleKind.SQUID_INK);
+        PORTIUM.put("soul_fire_flame", ParticleKind.SOUL_FIRE_FLAME);
+        PORTIUM.put("campfire_cosy_smoke", ParticleKind.CAMPFIRE_COSY_SMOKE);
+        PORTIUM.put("campfire_signal_smoke", ParticleKind.CAMPFIRE_SIGNAL_SMOKE);
+        PORTIUM.put("reverse_portal", ParticleKind.REVERSE_PORTAL);
+        PORTIUM.put("composter", ParticleKind.COMPOSTER);
+        PORTIUM.put("sneeze", ParticleKind.SNEEZE);
     }
 
     public static ParticleArgument particle() {

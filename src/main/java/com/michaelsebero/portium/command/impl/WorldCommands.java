@@ -56,8 +56,10 @@ public final class WorldCommands {
     private static final CommandExceptionType.Simple BORDER_DAMAGE_BUFFER_UNCHANGED = simple("commands.worldborder.damage.buffer.failed");
     private static final CommandExceptionType.Simple BORDER_DAMAGE_AMOUNT_UNCHANGED = simple("commands.worldborder.damage.amount.failed");
 
-    private static final String[] STRUCTURES = {"Buried_Treasure", "Desert_Pyramid", "EndCity", "Fortress", "Igloo", "Jungle_Pyramid", "Mansion",
-            "Mineshaft", "Monument", "Ocean_Ruin", "Shipwreck", "Stronghold", "Swamp_Hut", "Village"};
+    /** 1.16.5's {@code /locate} names (1.14's outposts, 1.16's bastions, ruined portals and Nether fossils included). */
+    private static final String[] STRUCTURES = {"Bastion_Remnant", "Buried_Treasure", "Desert_Pyramid", "EndCity", "Fortress", "Igloo", "Jungle_Pyramid",
+            "Mansion", "Mineshaft", "Monument", "Nether_Fossil", "Ocean_Ruin", "Pillager_Outpost", "Ruined_Portal", "Shipwreck", "Stronghold", "Swamp_Hut",
+            "Village"};
 
     private static final SuggestionProvider<CommandSource> GAME_RULES = (context, builder) ->
             IdSuggestions.suggest(Arrays.asList(rules(context.getSource().getServer()).getRules()), builder);

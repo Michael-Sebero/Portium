@@ -81,6 +81,31 @@ public final class OceanWorldGen {
             if (replaced.length > 2) replaced[2] = mixed;
             event.setNewBiomeGens(replaced);
         }
+
+        /** 1.14's bamboo jungles, after the oceans: one jungle region in ten (a coarse mask zoomed up as 1.14's layers do). */
+        @SubscribeEvent(priority = net.minecraftforge.fml.common.eventhandler.EventPriority.LOW)
+        public void onInitBambooGens(WorldTypeEvent.InitBiomeGens event) {
+            if (!PortiumConfig.worldGen.bambooJungle || com.michaelsebero.portium.init.PortiumBiomes.BAMBOO_JUNGLE == null
+                    || !WorldGeneration.isBuildingAtLeast(WorldGeneration.V1_16)) {
+                return;
+            }
+            WorldType type = event.getWorldType();
+            if (type == WorldType.FLAT || type == WorldType.DEBUG_ALL_BLOCK_STATES || type == WorldType.DEFAULT_1_1) return;
+            GenLayer[] layers = event.getNewBiomeGens();
+            if (layers.length < 2) return;
+            long seed = event.getSeed();
+            GenLayer mask = GenLayerZoom.magnify(2002L, new com.michaelsebero.portium.world.gen.layer.GenLayerBambooMask(1001L), 6);
+            GenLayer mixed = new com.michaelsebero.portium.world.gen.layer.GenLayerMixBamboo(101L, layers[0], mask,
+                    com.michaelsebero.portium.init.PortiumBiomes.BAMBOO_JUNGLE, com.michaelsebero.portium.init.PortiumBiomes.BAMBOO_JUNGLE_HILLS);
+            GenLayer voronoi = new GenLayerVoronoiZoom(10L, mixed);
+            mixed.initWorldGenSeed(seed);
+            voronoi.initWorldGenSeed(seed);
+            GenLayer[] replaced = layers.clone();
+            replaced[0] = mixed;
+            replaced[1] = voronoi;
+            if (replaced.length > 2) replaced[2] = mixed;
+            event.setNewBiomeGens(replaced);
+        }
     }
 
     // ---- Decoration ----

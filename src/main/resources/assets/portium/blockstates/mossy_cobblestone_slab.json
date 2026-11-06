@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:mossy_cobblestone_slab"
+    },
+    "half=top": {
+      "model": "portium:mossy_cobblestone_slab_top"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_chain",
+  "textures": {
+    "particle": "portium:blocks/chain",
+    "all": "portium:blocks/chain"
+  }
+}

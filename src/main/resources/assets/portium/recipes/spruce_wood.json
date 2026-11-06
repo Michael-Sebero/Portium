@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:spruce_wood"
+      "item": "minecraft:spruce_wood"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "portium:spruce_wood",
+    "item": "minecraft:spruce_wood",
     "count": 3
   },
   "group": "bark"

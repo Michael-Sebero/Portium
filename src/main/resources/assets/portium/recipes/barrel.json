@@ -1,0 +1,28 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:barrel"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "P P",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "slabWood"
+    }
+  },
+  "result": {
+    "item": "minecraft:barrel",
+    "count": 1
+  }
+}

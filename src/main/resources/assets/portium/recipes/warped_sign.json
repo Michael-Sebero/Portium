@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_sign"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:warped_planks"
+    },
+    "X": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_sign",
+    "count": 3
+  },
+  "group": "sign"
+}

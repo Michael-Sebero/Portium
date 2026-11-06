@@ -123,12 +123,99 @@ public final class PortiumConfig {
 
         @Config.Comment("Crying obsidian (1.16).")
         public boolean cryingObsidian = true;
+
+        @Config.Comment("Crimson and warped planks, slabs, stairs, fences, fence gates, doors, trapdoors, buttons, pressure plates and signs (1.16). Needs the Nether forests.")
+        public boolean netherWoods = true;
+
+        @Config.Comment("Polished blackstone, its bricks (cracked, chiseled), and blackstone's stairs, slabs, walls, button and pressure plate (1.16). Needs blackstone.")
+        public boolean blackstoneFamily = true;
+
+        @Config.Comment("Cracked and chiseled nether bricks and quartz bricks (1.16).")
+        public boolean netherBricks116 = true;
+
+        @Config.Comment("1.14's stairs, slabs and walls of stone, granite, diorite, andesite, mossy stone, smooth sandstone and quartz, end stone bricks, red nether bricks and more.")
+        public boolean stoneVariants = true;
+
+        @Config.Comment("Signs of spruce, birch, jungle, acacia and dark oak (1.14).")
+        public boolean woodSigns = true;
+
+        @Config.Comment("The lantern (1.14) and soul lantern (1.16).")
+        public boolean lanterns = true;
+
+        @Config.Comment("Chains (1.16).")
+        public boolean chains = true;
+
+        @Config.Comment("Soul torches (1.16).")
+        public boolean soulTorches = true;
+
+        @Config.Comment("The campfire (1.14) and soul campfire (1.16): light, smoke signals, and cooking food.")
+        public boolean campfires = true;
+
+        @Config.Comment("The target block (1.16): gives off redstone power when hit by projectiles.")
+        public boolean target = true;
+
+        @Config.Comment("The lodestone, which compasses can be locked onto (1.16). Needs netherite for its recipe.")
+        public boolean lodestone = true;
+
+        @Config.Comment("The respawn anchor (1.16): a respawn point in the Nether, charged with glowstone. Needs crying obsidian for its recipe.")
+        public boolean respawnAnchor = true;
+
+        @Config.Comment("The cornflower, lily of the valley and wither rose (1.14), in flower pots too.")
+        public boolean flowers114 = true;
+
+        @Config.Comment("Sweet berry bushes and sweet berries (1.14).")
+        public boolean sweetBerries = true;
+
+        @Config.Comment("Bamboo (1.14).")
+        public boolean bamboo = true;
+
+        @Config.Comment("The barrel (1.14).")
+        public boolean barrel = true;
+
+        @Config.Comment("The smoker and blast furnace (1.14): furnaces for food and for ores, twice as fast.")
+        public boolean smokerAndBlastFurnace = true;
+
+        @Config.Comment("The composter (1.14), turning plants into bone meal.")
+        public boolean composter = true;
+
+        @Config.Comment("The fletching table (1.14), a fletcher villager's workstation.")
+        public boolean fletchingTable = true;
+
+        @Config.Comment("The grindstone (1.14): repairs and disenchants.")
+        public boolean grindstone = true;
+
+        @Config.Comment("The stonecutter (1.14): cuts stone into slabs, stairs, walls and more.")
+        public boolean stonecutter = true;
+
+        @Config.Comment("The loom (1.14) for banner patterns, with the banner pattern items and 1.16's globe and snout (piglin) patterns.")
+        public boolean loom = true;
+
+        @Config.Comment("The cartography table (1.14): copies, zooms out and locks maps.")
+        public boolean cartographyTable = true;
+
+        @Config.Comment("The bell (1.14): rung by hand, redstone or projectiles; reveals raiders nearby.")
+        public boolean bell = true;
+
+        @Config.Comment("The lectern (1.14): holds a book for anyone to read; turning pages gives redstone pulses.")
+        public boolean lectern = true;
+
+        @Config.Comment("Scaffolding (1.14): climbable, built out sideways and up from itself, falls when unsupported. Made from bamboo.")
+        public boolean scaffolding = true;
+
+        @Config.Comment("Honey blocks and honeycomb blocks (1.15), with honey bottles and honeycombs. Honey slows, softens falls, slides and sticks to pistons (not to slime).")
+        public boolean honey = true;
+
+        @Config.Comment("Bees, bee nests and beehives (1.15): bees pollinate flowers and fill hives with honey (sheared for honeycomb, bottled for honey), grow crops, and sting when angered. Nests generate on oak and birch trees in 1.16.5 worlds. Needs honey.")
+        public boolean beehives = true;
     }
 
     public static final class Items {
 
         @Config.Comment("The trident (1.13). Drowned then carry fishing rods instead.")
         public boolean trident = true;
+
+        @Config.Comment("Netherite (1.16): scrap from ancient debris, ingots, tools, armour, the netherite block, and the smithing table that upgrades diamond gear. Needs ancient debris.")
+        public boolean netherite = true;
 
         @Config.Comment("The turtle shell helmet and scutes (1.13). Also needed for the Potion of the Turtle Master.")
         public boolean turtleShell = true;
@@ -147,6 +234,21 @@ public final class PortiumConfig {
 
         @Config.Comment("The debug stick, for creative players (1.13).")
         public boolean debugStick = true;
+
+        @Config.Comment("White, blue, brown and black dyes as their own items (1.14), made from bone meal, lapis, cocoa, ink sacs and 1.14's flowers. Bone meal and the rest stay dyes too.")
+        public boolean dyes114 = true;
+
+        @Config.Comment("The crossbow (1.14) with multishot, piercing and quick charge; it also shoots fireworks, and fireworks with stars hurt what's near their burst (1.14).")
+        public boolean crossbow = true;
+
+        @Config.Comment("Leather horse armour (1.14): crafted from leather, dyeable.")
+        public boolean leatherHorseArmor = true;
+
+        @Config.Comment("Suspicious stew (1.14): mushroom stew with a flower, giving the flower's effect.")
+        public boolean suspiciousStew = true;
+
+        @Config.Comment("The Pigstep music disc (1.16), found in bastion remnant chests.")
+        public boolean pigstep = true;
     }
 
     public static final class Mobs {
@@ -174,6 +276,45 @@ public final class PortiumConfig {
 
         @Config.Comment("Phantoms (1.13).")
         public boolean phantoms = true;
+
+        @Config.Comment("Foxes (1.14), red in taigas and white in snowy taigas.")
+        public boolean foxes = true;
+
+        @Config.Comment("Pandas (1.14) in jungles, with their personalities; they eat bamboo.")
+        public boolean pandas = true;
+
+        @Config.Comment("Cats (1.14), split from ocelots: strays in villages and witch huts, tamed with fish. Ocelots become 1.14's untameable ones that learn to trust; tamed ocelots in existing worlds become cats.")
+        public boolean cats = true;
+
+        @Config.Comment("Pillagers (1.14): crossbow illagers in patrols that roam near players from day five. Killing a patrol's banner-carrying leader gives Bad Omen. Illagers and witches can lead patrols too.")
+        public boolean pillagers = true;
+
+        @Config.Comment("Ravagers (1.14): raid beasts that trample leaves and are stunned when a shield blocks their bite.")
+        public boolean ravagers = true;
+
+        @Config.Comment("Wandering traders and their trader llamas (1.14), with 1.14's trading screen for them.")
+        public boolean wanderingTraders = true;
+
+        @Config.Comment("Piglins (1.16) in the Nether: barter for gold ingots, love gold, attack players not wearing gold, hunt hoglins, turn into zombie pigmen outside the Nether.")
+        public boolean piglins = true;
+
+        @Config.Comment("Hoglins (1.16) in crimson forests, bred with crimson fungus, scared of warped fungus; and zoglins, which they become outside the Nether.")
+        public boolean hoglins = true;
+
+        @Config.Comment("Striders (1.16): lava walkers, ridden with a saddle and steered with a warped fungus on a stick (which comes with them).")
+        public boolean striders = true;
+
+        @Config.Comment("Zombified piglins (1.16): in worlds made with 1.16.5's generation, zombie pigmen become zombified piglins (1.16's model, texture and sounds). Other worlds keep pigmen.")
+        public boolean zombifiedPiglins = true;
+
+        @Config.Comment("Bees (1.15). Needs beehives (blocks) on.")
+        public boolean bees = true;
+
+        @Config.Comment("Villagers (1.14): in worlds made with 1.16.5 generation, villagers take professions at workstations, level up with trading, follow a daily schedule (work, meet at the bell, sleep in beds), breed when fed and a bed is free, and dress by biome. Other worlds keep 1.12's villagers.")
+        public boolean villagers = true;
+
+        @Config.Comment("Brown mooshrooms (1.14): lightning turns mooshrooms brown and back; brown ones fed a flower give suspicious stew.")
+        public boolean brownMooshrooms = true;
     }
 
     public static final class Enchantments {
@@ -189,6 +330,9 @@ public final class PortiumConfig {
 
         @Config.Comment("Channeling: a trident summons lightning in thunderstorms (1.13).")
         public boolean channeling = true;
+
+        @Config.Comment("Soul Speed: boots that run fast on soul sand and soul soil (1.16). Only from piglin bartering.")
+        public boolean soulSpeed = true;
     }
 
     public static final class Effects {
@@ -208,8 +352,15 @@ public final class PortiumConfig {
 
     public static final class Mechanics {
 
+        @Config.Comment("Portium's blocks and items take minecraft: ids (minecraft:heart_of_the_sea), as 1.13 to 1.16 name them, so they look native in F3, tooltips and commands. Their old portium: ids keep working. Needs a restart.")
+        @Config.RequiresMcRestart
+        public boolean minecraftIds = true;
+
         @Config.Comment("Sprint in water to swim (1.13).")
         public boolean swimming = true;
+
+        @Config.Comment("Iron golems show cracks as they're hurt, and an iron ingot mends them (1.15).")
+        public boolean golemCracks = true;
 
         @Config.Comment("Players are forced to crawl in one block tall gaps (1.14).")
         public boolean crawling = true;
@@ -220,11 +371,20 @@ public final class PortiumConfig {
         @Config.Comment("Dropped items float up in water (1.13).")
         public boolean itemBuoyancy = true;
 
+        @Config.Comment("Other mods' furnace recipes also work in 1.14's cookers: their food in smokers and on campfires, their ores in blast furnaces. Minecraft's own items follow 1.14's recipes either way.")
+        public boolean modCookingRecipes = true;
+
+        @Config.Comment("Dispensers and droppers keep the facing they're placed with (1.13). 1.12 turns them away from a solid block in front when they're set by commands or structures.")
+        public boolean dispenserFacing113 = true;
+
         @Config.Comment("Air refills gradually after surfacing, and upward bubble columns refill air (1.13).")
         public boolean gradualAirRefill = true;
 
         @Config.Comment("Grass and mycelium covered by water turn into dirt (1.16).")
         public boolean underwaterGrassToDirt = true;
+
+        @Config.Comment("Walls rise to the block above them, show a post only where 1.16 does (not along a straight run under a block), and join glass panes and iron bars (1.16).")
+        public boolean walls116 = true;
 
         @Config.Comment("Elytra can be deployed while moving upwards (1.15).")
         public boolean easyElytraTakeoff = true;
@@ -366,6 +526,9 @@ public final class PortiumConfig {
         @Config.RequiresMcRestart
         public boolean netherUpdate = true;
 
+        @Config.Comment("1.14's plants in worlds generated as 1.16.5: cornflowers, lilies of the valley, sweet berry bushes in taigas, bamboo in jungles.")
+        public boolean plants114 = true;
+
         @Config.Comment("Generate warm, lukewarm, cold and frozen ocean variants (1.13).")
         public boolean oceanVariants = true;
 
@@ -392,6 +555,16 @@ public final class PortiumConfig {
 
         @Config.Comment("Generate shipwrecks, ocean ruins and buried treasure (1.13). Needs AssetMover for the structure templates.")
         public boolean oceanStructures = true;
+
+        @Config.Comment("1.16.5's jigsaw structures in worlds made with 1.16.5 generation: villages (plains, desert, savanna, snowy, taiga; they replace 1.12's), pillager outposts, and Nether bastion remnants. Their templates and layouts come from the official 1.16.5 jar through AssetMover.")
+        public boolean jigsawStructures = true;
+
+        @Config.Comment("Bamboo jungles (1.14): in worlds made with 1.16.5 generation, one jungle region in ten is a bamboo jungle (or its hills). Needs bamboo (plants) on.")
+        public boolean bambooJungle = true;
+
+        @Config.Comment("The End's outer biomes (1.13): end highlands, midlands, barrens and small end islands beyond the main island, in worlds made with 1.13.2 generation or newer.")
+        @Config.RequiresMcRestart
+        public boolean endBiomes = true;
 
         @Config.Comment("The Buffet world type (1.13): one biome, or a few, across the whole world.")
         @Config.RequiresMcRestart

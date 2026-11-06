@@ -25,8 +25,8 @@ public abstract class MixinRenderGlobalLayers116 {
 
     @Inject(method = "renderBlockLayer(Lnet/minecraft/util/BlockRenderLayer;DILnet/minecraft/entity/Entity;)I", at = @At("RETURN"))
     private void portium$afterLayer(BlockRenderLayer layer, double partialTicks, int pass, Entity viewer, CallbackInfoReturnable<Integer> cir) {
-        Mods116.renderLayer(layer.ordinal(), TileEntityRendererDispatcher.staticPlayerX, TileEntityRendererDispatcher.staticPlayerY,
-                TileEntityRendererDispatcher.staticPlayerZ);
+        com.michaelsebero.portium.client.RenderBridge116.terrainLayer(() -> Mods116.renderLayer(layer.ordinal(), TileEntityRendererDispatcher.staticPlayerX,
+                TileEntityRendererDispatcher.staticPlayerY, TileEntityRendererDispatcher.staticPlayerZ));
     }
 
     @Inject(method = "loadRenderers", at = @At("RETURN"))

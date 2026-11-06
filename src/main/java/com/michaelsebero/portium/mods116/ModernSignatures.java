@@ -21,6 +21,14 @@ final class ModernSignatures {
     static final int AIR = -3;
     /** The fluid state at the position among the arguments, read from the world among them. */
     static final int FLUID_AT = -4;
+    /** The world of the entity the method is called on (a bridge's own {@code this}). */
+    static final int THIS_WORLD = -5;
+    /** The x, y or z of the vector among 1.13's arguments, as a float. */
+    static final int VECTOR_X = -10;
+    static final int VECTOR_Y = -11;
+    static final int VECTOR_Z = -12;
+    /** A vector of the three floats among 1.12's arguments. */
+    static final int VECTOR = -13;
 
     static final class Renamed {
 
@@ -61,6 +69,26 @@ final class ModernSignatures {
         /** Marks a 1.13 argument 1.12 doesn't give as its type's zero rather than a state read from the world. */
         Renamed none(int modernArgument) {
             this.modernFrom[modernArgument] = NONE;
+            return this;
+        }
+
+        /** Marks a 1.13 argument 1.12 doesn't give as the world of the entity called. */
+        Renamed thisWorld(int modernArgument) {
+            this.modernFrom[modernArgument] = THIS_WORLD;
+            return this;
+        }
+
+        /** Marks a 1.13 argument as the vector of 1.12's three floats. */
+        Renamed vector(int modernArgument) {
+            this.modernFrom[modernArgument] = VECTOR;
+            return this;
+        }
+
+        /** Static methods ({@code owner.name(desc)}, taking the object called) that make 1.13 arguments 1.12 can't give, by index. */
+        final Map<Integer, String> providers = new HashMap<>();
+
+        Renamed fromThis(int modernArgument, String method) {
+            this.providers.put(modernArgument, method);
             return this;
         }
 
@@ -122,12 +150,62 @@ final class ModernSignatures {
         renamed(block, "onNeighborChange", "(" + state116 + "Lnet/minecraft/world/IWorldReader;" + pos + pos + ")V", "onNeighborChange",
                 "(" + access + pos + pos + ")V", 1, 2, 3);
 
+        entities();
+
         // Baked models: 1.12 asks for quads with a seed; 1.16 with a random (and Forge 1.16 with model data).
         String model = "net/minecraft/client/renderer/model/IBakedModel";
         String quads = "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/EnumFacing;J)Ljava/util/List;";
         // Calls only: a mod's model gets 1.12's method from ModernCompletion, which asks it with the block's model data.
         renamed(model, "func_200117_a", "(" + state116 + "Lnet/minecraft/util/Direction;Ljava/util/Random;)Ljava/util/List;", "func_188616_a", quads, 0, 1, 2)
                 .callsOnly();
+    }
+
+    /**
+     * 1.16's entity methods that are 1.12's under another id, with the world, the spawn reason and the like added
+     * (1.12's entities know their world), so that a 1.16 mob's overrides are what 1.12 calls and its calls up reach
+     * 1.12's methods.
+     */
+    private void entities() {
+        String entity = "net/minecraft/entity/Entity";
+        String living = "net/minecraft/entity/LivingEntity";
+        String mob = "net/minecraft/entity/MobEntity";
+        String nbt116 = "Lnet/minecraft/nbt/CompoundNBT;";
+        String nbt = "Lnet/minecraft/nbt/NBTTagCompound;";
+        String reason = "Lnet/minecraft/entity/SpawnReason;";
+        String natural = "net/minecraft/entity/SpawnReason.NATURAL:" + reason;
+        String pos = "Lnet/minecraft/util/math/BlockPos;";
+        // Saving: 1.14 renamed it.
+        renamed(entity, "func_213281_b", "(" + nbt116 + ")V", "func_70014_b", "(" + nbt + ")V", 0);
+        // A mob's first spawn; 1.12 gives the difficulty and the group's data.
+        renamed(mob, "func_213386_a", "(Lnet/minecraft/world/IServerWorld;Lnet/minecraft/world/DifficultyInstance;" + reason
+                        + "Lnet/minecraft/entity/ILivingEntityData;" + nbt116 + ")Lnet/minecraft/entity/ILivingEntityData;",
+                "func_180482_a", "(Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/entity/IEntityLivingData;)Lnet/minecraft/entity/IEntityLivingData;", 1, 3)
+                .thisWorld(0).constant(2, natural).none(4);
+        // A player using an item on a mob: 1.16 answers with a result, 1.12 with whether anything happened.
+        renamed(mob, "func_230254_b_", "(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResultType;",
+                "func_184645_a", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/util/EnumHand;)Z", 0, 1);
+        // Whether a mob may spawn where it is.
+        renamed(mob, "func_213380_a", "(Lnet/minecraft/world/IWorld;" + reason + ")Z", "func_70601_bi", "()Z").thisWorld(0).constant(1, natural);
+        renamed(mob, "func_205019_a", "(Lnet/minecraft/world/IWorldReader;)Z", "func_70058_J", "()Z").thisWorld(0);
+        renamed(mob, "func_213397_c", "(D)Z", "func_70692_ba", "()Z").none(0);
+        // Moving by input: 1.16 takes the three as a vector.
+        renamed(living, "func_213352_e", "(Lnet/minecraft/util/math/vector/Vector3d;)V", "func_191986_a", "(FFF)V", VECTOR_X, VECTOR_Y, VECTOR_Z).vector(0);
+        // Breeding, kills, path weights: 1.16 passes the world along.
+        renamed("net/minecraft/entity/AgeableEntity", "func_241840_a",
+                "(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/entity/AgeableEntity;)Lnet/minecraft/entity/AgeableEntity;",
+                "func_90011_a", "(Lnet/minecraft/entity/EntityAgeable;)Lnet/minecraft/entity/EntityAgeable;", 1).thisWorld(0);
+        renamed(entity, "func_241847_a", "(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/entity/LivingEntity;)V",
+                "func_70074_a", "(Lnet/minecraft/entity/EntityLivingBase;)V", 1).thisWorld(0);
+        renamed("net/minecraft/entity/CreatureEntity", "func_205022_a", "(" + pos + "Lnet/minecraft/world/IWorldReader;)F", "func_180484_a", "(" + pos + ")F", 0)
+                .thisWorld(1);
+        // A navigator's path finder, made with how many nodes it may visit (1.12's knows its own limit).
+        renamed("net/minecraft/pathfinding/PathNavigator", "func_179679_a", "(I)Lnet/minecraft/pathfinding/PathFinder;", "func_179679_a",
+                "()Lnet/minecraft/pathfinding/PathFinder;").none(0);
+        // Moving by input relative to facing: 1.16 takes the input as a vector.
+        renamed(entity, "func_213309_a", "(FLnet/minecraft/util/math/vector/Vector3d;)V", "func_191958_b", "(FFFF)V", VECTOR_X, VECTOR_Y, VECTOR_Z, 0).vector(1);
+        // Drops beyond the loot table: 1.12 doesn't say what killed.
+        renamed(living, "func_213333_a", "(Lnet/minecraft/util/DamageSource;IZ)V", "func_82160_b", "(ZI)V", 2, 1)
+                .constant(0, "net/minecraft/util/DamageSource.field_76377_j:Lnet/minecraft/util/DamageSource;");
     }
 
     private Renamed renamed(String owner, String name, String desc, String legacyName, String legacyDesc, int... legacyFrom) {

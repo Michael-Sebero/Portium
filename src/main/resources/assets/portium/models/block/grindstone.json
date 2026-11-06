@@ -1,0 +1,10 @@
+{
+  "parent": "portium:block/template_grindstone",
+  "textures": {
+    "particle": "portium:blocks/grindstone_side",
+    "pivot": "portium:blocks/grindstone_pivot",
+    "round": "portium:blocks/grindstone_round",
+    "side": "portium:blocks/grindstone_side",
+    "leg": "blocks/log_big_oak"
+  }
+}

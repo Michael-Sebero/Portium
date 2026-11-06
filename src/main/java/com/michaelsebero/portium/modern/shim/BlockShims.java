@@ -68,7 +68,45 @@ public final class BlockShims {
     @SuppressWarnings("deprecation")
     public static VoxelShape getShape(Block block, IBlockState state, IBlockAccess world, BlockPos pos) {
         if (block instanceof IModernBlock) return ((IModernBlock) block).getShape(state, world, pos);
-        return VoxelShapes.create(state.getBoundingBox(world, pos));
+        // 1.12 gives air and liquids a full bounding box they don't have (nothing selects them); 1.13+ shapes are empty.
+        if (state.getMaterial() == net.minecraft.block.material.Material.AIR || state.getMaterial().isLiquid()) return VoxelShapes.empty();
+        return VoxelShapes.create(asStateOf(block, state).getBoundingBox(world, pos));
+    }
+
+    /**
+     * A state of {@code block} like a state of another block. Newer code asks a vanilla block for the shape of its
+     * own block's state (Create's analog lever asks the lever), which works in 1.13+ as both read the same properties;
+     * 1.12's state would ask its own block back. Properties of the same name are copied by value name, and 1.13's
+     * face and facing (floor, wall, ceiling) become 1.12's lever and button orientations.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static IBlockState asStateOf(Block block, IBlockState state) {
+        if (state.getBlock() == block) return state;
+        java.util.Map<String, String> values = new java.util.HashMap<>();
+        for (java.util.Map.Entry<net.minecraft.block.properties.IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()) {
+            values.put(entry.getKey().getName(), ((net.minecraft.block.properties.IProperty) entry.getKey()).getName(entry.getValue()));
+        }
+        String face = values.get("face");
+        String facing = values.get("facing");
+        if (face != null && facing != null) {
+            boolean alongZ = "north".equals(facing) || "south".equals(facing);
+            if (block instanceof net.minecraft.block.BlockLever) {
+                if ("floor".equals(face)) values.put("facing", alongZ ? "up_z" : "up_x");
+                else if ("ceiling".equals(face)) values.put("facing", alongZ ? "down_z" : "down_x");
+            } else if ("floor".equals(face)) {
+                values.put("facing", "up");
+            } else if ("ceiling".equals(face)) {
+                values.put("facing", "down");
+            }
+        }
+        IBlockState result = block.getDefaultState();
+        for (net.minecraft.block.properties.IProperty property : result.getPropertyKeys()) {
+            String value = values.get(property.getName());
+            if (value == null) continue;
+            com.google.common.base.Optional parsed = property.parseValue(value);
+            if (parsed.isPresent()) result = result.withProperty(property, (Comparable) parsed.get());
+        }
+        return result;
     }
 
     public static ItemStack getItem(Block block, IBlockAccess world, BlockPos pos, IBlockState state) {
@@ -163,7 +201,7 @@ public final class BlockShims {
 
     public static VoxelShape getCollisionShape(Block block, IBlockState state, IBlockAccess world, BlockPos pos) {
         if (block instanceof IModernBlock) return ((IModernBlock) block).getCollisionShape(state, world, pos);
-        net.minecraft.util.math.AxisAlignedBB box = state.getCollisionBoundingBox(world, pos);
+        net.minecraft.util.math.AxisAlignedBB box = asStateOf(block, state).getCollisionBoundingBox(world, pos);
         return box == null ? VoxelShapes.empty() : VoxelShapes.create(box);
     }
 

@@ -32,6 +32,7 @@ import java.util.UUID;
 public final class MiscShims {
 
     private static final StatType<Block> BLOCK_MINED = new StatType<>(StatList::getBlockStats);
+    private static final StatType<net.minecraft.item.Item> ITEM_USED = new StatType<>(StatList::getObjectUseStats);
 
     /** 1.13's {@code EnumDyeColor.getId}, 1.12's wool metadata. */
     public static int dyeId(EnumDyeColor color) {
@@ -67,6 +68,11 @@ public final class MiscShims {
     /** 1.13's {@code IWorld.isRemote()}, 1.12's field. */
     public static boolean isRemote(World world) {
         return world.isRemote;
+    }
+
+    /** 1.13's {@code Stats.ITEM_USED}: 1.12's use count of an item (none for items 1.12 doesn't count). */
+    public static StatType<net.minecraft.item.Item> itemUsed() {
+        return ITEM_USED;
     }
 
     /** 1.13's {@code StatList.BLOCK_MINED}. */

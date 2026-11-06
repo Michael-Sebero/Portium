@@ -18,6 +18,19 @@ import java.util.List;
  */
 public final class TagShims116 {
 
+    /** Every tag of a kind the data packs define ("blocks", "items", "fluids", "entity_types"). */
+    public static java.util.Collection<ResourceLocation> ids(String kind) {
+        DataPackManager manager = DataPackManager.get();
+        if (manager == null) return java.util.Collections.emptyList();
+        switch (kind) {
+            case "blocks": return manager.getTags().getBlocks().getIds();
+            case "items": return manager.getTags().getItems().getIds();
+            case "fluids": return manager.getTags().getFluids().getIds();
+            case "entity_types": return manager.getTags().getEntityTypes().getIds();
+            default: return java.util.Collections.emptyList();
+        }
+    }
+
     public static boolean contains(String kind, ResourceLocation id, Object value) {
         DataPackManager manager = DataPackManager.get();
         if (manager == null || value == null) return false;
@@ -79,6 +92,15 @@ public final class TagShims116 {
             case "fluids": {
                 Tag<Block> tag = manager.getTags().getFluids().get(id);
                 if (tag != null) values.addAll(tag.getValues());
+                break;
+            }
+            case "entity_types": {
+                // The types by name (vanilla's 1.13 types and mods'), so a random pick from the tag has something to pick.
+                Tag<ResourceLocation> tag = manager.getTags().getEntityTypes().get(id);
+                if (tag != null) for (ResourceLocation name : tag.getValues()) {
+                    Object type = com.michaelsebero.portium.modern.mc.entity.EntityType.getById(name.toString());
+                    if (type != null && !values.contains(type)) values.add(type);
+                }
                 break;
             }
             default:

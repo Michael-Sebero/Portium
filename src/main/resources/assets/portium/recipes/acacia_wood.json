@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:acacia_wood"
+      "item": "minecraft:acacia_wood"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "portium:acacia_wood",
+    "item": "minecraft:acacia_wood",
     "count": 3
   },
   "group": "bark"

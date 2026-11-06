@@ -68,4 +68,14 @@ public final class Conversions {
     }
 
     private Conversions() {}
+
+    /** What 1.16 answers a use with, from 1.12's "something happened". */
+    public static net.minecraft.util.EnumActionResult actionResult(boolean happened) {
+        return happened ? net.minecraft.util.EnumActionResult.SUCCESS : net.minecraft.util.EnumActionResult.PASS;
+    }
+
+    /** 1.12's "something happened", from what 1.16 answers a use with. */
+    public static boolean succeeded(net.minecraft.util.EnumActionResult result) {
+        return result == net.minecraft.util.EnumActionResult.SUCCESS;
+    }
 }

@@ -86,6 +86,9 @@ public final class LegacyBlockStates {
         if (mapping != null) return normalize(mapping.apply(properties));
         if ("minecraft".equals(id.getNamespace())) {
             Block portium = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Tags.MOD_ID, id.getPath()));
+            if (portium instanceof com.michaelsebero.portium.block.building.BlockPortiumSlab && !((net.minecraft.block.BlockSlab) portium).isDouble()) {
+                return normalize(portiumSlab(id.getPath(), portium, properties));
+            }
             if (portium != null && portium != Blocks.AIR) return normalize(copy(portium.getDefaultState(), properties));
         }
         Block block = ForgeRegistries.BLOCKS.getValue(id);
@@ -131,6 +134,8 @@ public final class LegacyBlockStates {
     /** Drops properties 1.12 only computes when rendering (fence connections, stair shapes), which the world can't store. */
     private static IBlockState normalize(IBlockState state) {
         Block block = state.getBlock();
+        // Blocks with more states than metadata holds keep them whole (chunks keep them; see ModernStates).
+        if (com.michaelsebero.portium.modern.state.ModernStates.hasManyStates(block)) return state;
         return block.getStateFromMeta(block.getMetaFromState(state));
     }
 
@@ -161,6 +166,17 @@ public final class LegacyBlockStates {
 
     private static void rename(String name, Block block) {
         MAPPINGS.put("minecraft:" + name, properties -> copy(block.getDefaultState(), properties));
+    }
+
+    /** A 1.13+ slab of Portium's: its half or, for {@code type=double}, its double block ({@code <name>_double}). */
+    private static IBlockState portiumSlab(String name, Block half, Map<String, String> properties) {
+        String type = properties.getOrDefault("type", "bottom");
+        if ("double".equals(type)) {
+            Block doubleSlab = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Tags.MOD_ID, name + "_double"));
+            if (doubleSlab != null && doubleSlab != Blocks.AIR) return doubleSlab.getDefaultState();
+        }
+        return half.getDefaultState().withProperty(net.minecraft.block.BlockSlab.HALF,
+                "top".equals(type) ? net.minecraft.block.BlockSlab.EnumBlockHalf.TOP : net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM);
     }
 
     /** 1.13 slabs: {@code type=bottom|top|double}; 1.12 uses {@code half} and a separate double-slab block. */
@@ -251,6 +267,15 @@ public final class LegacyBlockStates {
         rename("wall_torch", Blocks.TORCH);
         MAPPINGS.put("minecraft:redstone_torch", properties -> "false".equals(properties.get("lit")) ? Blocks.UNLIT_REDSTONE_TORCH.getDefaultState() : Blocks.REDSTONE_TORCH.getDefaultState());
         MAPPINGS.put("minecraft:redstone_wall_torch", properties -> copy(("false".equals(properties.get("lit")) ? Blocks.UNLIT_REDSTONE_TORCH : Blocks.REDSTONE_TORCH).getDefaultState(), properties));
+        // 1.16's soul torch: Portium's, like 1.12's torch, is one block for floors and walls.
+        MAPPINGS.put("minecraft:soul_torch", properties -> {
+            Block block = portiumBlock("soul_torch");
+            return block == null ? Blocks.TORCH.getDefaultState() : block.getDefaultState();
+        });
+        MAPPINGS.put("minecraft:soul_wall_torch", properties -> {
+            Block block = portiumBlock("soul_torch");
+            return copy((block == null ? Blocks.TORCH : block).getDefaultState(), properties);
+        });
         rename("sign", Blocks.STANDING_SIGN);
         rename("wall_sign", Blocks.WALL_SIGN);
         // 1.14 gave every wood its own signs; 1.12 has one sign (unless Portium has the wood's).
@@ -360,6 +385,15 @@ public final class LegacyBlockStates {
         }
         rename("shulker_box", Blocks.PURPLE_SHULKER_BOX);
 
+        // 1.13's attached stems are 1.12's grown stems turned toward their fruit.
+        for (String fruit : new String[] {"pumpkin", "melon"}) {
+            Block stem = fruit.equals("pumpkin") ? Blocks.PUMPKIN_STEM : Blocks.MELON_STEM;
+            MAPPINGS.put("minecraft:attached_" + fruit + "_stem", properties -> {
+                Map<String, String> attached = new HashMap<>(properties);
+                attached.putIfAbsent("facing", "north");
+                return copy(stem.getDefaultState().withProperty(net.minecraft.block.BlockStem.AGE, 7), attached);
+            });
+        }
         // Coral wall fans share Portium's coral fan blocks, which have a facing property.
         for (String coral : new String[] {"tube", "brain", "bubble", "fire", "horn"}) {
             for (String prefix : new String[] {"", "dead_"}) {

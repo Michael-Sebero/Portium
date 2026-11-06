@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:netherite_block"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "minecraft:netherite_block",
+    "count": 1
+  }
+}

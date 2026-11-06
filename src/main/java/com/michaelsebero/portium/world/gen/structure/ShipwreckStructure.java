@@ -33,7 +33,7 @@ public class ShipwreckStructure extends OceanStructure {
     static final String[] TEMPLATES = OCEAN;
 
     ShipwreckStructure() {
-        super("Shipwreck", 16, 8, 165745295);
+        super("Shipwreck", 16, 8, 24, 4, 165745295);
     }
 
     @Override

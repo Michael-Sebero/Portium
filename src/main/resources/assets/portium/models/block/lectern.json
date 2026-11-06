@@ -1,0 +1,11 @@
+{
+  "parent": "portium:block/template_lectern",
+  "textures": {
+    "particle": "portium:blocks/lectern_sides",
+    "bottom": "blocks/planks_oak",
+    "base": "portium:blocks/lectern_base",
+    "front": "portium:blocks/lectern_front",
+    "sides": "portium:blocks/lectern_sides",
+    "top": "portium:blocks/lectern_top"
+  }
+}

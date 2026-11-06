@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,open=false": {
+      "model": "portium:barrel",
+      "x": 180
+    },
+    "facing=down,open=true": {
+      "model": "portium:barrel_open",
+      "x": 180
+    },
+    "facing=up,open=false": {
+      "model": "portium:barrel"
+    },
+    "facing=up,open=true": {
+      "model": "portium:barrel_open"
+    },
+    "facing=north,open=false": {
+      "model": "portium:barrel",
+      "x": 90
+    },
+    "facing=north,open=true": {
+      "model": "portium:barrel_open",
+      "x": 90
+    },
+    "facing=south,open=false": {
+      "model": "portium:barrel",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,open=true": {
+      "model": "portium:barrel_open",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,open=false": {
+      "model": "portium:barrel",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,open=true": {
+      "model": "portium:barrel_open",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,open=false": {
+      "model": "portium:barrel",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,open=true": {
+      "model": "portium:barrel_open",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

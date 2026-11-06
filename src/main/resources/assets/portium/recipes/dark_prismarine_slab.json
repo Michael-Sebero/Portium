@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:dark_prismarine_slab"
+      "item": "minecraft:dark_prismarine_slab"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -16,7 +16,7 @@
     }
   },
   "result": {
-    "item": "portium:dark_prismarine_slab",
+    "item": "minecraft:dark_prismarine_slab",
     "data": 0,
     "count": 6
   }

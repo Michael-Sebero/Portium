@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:smooth_sandstone_slab"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:smooth_sandstone"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:smooth_sandstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:smooth_sandstone_slab",
+    "count": 6,
+    "data": 0
+  }
+}

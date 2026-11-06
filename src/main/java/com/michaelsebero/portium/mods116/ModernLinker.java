@@ -98,6 +98,17 @@ final class ModernLinker {
             code.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/util/Random", "nextLong", "()J", false));
             return code;
         }
+        // 1.16 answers a use with a result where 1.12 says whether anything happened.
+        if (from.getSort() == Type.BOOLEAN && to.getSort() == Type.OBJECT && ACTION_RESULT.equals(to.getInternalName())) {
+            code.add(new MethodInsnNode(Opcodes.INVOKESTATIC, CONVERSIONS.substring(0, CONVERSIONS.length() - 1), "actionResult",
+                    ModernMappings.legacyDesc("(Z)L" + ACTION_RESULT + ";"), false));
+            return code;
+        }
+        if (to.getSort() == Type.BOOLEAN && from.getSort() == Type.OBJECT && ACTION_RESULT.equals(from.getInternalName())) {
+            code.add(new MethodInsnNode(Opcodes.INVOKESTATIC, CONVERSIONS.substring(0, CONVERSIONS.length() - 1), "succeeded",
+                    ModernMappings.legacyDesc("(L" + ACTION_RESULT + ";)Z"), false));
+            return code;
+        }
         if (!isReference(from) || !isReference(to)) return null;
         if (to.getSort() == Type.OBJECT && "java/lang/Object".equals(to.getInternalName())) return code;
         if (from.getSort() == Type.ARRAY || to.getSort() == Type.ARRAY) return null;
@@ -119,6 +130,9 @@ final class ModernLinker {
         return null;
     }
 
+    private static final String ACTION_RESULT = "net/minecraft/util/EnumActionResult";
+    private static final String VECTOR = "net/minecraft/util/math/Vec3d";
+
     private static boolean isReference(Type type) {
         return type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY;
     }
@@ -134,6 +148,10 @@ final class ModernLinker {
         // Libraries the 1.16 mods get their own copies of (fastutil) may share names with the parent's older ones.
         if (ModernClassLoader.owns(type.replace('/', '.'))) return false;
         return !type.startsWith("java/") && !type.startsWith("[") && this.members.type(type) != null;
+    }
+
+    private static boolean isGameClass(String type) {
+        return type.startsWith("net/minecraft/") || type.startsWith("net/minecraftforge/") || type.startsWith(PORTIUM);
     }
 
     /** Whether 1.12's method is the one 1.13 calls by this name: the same SRG id, or for Forge's methods the same name. */
@@ -190,17 +208,33 @@ final class ModernLinker {
      * from the first of 1.12's classes above: adapted to 1.12's version there, as a call through that class would be.
      */
     private boolean linkInherited(MethodNode method, MethodInsnNode call, String owner) {
-        if (call.getOpcode() == Opcodes.INVOKESTATIC || this.hierarchy.declaresBelowAdapters(call.owner, call.name, call.desc)) return false;
+        boolean isStatic = call.getOpcode() == Opcodes.INVOKESTATIC;
+        if (this.hierarchy.declaresBelowAdapters(call.owner, call.name, call.desc)) return false;
         String ancestor = parentAncestor(owner);
-        if (ancestor == null) return false;
+        // Only Minecraft's, Forge's and Portium's classes differ between the versions; a library both share (Guava's
+        // CacheLoader) has the method as called, and its other overloads (load(Object) for load(VoxelShape)) aren't it.
+        if (ancestor == null || !isGameClass(ancestor)) return false;
         String name = this.mappings.mapMember(call.owner, call.name);
         String desc = this.names.mapMethodDesc(call.desc);
-        if (this.members.method(ancestor, name, desc) != null) return false;
-        for (ModernMembers.Member candidate : this.members.methodsNamed(ancestor, name)) {
-            if (candidate.isStatic() || candidate.isPrivate() || !sameMethod(call.name, candidate)) continue;
-            if (adapt(method, call, desc, candidate)) return true;
+        ModernMembers.Member existing = this.members.method(ancestor, name, desc);
+        if (existing != null && existing.isStatic() == isStatic) return false;
+        if (!isStatic) {
+            for (ModernMembers.Member candidate : this.members.methodsNamed(ancestor, name)) {
+                if (candidate.isStatic() || candidate.isPrivate() || !sameMethod(call.name, candidate)) continue;
+                if (adapt(method, call, desc, candidate)) return true;
+            }
         }
-        return false;
+        // A method of Minecraft 1.16.5's that the class inherits from one of 1.16's classes 1.12's version lacks it in
+        // (PaneBlock.cannotAttach is 1.16's Block's): 1.16's body, as for a call through that class (see link).
+        if (existing != null || !call.name.startsWith("func_")) return false;
+        ModernBridges.Bridge bridge = bridge(ancestor, call.owner, call.name, call.desc, isStatic);
+        if (bridge == null) return false;
+        call.setOpcode(Opcodes.INVOKESTATIC);
+        call.owner = bridge.owner;
+        call.name = bridge.name;
+        call.desc = bridge.desc;
+        call.itf = false;
+        return true;
     }
 
     /**
@@ -237,7 +271,29 @@ final class ModernLinker {
     boolean superHasMethod(MethodInsnNode call) {
         String target = superTarget(call);
         if (target == null) return true;
-        return this.members.method(target, this.mappings.mapMember(call.owner, call.name), this.names.mapMethodDesc(call.desc)) != null;
+        String name = this.mappings.mapMember(call.owner, call.name);
+        String desc = this.names.mapMethodDesc(call.desc);
+        if (this.members.method(target, name, desc) != null) return true;
+        // An adapter's own version under looser types (Object where 1.12 lacks 1.16's class, as render's MatrixStack),
+        // which linkSuper adapts the call to: a stand-in there would dispatch virtually, back into the mod's override.
+        for (ModernMembers.Member candidate : this.members.methodsNamed(target, name)) {
+            if (!candidate.isStatic() && !candidate.isPrivate() && sameMethod(call.name, candidate) && canAdapt(call, desc, candidate)) return true;
+        }
+        return false;
+    }
+
+    /** Whether {@link #adapt} could turn the call into one of the candidate (the same checks, nothing changed). */
+    private boolean canAdapt(MethodInsnNode call, String desc, ModernMembers.Member candidate) {
+        Type[] from = Type.getArgumentTypes(desc);
+        Type[] to = Type.getArgumentTypes(candidate.desc);
+        if (from.length < to.length || from.length != to.length && !call.name.startsWith("func_")) return false;
+        for (int i = 0; i < to.length; i++) {
+            if (convert(from[i], to[i]) == null) return false;
+        }
+        Type result = Type.getReturnType(candidate.desc);
+        Type wanted = Type.getReturnType(desc);
+        if (wanted.getSort() == Type.VOID) return true;
+        return result.getSort() != Type.VOID && convert(result, wanted) != null;
     }
 
     /** The first of the parent's classes above a class of this loader's (translated names), or null. */
@@ -256,6 +312,7 @@ final class ModernLinker {
      * 1.13 classes whose objects 1.13 passes to constructors that 1.12's don't take: a tile entity's or entity's type,
      * which Portium finds by class instead.
      */
+    private static final String ENTITY_TYPE = "com/michaelsebero/portium/modern/mc/entity/EntityType";
     private static final Set<String> DROPPABLE = new HashSet<>(java.util.Arrays.asList(
             "com/michaelsebero/portium/modern/mc/tileentity/TileEntityType", "com/michaelsebero/portium/modern/mc/entity/EntityType"));
 
@@ -266,7 +323,9 @@ final class ModernLinker {
      */
     private boolean linkConstructor(MethodNode method, MethodInsnNode call) {
         String owner = this.names.map(call.owner);
-        if (!isParentType(owner) || owner.startsWith(PORTIUM)) return false;
+        // Portium's own classes are linked as they are, except the adapters mods build on, whose constructors take
+        // 1.16's types loosely (an effect kind as an object).
+        if (!isParentType(owner) || owner.startsWith(PORTIUM) && !owner.startsWith(PORTIUM + "mods116/adapter/")) return false;
         String desc = this.names.mapMethodDesc(call.desc);
         if (this.members.method(owner, "<init>", desc) != null) return false;
         Type[] modern = Type.getArgumentTypes(desc);
@@ -318,6 +377,18 @@ final class ModernLinker {
                     size.add(new VarInsnNode(Opcodes.FLOAD, slots[kept.get(n - 1)]));
                     size.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/entity/Entity", "func_70105_a", "(FF)V", false));
                     method.instructions.insert(call, size);
+                }
+                // 1.16 entities take their type, whose size 1.16's Entity takes in its constructor; 1.12's has none.
+                if (isEntity(owner)) {
+                    for (int i = 0; i < modern.length; i++) {
+                        if (from.contains(i) || modern[i].getSort() != Type.OBJECT || !ENTITY_TYPE.equals(modern[i].getInternalName())) continue;
+                        InsnList typed = new InsnList();
+                        typed.add(isThisInit(method, call) ? new VarInsnNode(Opcodes.ALOAD, 0) : new InsnNode(Opcodes.DUP));
+                        typed.add(new VarInsnNode(Opcodes.ALOAD, slots[i]));
+                        typed.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/michaelsebero/portium/mods116/shim/EntityShims116", "typeSize",
+                                "(Lnet/minecraft/entity/Entity;Ljava/lang/Object;)V", false));
+                        method.instructions.insert(call, typed);
+                    }
                 }
                 return true;
             }
@@ -443,7 +514,7 @@ final class ModernLinker {
         for (int i = modern.length - 1; i >= 0; i--) code.add(new VarInsnNode(modern[i].getOpcode(Opcodes.ISTORE), slots[i]));
         for (InsnList argument : arguments) code.add(argument);
         method.maxLocals = next;
-        method.maxStack += 4;
+        method.maxStack += 10;
         method.instructions.insertBefore(call, code);
         method.instructions.insert(call, returned);
         call.name = renamed.legacyName;
@@ -470,6 +541,39 @@ final class ModernLinker {
             code.add(new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraft/init/Blocks", "field_150350_a", "Lnet/minecraft/block/Block;"));
             code.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/block/Block", "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false));
             return code;
+        }
+        if (kind == ModernSignatures.THIS_WORLD) {
+            code.add(new VarInsnNode(Opcodes.ALOAD, 0));
+            code.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/entity/Entity", "field_70170_p", "Lnet/minecraft/world/World;"));
+            if (type.getSort() == Type.OBJECT && !"net/minecraft/world/World".equals(type.getInternalName())) {
+                code.add(new TypeInsnNode(Opcodes.CHECKCAST, ModernMappings.legacy(type.getInternalName())));
+            }
+            return code;
+        }
+        if (kind == ModernSignatures.VECTOR_X || kind == ModernSignatures.VECTOR_Y || kind == ModernSignatures.VECTOR_Z) {
+            for (int i = 0; i < available.length; i++) {
+                if (available[i].getSort() != Type.OBJECT || !VECTOR.equals(available[i].getInternalName())) continue;
+                String field = kind == ModernSignatures.VECTOR_X ? "field_72450_a" : kind == ModernSignatures.VECTOR_Y ? "field_72448_b" : "field_72449_c";
+                code.add(new VarInsnNode(Opcodes.ALOAD, slots[i]));
+                code.add(new FieldInsnNode(Opcodes.GETFIELD, ModernMappings.legacy(VECTOR), field, "D"));
+                if (type.getSort() == Type.FLOAT) code.add(new InsnNode(Opcodes.D2F));
+                return code;
+            }
+            return null;
+        }
+        if (kind == ModernSignatures.VECTOR) {
+            for (int i = 0; i + 2 < available.length; i++) {
+                if (available[i].getSort() != Type.FLOAT || available[i + 1].getSort() != Type.FLOAT || available[i + 2].getSort() != Type.FLOAT) continue;
+                code.add(new TypeInsnNode(Opcodes.NEW, ModernMappings.legacy(VECTOR)));
+                code.add(new InsnNode(Opcodes.DUP));
+                for (int part = 0; part < 3; part++) {
+                    code.add(new VarInsnNode(Opcodes.FLOAD, slots[i + part]));
+                    code.add(new InsnNode(Opcodes.F2D));
+                }
+                code.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, ModernMappings.legacy(VECTOR), "<init>", "(DDD)V", false));
+                return code;
+            }
+            return null;
         }
         if (kind == ModernSignatures.FLUID_AT) {
             int world = -1;
@@ -800,7 +904,13 @@ final class ModernLinker {
         for (int i = 0; i < modern.length; i++) {
             int from = renamed.modernFrom[i];
             String constant = renamed.constants.get(i);
-            if (constant != null) {
+            String provider = renamed.providers.get(i);
+            if (provider != null) {
+                int dot = provider.indexOf('.');
+                int paren = provider.indexOf('(');
+                bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                bridge.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, provider.substring(0, dot), provider.substring(dot + 1, paren), provider.substring(paren), false));
+            } else if (constant != null) {
                 int dot = constant.indexOf('.');
                 int colon = constant.indexOf(':');
                 bridge.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, constant.substring(0, dot), constant.substring(dot + 1, colon), constant.substring(colon + 1)));
@@ -822,7 +932,8 @@ final class ModernLinker {
         bridge.instructions.add(returned);
         bridge.instructions.add(new InsnNode(wanted.getOpcode(Opcodes.IRETURN)));
         bridge.maxLocals = slot;
-        bridge.maxStack = 2 + 2 * modern.length + 4;
+        // Room for each argument (two slots for wide ones) plus what a stand-in builds (a vector: new, dup, three doubles).
+        bridge.maxStack = 2 + 2 * modern.length + 12;
         bridge.accept(out);
         return true;
     }
@@ -915,10 +1026,11 @@ final class ModernLinker {
      * Fluid}, 1.13's a {@code FlowingFluid}): read as 1.12 declares it, then cast; written as it is.
      */
     private void retype(MethodNode method, FieldInsnNode field) {
-        if (!isParentType(field.owner) || this.members.field(field.owner, field.name, field.desc) != null) return;
+        String owner = isParentType(field.owner) ? field.owner : inheritedDeclarer(field.owner, field.name);
+        if (owner == null || this.members.field(owner, field.name, field.desc) != null) return;
         Type wanted = Type.getType(field.desc);
         if (!isReference(wanted)) return;
-        ModernMembers.Member found = this.members.fieldNamed(field.owner, field.name);
+        ModernMembers.Member found = this.members.fieldNamed(owner, field.name);
         if (found == null) return;
         Type actual = Type.getType(found.desc);
         if (actual.getSort() != Type.OBJECT) return;
@@ -935,9 +1047,58 @@ final class ModernLinker {
 
     @Nullable
     private AbstractInsnNode access(String caller, FieldInsnNode field) {
-        if (!isParentType(field.owner)) return null;
+        if (!isParentType(field.owner)) return inheritedAccess(caller, field);
         ModernMembers.Member member = this.members.field(field.owner, field.name, field.desc);
         if (member == null || accessible(caller, field.owner, member)) return null;
+        return fieldAccess(field, field.owner);
+    }
+
+    /**
+     * A field named through a class of this loader's that inherits it from one of the parent's, where it's private
+     * or package-private (1.16 has it protected: a container screen's hovered slot).
+     */
+    @Nullable
+    private AbstractInsnNode inheritedAccess(String caller, FieldInsnNode field) {
+        String declarer = inheritedDeclarer(field.owner, field.name);
+        if (declarer == null) return null;
+        ModernMembers.Member member = this.members.field(declarer, field.name, field.desc);
+        // Protected is enough only for the declarer's subclasses (a mod's inner class reaching its mob's navigator isn't
+        // one; Forge's access transformers made such fields public for 1.16 mods).
+        if (member == null || Modifier.isPublic(member.access)) return null;
+        if (Modifier.isProtected(member.access) && this.hierarchy.isTranslatedSubtype(caller, member.ownerName())) return null;
+        return fieldAccess(field, declarer);
+    }
+
+    /** The translated names of the fields each class of this loader's declares. */
+    private final Map<String, Set<String>> ownFields = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /**
+     * The first of the parent's classes above a class of this loader's that a field named through the class would
+     * come from: null when the class or one between declares a field by that name itself (which hides the parent's).
+     */
+    @Nullable
+    private String inheritedDeclarer(String owner, String name) {
+        Set<String> seen = new HashSet<>();
+        for (String current = owner; current != null && seen.add(current); ) {
+            if (isParentType(current)) return current;
+            Set<String> own = this.ownFields.get(current);
+            if (own == null) {
+                own = new HashSet<>();
+                for (String raw : this.hierarchy.declaredFields(current)) {
+                    own.add(raw);
+                    own.add(this.mappings.mapMember(current, raw));
+                }
+                this.ownFields.put(current, own);
+            }
+            if (own.contains(name)) return null;
+            String[] supertypes = this.hierarchy.supertypes(current);
+            current = supertypes.length > 0 ? supertypes[0] : null;
+        }
+        return null;
+    }
+
+    private AbstractInsnNode fieldAccess(FieldInsnNode source, String declarer) {
+        FieldInsnNode field = new FieldInsnNode(source.getOpcode(), declarer, source.name, source.desc);
         String owner = publicType(field.owner);
         switch (field.getOpcode()) {
             case Opcodes.GETFIELD:

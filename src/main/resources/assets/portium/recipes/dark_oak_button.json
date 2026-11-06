@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:dark_oak_button"
+      "item": "minecraft:dark_oak_button"
     }
   ],
   "type": "minecraft:crafting_shapeless",
@@ -13,7 +13,7 @@
     }
   ],
   "result": {
-    "item": "portium:dark_oak_button",
+    "item": "minecraft:dark_oak_button",
     "count": 1
   },
   "group": "wooden_button"

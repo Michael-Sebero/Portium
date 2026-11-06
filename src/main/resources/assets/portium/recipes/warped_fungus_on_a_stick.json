@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_fungus_on_a_stick"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# ",
+    " X"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:fishing_rod"
+    },
+    "X": {
+      "item": "minecraft:warped_fungus"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_fungus_on_a_stick",
+    "count": 1
+  }
+}

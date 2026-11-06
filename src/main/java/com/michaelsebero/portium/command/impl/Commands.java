@@ -30,6 +30,7 @@ public final class Commands {
         ProgressCommands.register(dispatcher);
         SpreadPlayersCommand.register(dispatcher);
         AdminCommands.register(dispatcher);
+        Commands114.register(dispatcher);
     }
 
     public static LiteralArgumentBuilder<CommandSource> literal(String name) {

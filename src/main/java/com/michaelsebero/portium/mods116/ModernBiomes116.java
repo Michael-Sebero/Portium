@@ -27,7 +27,7 @@ public final class ModernBiomes116 {
     }
 
     /** 1.16's category of a 1.12 biome, from Forge's biome dictionary. */
-    static String category(Biome biome) {
+    public static String category(Biome biome) {
         Set<BiomeDictionary.Type> types = BiomeDictionary.hasAnyType(biome) ? BiomeDictionary.getTypes(biome) : java.util.Collections.emptySet();
         if (types.contains(BiomeDictionary.Type.NETHER)) return "NETHER";
         if (types.contains(BiomeDictionary.Type.END)) return "THEEND";

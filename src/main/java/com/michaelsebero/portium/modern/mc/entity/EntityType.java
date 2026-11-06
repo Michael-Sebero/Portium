@@ -236,6 +236,7 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
     private float width = 0.6F;
     private float height = 1.8F;
     private boolean immuneToFire;
+    @Srg("field_210762_aX")
     private String translationKey;
 
     public EntityType(Class<? extends T> entityClass, Function<? super World, ? extends T> factory, boolean serializable, boolean summonable,
@@ -315,7 +316,7 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
             if (this.madeClass == null) {
                 try {
                     // Without a world, as 1.12 makes entities for their registry entries' sake too.
-                    T made = this.factory116.apply(this, null);
+                    T made = makeWith116(null);
                     if (made != null) this.madeClass = (Class<? extends T>) made.getClass();
                 } catch (RuntimeException | LinkageError e) {
                     org.apache.logging.log4j.LogManager.getLogger("Portium").warn("Couldn't make an entity of type {} to learn its class", getRegistryName(), e);
@@ -325,6 +326,47 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
         }
         EntityEntry entry = legacy();
         return entry == null ? null : (Class<? extends T>) entry.getEntityClass();
+    }
+
+    /** 1.16's: what kind of creature it spawns as (its builder's, or 1.12's kind for the class). */
+    @Nullable
+    private net.minecraft.entity.EnumCreatureType classification;
+
+    @Srg("func_220339_d")
+    public net.minecraft.entity.EnumCreatureType getClassification() {
+        if (this.classification != null) return this.classification;
+        Class<?> type = getEntityClass();
+        if (type == null) return net.minecraft.entity.EnumCreatureType.MONSTER;
+        for (net.minecraft.entity.EnumCreatureType kind : new net.minecraft.entity.EnumCreatureType[] {net.minecraft.entity.EnumCreatureType.MONSTER,
+                net.minecraft.entity.EnumCreatureType.WATER_CREATURE, net.minecraft.entity.EnumCreatureType.AMBIENT, net.minecraft.entity.EnumCreatureType.CREATURE}) {
+            if (kind.getCreatureClass().isAssignableFrom(type)) return kind;
+        }
+        return net.minecraft.entity.EnumCreatureType.MONSTER;
+    }
+
+    /** The type whose 1.16 factory is making an entity on this thread (its attributes are the type's). */
+    private static final ThreadLocal<EntityType<?>> MAKING = new ThreadLocal<>();
+
+    @Nullable
+    public static EntityType<?> making() {
+        return MAKING.get();
+    }
+
+    @SuppressWarnings("unchecked")
+    private T makeWith116(@Nullable World world) {
+        EntityType<?> outer = MAKING.get();
+        MAKING.set(this);
+        try {
+            return (T) this.factory116.apply(this, world);
+        } finally {
+            MAKING.set(outer);
+        }
+    }
+
+    /** The entity class, if known without making an entity. */
+    @Nullable
+    public Class<? extends T> knownEntityClass() {
+        return this.entityClass != null ? this.entityClass : this.madeClass;
     }
 
     @Srg("func_210760_d")
@@ -345,7 +387,7 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
     @Srg("func_200721_a")
     @SuppressWarnings("unchecked")
     public T create(World world) {
-        if (this.factory116 != null) return this.factory116.apply(this, world);
+        if (this.factory116 != null) return makeWith116(world);
         if (this.factory != null) return this.factory.apply(world);
         EntityEntry entry = legacy();
         return entry == null ? null : (T) entry.newInstance(world);
@@ -364,6 +406,18 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
     }
 
     // 1.16's size and fire immunity.
+
+    /** 1.16's {@code getWidth()}. */
+    @Srg("func_220333_h")
+    public float getWidth116() {
+        return this.width;
+    }
+
+    /** 1.16's {@code getHeight()}. */
+    @Srg("func_220344_i")
+    public float getHeight116() {
+        return this.height;
+    }
 
     public float portium$getWidth() {
         return this.width;
@@ -419,11 +473,14 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
         private float width = 0.6F;
         private float height = 1.8F;
         private boolean immuneToFire;
+        @Nullable
+        private net.minecraft.entity.EnumCreatureType classification;
 
         /** 1.16's {@code create(factory, classification)}, for the glue (1.16's factory takes the type). */
         @SuppressWarnings({"unchecked", "rawtypes"})
         public static Builder portium$create(@Nullable java.util.function.BiFunction factory, Object classification) {
             Builder builder = new Builder(null, null);
+            if (classification instanceof net.minecraft.entity.EnumCreatureType) builder.classification = (net.minecraft.entity.EnumCreatureType) classification;
             builder.factory116 = factory;
             if (factory == null) builder.summonable = false;
             return builder;
@@ -531,6 +588,7 @@ public class EntityType<T extends Entity> extends IForgeRegistryEntry.Impl<Entit
         public EntityType<T> build(String id) {
             EntityType<T> type = new EntityType<>(this.entityClass, this.factory, this.serializable, this.summonable, this.velocityUpdates,
                     this.trackingRange, this.updateFrequency, null);
+            type.classification = this.classification;
             type.factory116 = this.factory116;
             type.width = this.width;
             type.height = this.height;

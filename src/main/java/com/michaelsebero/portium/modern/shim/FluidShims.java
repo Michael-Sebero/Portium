@@ -72,8 +72,14 @@ public final class FluidShims {
 
     /** The block a fluid a 1.13 mod registered lives in, for 1.12's fluid tags; null if there's no such fluid. */
     @javax.annotation.Nullable
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Block fluidBlock(net.minecraft.util.ResourceLocation id) {
         Object fluid = IRegistry.FLUID.getNullable(id);
+        if (!(fluid instanceof Fluid)) {
+            // 1.16 mods register their fluids (Create's honey, chocolate) in the Forge registry Portium makes for them.
+            net.minecraftforge.registries.IForgeRegistry forge = net.minecraftforge.registries.RegistryManager.ACTIVE.getRegistry((Class) Fluid.class);
+            if (forge != null && forge.containsKey(id)) fluid = forge.getValue(id);
+        }
         if (!(fluid instanceof Fluid)) return null;
         Block block = ((Fluid) fluid).getDefaultState().getBlockState().getBlock();
         return block == net.minecraft.init.Blocks.AIR ? null : block;

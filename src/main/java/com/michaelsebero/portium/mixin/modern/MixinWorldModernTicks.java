@@ -25,6 +25,9 @@ public abstract class MixinWorldModernTicks {
             original.call(tickable);
         } catch (LinkageError e) {
             ModernTicks.switchOff(tile, e);
+        } catch (RuntimeException e) {
+            if (!ModernTicks.isLayerFault(e)) throw e;
+            ModernTicks.switchOff(tile, e);
         }
     }
 }

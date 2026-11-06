@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "portium:seagrass",
+          "name": "minecraft:seagrass",
           "weight": 1,
           "functions": [
             {
@@ -17,6 +17,25 @@
               }
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "bowl",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:bowl",
+          "weight": 1
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "is_lightning": true
+          }
         }
       ]
     }

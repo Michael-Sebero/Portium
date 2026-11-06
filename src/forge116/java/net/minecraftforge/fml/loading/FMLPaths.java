@@ -42,4 +42,15 @@ public enum FMLPaths {
         }
         return path;
     }
+
+    /** Forge's {@code getOrCreateGameRelativePath(path, defaultName)}: a folder under the game directory, made if missing. */
+    public static Path getOrCreateGameRelativePath(Path path, String defaultName) {
+        Path absolute = GAMEDIR.get().resolve(path).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(absolute);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't make " + absolute + " (" + defaultName + ")", e);
+        }
+        return absolute;
+    }
 }

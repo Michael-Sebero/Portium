@@ -1,0 +1,10 @@
+sha256 c5f3a30b101fce1c6f3eb287cc2755d59e7b716bf1c3c4c87517a67070e73cb9
+META-INF/MANIFEST.MF
+net/jodah/typetools/TypeResolver$Unknown.class
+net/jodah/typetools/TypeResolver$3.class
+net/jodah/typetools/ReifiedParameterizedType.class
+net/jodah/typetools/TypeResolver$1.class
+net/jodah/typetools/TypeResolver.class
+net/jodah/typetools/TypeResolver$4.class
+net/jodah/typetools/TypeResolver$2.class
+net/jodah/typetools/TypeResolver$AccessMaker.class

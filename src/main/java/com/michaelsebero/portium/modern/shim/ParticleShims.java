@@ -32,6 +32,10 @@ public final class ParticleShims {
     /** {@code World.addParticle} that may show the particle however far away it is. */
     public static void addParticle(World world, IParticleData data, boolean force, double x, double y, double z, double motionX, double motionY,
                                    double motionZ) {
+        if (isModParticle(data)) {
+            if (world.isRemote) com.michaelsebero.portium.client.ParticleRendering116.spawn(data, world, force, false, x, y, z, motionX, motionY, motionZ);
+            return;
+        }
         ParticleArgument.Particle particle = resolve(data);
         if (particle == null) return;
         if (particle.portium != null) {
@@ -47,6 +51,10 @@ public final class ParticleShims {
 
     /** {@code World.addOptionalParticle}: a particle that shows even at the "minimal" particle setting. */
     public static void addOptionalParticle(World world, IParticleData data, double x, double y, double z, double motionX, double motionY, double motionZ) {
+        if (isModParticle(data)) {
+            if (world.isRemote) com.michaelsebero.portium.client.ParticleRendering116.spawn(data, world, false, true, x, y, z, motionX, motionY, motionZ);
+            return;
+        }
         ParticleArgument.Particle particle = resolve(data);
         if (particle == null) return;
         if (particle.vanilla != null && particle.color == null) {
@@ -59,6 +67,13 @@ public final class ParticleShims {
     /** {@code WorldServer.spawnParticle}: sends particles to the players close enough to see them, returning how many. */
     public static int spawnParticle(WorldServer world, IParticleData data, double x, double y, double z, int count, double deltaX, double deltaY,
                                     double deltaZ, double speed) {
+        if (isModParticle(data)) {
+            int sent = 0;
+            for (EntityPlayer player : world.playerEntities) {
+                if (player instanceof EntityPlayerMP && sendModParticle((EntityPlayerMP) player, data, false, x, y, z, count, deltaX, deltaY, deltaZ, speed)) sent++;
+            }
+            return sent;
+        }
         ParticleArgument.Particle particle = resolve(data);
         if (particle == null) return 0;
         int sent = 0;
@@ -74,9 +89,32 @@ public final class ParticleShims {
     /** {@code WorldServer.spawnParticle} for one player; returns whether they were close enough. */
     public static boolean spawnParticle(WorldServer world, EntityPlayerMP player, IParticleData data, boolean force, double x, double y, double z, int count,
                                         double deltaX, double deltaY, double deltaZ, double speed) {
+        if (isModParticle(data)) return player.getServerWorld() == world && sendModParticle(player, data, force, x, y, z, count, deltaX, deltaY, deltaZ, speed);
         ParticleArgument.Particle particle = resolve(data);
         if (particle == null || player.getServerWorld() != world || !PortiumParticles.canSee(player, x, y, z, force)) return false;
         PortiumParticles.send(player, particle, x, y, z, deltaX, deltaY, deltaZ, (float) speed, count, force);
+        return true;
+    }
+
+    /**
+     * Whether a particle is of a newer mod's own type, which the mod's own factory makes (ParticleRendering116), not
+     * one of Minecraft's that 1.12 or Portium draws. A type without a name was never registered: nothing shows it.
+     */
+    private static boolean isModParticle(IParticleData data) {
+        net.minecraft.util.ResourceLocation id = data.getType().getId();
+        return id == null || !"minecraft".equals(id.getNamespace());
+    }
+
+    private static boolean sendModParticle(EntityPlayerMP player, IParticleData data, boolean force, double x, double y, double z, int count, double deltaX,
+                                           double deltaY, double deltaZ, double speed) {
+        net.minecraft.util.ResourceLocation id = data.getType().getId();
+        if (id == null || !PortiumParticles.canSee(player, x, y, z, force)) return false;
+        net.minecraft.network.PacketBuffer buffer = new net.minecraft.network.PacketBuffer(io.netty.buffer.Unpooled.buffer());
+        data.write(buffer);
+        byte[] bytes = new byte[buffer.readableBytes()];
+        buffer.readBytes(bytes);
+        com.michaelsebero.portium.network.PortiumNetwork.CHANNEL.sendTo(new com.michaelsebero.portium.network.ModParticleMessage(id.toString(), x, y, z,
+                (float) deltaX, (float) deltaY, (float) deltaZ, (float) speed, count, force, bytes), player);
         return true;
     }
 

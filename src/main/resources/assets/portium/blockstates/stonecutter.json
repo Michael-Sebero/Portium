@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "portium:stonecutter"
+    },
+    "facing=east": {
+      "model": "portium:stonecutter",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "portium:stonecutter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "portium:stonecutter",
+      "y": 270
+    }
+  }
+}

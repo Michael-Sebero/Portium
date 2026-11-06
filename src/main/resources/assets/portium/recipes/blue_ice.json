@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:blue_ice"
+      "item": "minecraft:blue_ice"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "portium:blue_ice",
+    "item": "minecraft:blue_ice",
     "count": 1
   }
 }

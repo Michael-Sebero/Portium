@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "portium:lectern"
+    },
+    "facing=east": {
+      "model": "portium:lectern",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "portium:lectern",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "portium:lectern",
+      "y": 270
+    }
+  }
+}

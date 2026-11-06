@@ -34,6 +34,8 @@ public final class LegacyItems {
     public static LegacyItem resolve(String name) {
         if (!ready) init();
         ResourceLocation id = new ResourceLocation(name);
+        java.util.function.Supplier<LegacyItem> dye = DYES.get(id.toString());
+        if (dye != null) return dye.get();
         LegacyItem renamed = RENAMES.get(id.toString());
         if (renamed != null) return renamed;
         if ("minecraft".equals(id.getNamespace())) {
@@ -56,7 +58,7 @@ public final class LegacyItems {
     public static boolean isModernName(String name) {
         if (!ready) init();
         ResourceLocation id = new ResourceLocation(name);
-        return RENAMES.containsKey(id.toString()) || LegacyBlockStates.isExplicitlyMapped(id.toString())
+        return RENAMES.containsKey(id.toString()) || DYES.containsKey(id.toString()) || LegacyBlockStates.isExplicitlyMapped(id.toString())
                 || ("minecraft".equals(id.getNamespace()) && id.getPath().endsWith("_spawn_egg"));
     }
 
@@ -86,7 +88,8 @@ public final class LegacyItems {
     /** 1.13 spawn eggs are separate items; 1.12 has one spawn egg that stores the entity in NBT. */
     @Nullable
     private static LegacyItem spawnEgg(String entity) {
-        ResourceLocation type = new ResourceLocation(entity);
+        // 1.13's entity names (evoker, vindicator...) as 1.12 registers them (evocation_illager, vindication_illager...).
+        ResourceLocation type = com.michaelsebero.portium.command.arguments.selector.EntityTypes.toLegacy(new ResourceLocation(entity));
         if (!EntityList.isRegistered(type)) type = new ResourceLocation(Tags.MOD_ID, entity);
         if (!EntityList.isRegistered(type)) return null;
         NBTTagCompound tag = new NBTTagCompound();
@@ -94,6 +97,16 @@ public final class LegacyItems {
         entityTag.setString("id", type.toString());
         tag.setTag("EntityTag", entityTag);
         return new LegacyItem(Items.SPAWN_EGG, 0, tag);
+    }
+
+    /** 1.14's dyes: Portium's own when registered, else 1.12's dye of that colour (asked when used, not when the table is made). */
+    private static final Map<String, java.util.function.Supplier<LegacyItem>> DYES = new HashMap<>();
+
+    private static void dye114(String name, java.util.function.Supplier<Item> own, int legacyMeta) {
+        DYES.put("minecraft:" + name, () -> {
+            Item item = own.get();
+            return item != null ? new LegacyItem(item, 0, null) : new LegacyItem(Items.DYE, legacyMeta, null);
+        });
     }
 
     private static void rename(String name, Item item, int meta) {
@@ -117,13 +130,14 @@ public final class LegacyItems {
         String[] dyes13 = {"ink_sac", "rose_red", "cactus_green", "cocoa_beans", "lapis_lazuli", "purple_dye", "cyan_dye", "light_gray_dye", "gray_dye",
                 "pink_dye", "lime_dye", "dandelion_yellow", "light_blue_dye", "magenta_dye", "orange_dye", "bone_meal"};
         for (int i = 0; i < dyes13.length; i++) rename(dyes13[i], Items.DYE, i);
-        rename("black_dye", Items.DYE, 0);
         rename("red_dye", Items.DYE, 1);
         rename("green_dye", Items.DYE, 2);
-        rename("brown_dye", Items.DYE, 3);
-        rename("blue_dye", Items.DYE, 4);
         rename("yellow_dye", Items.DYE, 11);
-        rename("white_dye", Items.DYE, 15);
+        // 1.14's own black, brown, blue and white dyes are Portium's items; without them, 1.12's dye of that colour.
+        dye114("black_dye", () -> com.michaelsebero.portium.init.PortiumItems.BLACK_DYE, 0);
+        dye114("brown_dye", () -> com.michaelsebero.portium.init.PortiumItems.BROWN_DYE, 3);
+        dye114("blue_dye", () -> com.michaelsebero.portium.init.PortiumItems.BLUE_DYE, 4);
+        dye114("white_dye", () -> com.michaelsebero.portium.init.PortiumItems.WHITE_DYE, 15);
         rename("oak_door", Items.OAK_DOOR, 0);
         rename("oak_boat", Items.BOAT, 0);
         rename("sign", Items.SIGN, 0);

@@ -183,7 +183,7 @@ public final class RenderGlue {
                                       net.minecraft.util.math.BlockPos pos, com.mojang.blaze3d.matrix.MatrixStack stack,
                                       com.mojang.blaze3d.vertex.IVertexBuilder builder, boolean checkSides, java.util.Random random, long seed, int overlay,
                                       net.minecraftforge.client.model.data.IModelData data) {
-        putModel(model, state, stack, builder, 0xF000F0, overlay, seed, data);
+        putModel(model, state, stack, builder, 0xF000F0, overlay, seed, ModelGlue.modelData(model, world, pos, state, data));
         return true;
     }
 
@@ -192,7 +192,8 @@ public final class RenderGlue {
                                       net.minecraft.util.math.BlockPos pos, net.minecraft.world.IBlockDisplayReader world,
                                       com.mojang.blaze3d.matrix.MatrixStack stack, com.mojang.blaze3d.vertex.IVertexBuilder builder, boolean checkSides,
                                       java.util.Random random, net.minecraftforge.client.model.data.IModelData data) {
-        putModel(com.michaelsebero.portium.client.RenderBridge116.modelFor(state), state, stack, builder, 0xF000F0, 655360, 42L, data);
+        Object model = com.michaelsebero.portium.client.RenderBridge116.modelFor(state);
+        putModel(model, state, stack, builder, 0xF000F0, 655360, 42L, ModelGlue.modelData(model, world, pos, state, data));
         return true;
     }
 
@@ -211,8 +212,15 @@ public final class RenderGlue {
         com.mojang.blaze3d.matrix.MatrixStack.Entry entry = stack.func_227866_c_();
         net.minecraft.util.math.vector.Matrix4f matrix = entry.func_227870_a_();
         net.minecraft.util.math.vector.Matrix3f normal = entry.func_227872_b_();
+        boolean debug = DEBUG_QUADS && String.valueOf(state).contains("casing");
+        if (debug) org.apache.logging.log4j.LogManager.getLogger("Portium/quads").info("{} model {} data {}", state, model == null ? null : model.getClass().getName(), data);
         for (Object quad : quads(model, state, seed, data)) {
             float[] v = com.michaelsebero.portium.client.RenderBridge116.vertices(quad, state);
+            if (debug) {
+                net.minecraft.client.renderer.model.BakedQuad baked = (net.minecraft.client.renderer.model.BakedQuad) quad;
+                org.apache.logging.log4j.LogManager.getLogger("Portium/quads").info("  {} {} uv {},{} {},{}", baked.func_178210_d(), "",
+                        v[3], v[4], v[21], v[22]);
+            }
             for (int i = 0; i < 4; i++) {
                 int o = i * 9;
                 int color = Float.floatToRawIntBits(v[o + 8]);
@@ -226,6 +234,8 @@ public final class RenderGlue {
             }
         }
     }
+
+    private static final boolean DEBUG_QUADS = Boolean.getBoolean("portium.dev.quads");
 
     private static final java.util.Map<Class<?>, java.util.Optional<java.lang.reflect.Method>> QUADS_WITH_DATA = new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -244,18 +254,18 @@ public final class RenderGlue {
             return java.util.Optional.empty();
         }).orElse(null);
         if (withData == null) return com.michaelsebero.portium.client.RenderBridge116.quads(model, state, seed);
+        // Through ModelGlue, which knows when a model's getQuads is calling super: asked directly, Create's
+        // connected-texture models shifted their quads a second time on the way back up.
+        net.minecraft.client.renderer.model.IBakedModel baked = (net.minecraft.client.renderer.model.IBakedModel) model;
+        net.minecraft.block.BlockState blockState = (net.minecraft.block.BlockState) state;
         java.util.List<Object> all = new java.util.ArrayList<>();
         java.util.Random random = new java.util.Random();
-        try {
-            for (net.minecraft.util.Direction side : net.minecraft.util.Direction.values()) {
-                random.setSeed(seed);
-                all.addAll((java.util.List<?>) withData.invoke(model, state, side, random, data));
-            }
+        for (net.minecraft.util.Direction side : net.minecraft.util.Direction.values()) {
             random.setSeed(seed);
-            all.addAll((java.util.List<?>) withData.invoke(model, state, null, random, data));
-        } catch (ReflectiveOperationException e) {
-            return com.michaelsebero.portium.client.RenderBridge116.quads(model, state, seed);
+            all.addAll(ModelGlue.getQuads(baked, blockState, side, random, data));
         }
+        random.setSeed(seed);
+        all.addAll(ModelGlue.getQuads(baked, blockState, null, random, data));
         return all;
     }
 
@@ -352,5 +362,111 @@ public final class RenderGlue {
         LegacyRenderBuffers.shared().func_228461_a_();
     }
 
+    /** 1.16's {@code gameSettings.getPointOfView()}: from 1.12's third person view number (0, 1 back, 2 front). */
+    public static net.minecraft.client.settings.PointOfView pointOfView(Object settings) {
+        net.minecraft.client.settings.PointOfView[] views = net.minecraft.client.settings.PointOfView.values();
+        int view = com.michaelsebero.portium.mods116.shim.ClientShims116.thirdPersonView();
+        return views[Math.max(0, Math.min(views.length - 1, view))];
+    }
+
+    /** 1.16's {@code gameSettings.setPointOfView(view)}. */
+    public static void setPointOfView(Object settings, net.minecraft.client.settings.PointOfView view) {
+        com.michaelsebero.portium.mods116.shim.ClientShims116.setThirdPersonView(view.ordinal());
+    }
+
     private RenderGlue() {}
+
+    /**
+     * {@code gameRenderer.getLightTexture()}: none, as 1.12's renderer keeps its lightmap itself; what 1.16 code asks
+     * of the light texture (switching it on and off) goes to 1.12's (ClientShims116).
+     */
+    @javax.annotation.Nullable
+    public static net.minecraft.client.renderer.LightTexture lightTexture(net.minecraft.client.renderer.GameRenderer renderer) {
+        return null;
+    }
+
+    /** Forge 1.16's {@code builder.applyBakedLighting(light, data)}: the brighter of the light given and the quad's own. */
+    public static int applyBakedLighting(Object builder, int lightmapCoord, java.nio.ByteBuffer data) {
+        int block = lightmapCoord & 0xFFFF;
+        int sky = lightmapCoord >> 16 & 0xFFFF;
+        // The first vertex's light, in 1.16's block layout (8 ints a vertex, light the 7th).
+        int offset = 6 * 4;
+        if (data.limit() >= offset + 4) {
+            block = Math.max(block, Short.toUnsignedInt(data.getShort(offset)));
+            sky = Math.max(sky, Short.toUnsignedInt(data.getShort(offset + 2)));
+        }
+        return block | sky << 16;
+    }
+
+    /** Forge 1.16's {@code builder.applyBakedNormals(generated, data, transform)}: the quad's own normal, if it has one. */
+    public static void applyBakedNormals(Object builder, net.minecraft.util.math.vector.Vector3f generated, java.nio.ByteBuffer data,
+                                         net.minecraft.util.math.vector.Matrix3f normalTransform) {
+        if (data.limit() < 31) return;
+        byte x = data.get(28);
+        byte y = data.get(29);
+        byte z = data.get(30);
+        if (x != 0 || y != 0 || z != 0) {
+            generated.func_195905_a(x / 127.0F, y / 127.0F, z / 127.0F);
+            generated.func_229188_a_(normalTransform);
+        }
+    }
+
+    /** 1.16's {@code options.graphicsMode}: fancy or fast, as 1.12 is set (1.12 has no fabulous). */
+    public static net.minecraft.client.settings.GraphicsFanciness graphics(net.minecraft.client.GameSettings settings) {
+        return com.michaelsebero.portium.mods116.shim.ClientShims116.fancyGraphics(settings) ? net.minecraft.client.settings.GraphicsFanciness.FANCY
+                : net.minecraft.client.settings.GraphicsFanciness.FAST;
+    }
+
+    /** 1.15's {@code minecraft.loadingGui}: no loading overlay once 1.16 code runs. */
+    public static net.minecraft.client.gui.LoadingGui loadingGui(net.minecraft.client.Minecraft minecraft) {
+        return null;
+    }
+
+    /** {@code FontRenderer.getFontSet(id)}: none here (1.12 draws the text; see the glyph stand-ins below). */
+    @javax.annotation.Nullable
+    public static net.minecraft.client.gui.fonts.Font fontSet(net.minecraft.client.gui.FontRenderer font, net.minecraft.util.ResourceLocation id) {
+        return null;
+    }
+
+    /** {@code Font.whiteGlyph()} of a font set from {@link #fontSet}: none. */
+    @javax.annotation.Nullable
+    public static net.minecraft.client.gui.fonts.TexturedGlyph whiteGlyph(@javax.annotation.Nullable net.minecraft.client.gui.fonts.Font fonts) {
+        return null;
+    }
+
+    /** {@code TexturedGlyph.renderType(seeThrough)}: the solid layer, which flushing harms nothing. */
+    public static RenderType glyphType(@javax.annotation.Nullable net.minecraft.client.gui.fonts.TexturedGlyph glyph, boolean seeThrough) {
+        return RenderType.func_228639_c_();
+    }
+
+    /**
+     * 1.16's {@code ModelBakery.LOCATIONS_BUILTIN_TEXTURES}, its materials (Botania adds its own through an accessor):
+     * 1.12's set of always-stitched textures, each material added as its texture.
+     */
+    public static java.util.Set<Object> builtinMaterials() {
+        java.util.Set<Object> textures = (java.util.Set<Object>) (Object) com.michaelsebero.portium.client.ModelShims116.builtinTextures();
+        return new java.util.AbstractSet<Object>() {
+            @Override
+            public boolean add(Object material) {
+                return textures.add(material instanceof net.minecraft.client.renderer.model.RenderMaterial
+                        ? ((net.minecraft.client.renderer.model.RenderMaterial) material).func_229313_b_() : material);
+            }
+
+            @Override
+            public boolean contains(Object material) {
+                return textures.contains(material instanceof net.minecraft.client.renderer.model.RenderMaterial
+                        ? ((net.minecraft.client.renderer.model.RenderMaterial) material).func_229313_b_() : material);
+            }
+
+            @Override
+            public java.util.Iterator<Object> iterator() {
+                return textures.iterator();
+            }
+
+            @Override
+            public int size() {
+                return textures.size();
+            }
+        };
+    }
 }

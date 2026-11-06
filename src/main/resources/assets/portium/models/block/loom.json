@@ -1,0 +1,9 @@
+{
+  "parent": "portium:block/template_orientable_with_bottom",
+  "textures": {
+    "top": "portium:blocks/loom_top",
+    "bottom": "portium:blocks/loom_bottom",
+    "side": "portium:blocks/loom_side",
+    "front": "portium:blocks/loom_front"
+  }
+}

@@ -36,6 +36,7 @@ public abstract class MixinModelBiped extends ModelBase {
         if (!(entity instanceof EntityLivingBase) || PortiumRenderState.renderingFirstPersonArm) return;
         EntityLivingBase living = (EntityLivingBase) entity;
         this.portium$aimTrident(living, limbSwing, limbSwingAmount);
+        if (living instanceof EntityPlayer) this.portium$crossbowPose((EntityPlayer) living);
         if (living instanceof EntityPlayer) this.portium$swim((EntityPlayer) living, limbSwing, headPitch);
     }
 
@@ -48,6 +49,24 @@ public abstract class MixinModelBiped extends ModelBase {
         float walkSwing = MathHelper.cos(limbSwing * 0.6662F + (right ? (float) Math.PI : 0.0F)) * limbSwingAmount * 0.5F;
         arm.rotateAngleX = walkSwing * 0.5F - (float) Math.PI;
         arm.rotateAngleY = 0.0F;
+    }
+
+    /**
+     * 1.14's crossbow arm poses for players: both arms raised to load one, held up to aim a loaded one (the other hand
+     * then lowered, as 1.14 treats a crossbow as two-handed).
+     */
+    @Unique
+    private void portium$crossbowPose(EntityPlayer player) {
+        EnumHandSide mainSide = player.getPrimaryHand();
+        int mainPose = com.michaelsebero.portium.client.CrossbowPoses.pose(player, EnumHand.MAIN_HAND);
+        int offPose = com.michaelsebero.portium.client.CrossbowPoses.pose(player, EnumHand.OFF_HAND);
+        if (mainPose != com.michaelsebero.portium.client.CrossbowPoses.NONE) {
+            com.michaelsebero.portium.client.CrossbowPoses.apply(mainPose, this.bipedRightArm, this.bipedLeftArm, this.bipedHead, player,
+                    mainSide == EnumHandSide.RIGHT);
+        } else if (offPose != com.michaelsebero.portium.client.CrossbowPoses.NONE) {
+            com.michaelsebero.portium.client.CrossbowPoses.apply(offPose, this.bipedRightArm, this.bipedLeftArm, this.bipedHead, player,
+                    mainSide != EnumHandSide.RIGHT);
+        }
     }
 
     @Unique

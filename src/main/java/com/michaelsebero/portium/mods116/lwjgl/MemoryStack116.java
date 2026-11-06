@@ -50,6 +50,11 @@ public final class MemoryStack116 implements AutoCloseable {
 
     public void setPointer(int pointer) {}
 
+    /** The stack's size: LWJGL 3's default (nothing here is really on a stack). */
+    public int getSize() {
+        return 64 * 1024;
+    }
+
     @Override
     public void close() {}
 }

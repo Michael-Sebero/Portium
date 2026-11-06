@@ -110,7 +110,15 @@ public final class ModernKeys {
     /** 1.13's {@code InputMappings.isKeyDown(window, key)}: by GLFW code. */
     public static boolean isKeyDown(int glfw) {
         int lwjgl = toLwjgl(glfw);
-        return lwjgl != Keyboard.KEY_NONE && Keyboard.isKeyDown(lwjgl);
+        return lwjgl != Keyboard.KEY_NONE && (Keyboard.isKeyDown(lwjgl) || HELD.contains(lwjgl));
+    }
+
+    /** Keys a development script holds down for newer mods (see DevScript), by LWJGL 2 code: no desktop input. */
+    private static final java.util.Set<Integer> HELD = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
+    public static void hold(int lwjgl, boolean down) {
+        if (down) HELD.add(lwjgl);
+        else HELD.remove(lwjgl);
     }
 
     private ModernKeys() {}

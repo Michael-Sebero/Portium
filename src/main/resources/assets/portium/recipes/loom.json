@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:loom"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@@",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "@": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "minecraft:loom",
+    "count": 1
+  }
+}

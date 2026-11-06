@@ -97,7 +97,33 @@ public interface IFluidState {
 
     @Srg("func_206887_a")
     default Vec3d getFlow(IBlockAccess world, BlockPos pos) {
-        return getFluid().getFlow(world, pos, this);
+        // No fluid flows nowhere: the zero vector, as newer versions give (never null).
+        Vec3d flow = getFluid().getFlow(world, pos, this);
+        return flow == null ? Vec3d.ZERO : flow;
+    }
+
+    /** 1.14's {@code getActualHeight(world, pos)}: how high the fluid stands in its block. */
+    @Srg("func_215679_a")
+    default float getActualHeight(IBlockAccess world, BlockPos pos) {
+        return isEmpty() ? 0.0F : getHeight();
+    }
+
+    /** 1.16's {@code getOwnHeight()}: {@link #getHeight()}. */
+    @Srg("func_223408_f")
+    default float getOwnHeight() {
+        return getHeight();
+    }
+
+    /** 1.16's {@code canBeReplacedWith(world, pos, fluid, direction)}. */
+    @Srg("func_215677_a")
+    default boolean canBeReplacedWith116(IBlockAccess world, BlockPos pos, Fluid fluid, net.minecraft.util.EnumFacing direction) {
+        return getFluid().canBeReplacedWith116(this, world, pos, fluid, direction);
+    }
+
+    /** 1.16's id for {@link #getFlow}. */
+    @Srg("func_215673_c")
+    default Vec3d getFlow116(IBlockAccess world, BlockPos pos) {
+        return getFlow(world, pos);
     }
 
     @Srg("func_206883_i")

@@ -2,11 +2,11 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:stripped_acacia_log"
+      "item": "minecraft:stripped_acacia_log"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:stripped_acacia_wood"
+      "item": "minecraft:stripped_acacia_wood"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -16,11 +16,11 @@
   ],
   "key": {
     "#": {
-      "item": "portium:stripped_acacia_log"
+      "item": "minecraft:stripped_acacia_log"
     }
   },
   "result": {
-    "item": "portium:stripped_acacia_wood",
+    "item": "minecraft:stripped_acacia_wood",
     "count": 3
   },
   "group": "bark"

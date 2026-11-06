@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "portium:chain",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "portium:chain"
+    },
+    "axis=z": {
+      "model": "portium:chain",
+      "x": 90
+    }
+  }
+}

@@ -78,6 +78,7 @@ public final class Waterlogging {
         onChanged(world, pos, waterlogged);
         world.notifyNeighborsOfStateChange(pos, state.getBlock(), false);
         if (waterlogged && !world.isRemote) WaterlogFlow.schedule(world, pos);
+        if (waterlogged && state.getBlock() instanceof IWaterloggableBlock) ((IWaterloggableBlock) state.getBlock()).onWaterlogged(world, pos, state);
         return true;
     }
 

@@ -39,7 +39,7 @@ public final class ClientRegistration {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         for (Item item : PortiumItems.all()) {
-            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(assetName(item.getRegistryName()), "inventory"));
         }
         PortiumItemStackRenderer itemRenderer = new PortiumItemStackRenderer();
         if (PortiumItems.TRIDENT != null) {
@@ -52,7 +52,7 @@ public final class ClientRegistration {
             IBlockState state = block.getDefaultState();
             if (block instanceof BlockBubbleColumn) {
                 // Drawn by the fluid renderer; the model only supplies the breaking particle texture.
-                ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
+                mapStates(block, new StateMapperBase() {
                     @Nonnull
                     @Override
                     protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
@@ -60,11 +60,57 @@ public final class ClientRegistration {
                     }
                 });
             } else if (block instanceof BlockPortiumSlab) {
-                ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(BlockPortiumSlab.VARIANT).build());
+                mapStates(block, new StateMap.Builder().ignore(BlockPortiumSlab.VARIANT).build());
+            } else if (block instanceof net.minecraft.block.BlockDoor) {
+                mapStates(block, new StateMap.Builder().ignore(net.minecraft.block.BlockDoor.POWERED).build());
+            } else if (block instanceof net.minecraft.block.BlockFenceGate) {
+                mapStates(block, new StateMap.Builder().ignore(net.minecraft.block.BlockFenceGate.POWERED).build());
+            } else if (block instanceof net.minecraft.block.BlockWall) {
+                mapStates(block, new StateMap.Builder().ignore(net.minecraft.block.BlockWall.VARIANT).build());
+            } else if (block instanceof com.michaelsebero.portium.block.sign.IPortiumSign) {
+                // Drawn by the sign renderer; the model gives only the breaking particles.
+                ModelResourceLocation sign = new ModelResourceLocation(assetName(block.getRegistryName()), "normal");
+                mapStates(block, new StateMapperBase() {
+                    @Nonnull
+                    @Override
+                    protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
+                        return sign;
+                    }
+                });
+            } else if (block instanceof com.michaelsebero.portium.block.light.BlockCampfire) {
+                mapStates(block, new StateMap.Builder().ignore(com.michaelsebero.portium.block.light.BlockCampfire.SIGNAL_FIRE).build());
+            } else if (block instanceof com.michaelsebero.portium.block.BlockScaffolding) {
+                mapStates(block, new StateMap.Builder().ignore(com.michaelsebero.portium.block.BlockScaffolding.DISTANCE).build());
+            } else if (block instanceof com.michaelsebero.portium.block.village.BlockLectern) {
+                mapStates(block, new StateMap.Builder().ignore(com.michaelsebero.portium.block.village.BlockLectern.POWERED,
+                        com.michaelsebero.portium.block.village.BlockLectern.HAS_BOOK).build());
+            } else if (block instanceof com.michaelsebero.portium.block.village.BlockBell) {
+                mapStates(block, new StateMap.Builder().ignore(com.michaelsebero.portium.block.village.BlockBell.POWERED).build());
             } else if (block instanceof IWaterloggable && state.getPropertyKeys().contains(BlockLiquid.LEVEL)) {
-                ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(BlockLiquid.LEVEL).build());
+                mapStates(block, new StateMap.Builder().ignore(BlockLiquid.LEVEL).build());
+            } else {
+                mapStates(block, new net.minecraft.client.renderer.block.statemap.DefaultStateMapper());
             }
         }
+    }
+
+    /** Where a Portium block's or item's assets are: Portium's folder, whatever namespace its id took (PortiumNames). */
+    static ResourceLocation assetName(ResourceLocation id) {
+        return new ResourceLocation(Tags.MOD_ID, id.getPath());
+    }
+
+    /** A block's state mapper, with the models it names looked up in Portium's assets. */
+    private static void mapStates(Block block, net.minecraft.client.renderer.block.statemap.IStateMapper mapper) {
+        ModelLoader.setCustomStateMapper(block, new net.minecraft.client.renderer.block.statemap.IStateMapper() {
+            @Nonnull
+            @Override
+            public java.util.Map<IBlockState, ModelResourceLocation> putStateModelLocations(@Nonnull Block target) {
+                java.util.Map<IBlockState, ModelResourceLocation> locations = new java.util.LinkedHashMap<>(mapper.putStateModelLocations(target));
+                locations.replaceAll((state, location) -> "minecraft".equals(location.getNamespace())
+                        ? new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, location.getPath()), location.getVariant()) : location);
+                return locations;
+            }
+        });
     }
 
     @SubscribeEvent
@@ -81,8 +127,13 @@ public final class ClientRegistration {
     public static void stitchTextures(TextureStitchEvent.Pre event) {
         event.getMap().registerSprite(ParticleNautilus.SPRITE);
         for (ResourceLocation frame : ParticleBubblePop.FRAMES) event.getMap().registerSprite(frame);
+        event.getMap().registerSprite(com.michaelsebero.portium.client.particle.ParticleSoulFireFlame.SPRITE);
+        event.getMap().registerSprite(com.michaelsebero.portium.client.particle.ParticleComposter.SPRITE);
+        for (ResourceLocation sprite : com.michaelsebero.portium.client.particle.ParticleSoul.SPRITES) event.getMap().registerSprite(sprite);
+        for (ResourceLocation sprite : com.michaelsebero.portium.client.particle.ParticleCampfireSmoke.SPRITES) event.getMap().registerSprite(sprite);
         event.getMap().registerSprite(new ResourceLocation(Tags.MOD_ID, "blocks/water_still"));
         event.getMap().registerSprite(new ResourceLocation(Tags.MOD_ID, "blocks/water_flow"));
+        FireSprites.register(event.getMap());
     }
 
     private ClientRegistration() {}

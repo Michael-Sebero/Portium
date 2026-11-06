@@ -39,4 +39,9 @@ public class FMLLoader {
     public static String getNaming() {
         return Mods116.isDevelopment() ? "mcp" : "srg";
     }
+
+    /** Whether this is a normal install (SRG names) rather than a development run. */
+    public static boolean isProduction() {
+        return "srg".equals(getNaming());
+    }
 }

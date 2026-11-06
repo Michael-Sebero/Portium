@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_bottom",
+  "textures": {
+    "bottom": "portium:blocks/crimson_door_bottom",
+    "top": "portium:blocks/crimson_door_top"
+  }
+}

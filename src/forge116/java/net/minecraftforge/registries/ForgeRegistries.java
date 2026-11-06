@@ -46,6 +46,7 @@ public class ForgeRegistries {
     public static final IForgeRegistry BLOCKS = get(Block.class);
     public static final IForgeRegistry FLUIDS = get(Fluid.class);
     public static final IForgeRegistry ITEMS = get(Item.class);
+    public static final IForgeRegistry BIOMES = get(net.minecraft.world.biome.Biome.class);
     public static final IForgeRegistry POTIONS = get(Effect.class);
     public static final IForgeRegistry SOUND_EVENTS = get(SoundEvent.class);
     public static final IForgeRegistry POTION_TYPES = get(Potion.class);

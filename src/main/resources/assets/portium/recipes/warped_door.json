@@ -1,0 +1,28 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_door"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:warped_planks"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_door",
+    "count": 3
+  },
+  "group": "wooden_door"
+}

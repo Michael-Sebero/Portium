@@ -1,0 +1,10 @@
+{
+  "parent": "portium:block/orientable_with_bottom",
+  "textures": {
+    "particle": "portium:blocks/beehive_side",
+    "top": "portium:blocks/beehive_end",
+    "bottom": "portium:blocks/beehive_end",
+    "side": "portium:blocks/beehive_side",
+    "front": "portium:blocks/beehive_front"
+  }
+}

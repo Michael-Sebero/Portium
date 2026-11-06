@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_button"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "result": {
+    "item": "minecraft:warped_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

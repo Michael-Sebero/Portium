@@ -76,6 +76,22 @@ public class ActiveRenderInfo116 {
         direction((float) camera[3], (float) camera[4]);
     }
 
+    /** 1.16's {@code setDirection(yaw, pitch)}, for cameras of a mod's own (Create's ponder scenes turn theirs). */
+    protected void func_216776_a(float yaw, float pitch) {
+        direction(yaw, pitch);
+    }
+
+    /** 1.16's {@code setPosition(x, y, z)}. */
+    protected void func_216775_b(double x, double y, double z) {
+        func_216774_a(new Vector3d(x, y, z));
+    }
+
+    /** 1.16's {@code setPosition(pos)}. */
+    protected void func_216774_a(Vector3d pos) {
+        this.pos = pos;
+        this.blockPos = new BlockPos(pos);
+    }
+
     private void direction(float yaw, float pitch) {
         this.yaw = yaw;
         this.pitch = pitch;

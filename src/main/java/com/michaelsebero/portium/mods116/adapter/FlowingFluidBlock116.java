@@ -68,4 +68,16 @@ public class FlowingFluidBlock116 extends ModernBlock {
     public boolean isReplaceable(IBlockAccess world, BlockPos pos) {
         return true;
     }
+
+    /** Forge 1.13's tile entity factory, taking a block reader, which newer blocks override. */
+    @javax.annotation.Nullable
+    public net.minecraft.tileentity.TileEntity createTileEntity(IBlockState state, net.minecraft.world.IBlockAccess world) {
+        return null;
+    }
+
+    @javax.annotation.Nullable
+    @Override
+    public net.minecraft.tileentity.TileEntity createTileEntity(net.minecraft.world.World world, IBlockState state) {
+        return createTileEntity(state, (net.minecraft.world.IBlockAccess) world);
+    }
 }

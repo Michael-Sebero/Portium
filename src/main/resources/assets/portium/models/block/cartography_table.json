@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "portium:blocks/cartography_table_side3",
+    "north": "portium:blocks/cartography_table_side3",
+    "south": "portium:blocks/cartography_table_side1",
+    "east": "portium:blocks/cartography_table_side3",
+    "west": "portium:blocks/cartography_table_side2",
+    "up": "portium:blocks/cartography_table_top",
+    "down": "blocks/planks_big_oak"
+  }
+}

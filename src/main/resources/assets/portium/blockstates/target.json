@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "power=0": {
+      "model": "portium:target"
+    },
+    "power=1": {
+      "model": "portium:target"
+    },
+    "power=2": {
+      "model": "portium:target"
+    },
+    "power=3": {
+      "model": "portium:target"
+    },
+    "power=4": {
+      "model": "portium:target"
+    },
+    "power=5": {
+      "model": "portium:target"
+    },
+    "power=6": {
+      "model": "portium:target"
+    },
+    "power=7": {
+      "model": "portium:target"
+    },
+    "power=8": {
+      "model": "portium:target"
+    },
+    "power=9": {
+      "model": "portium:target"
+    },
+    "power=10": {
+      "model": "portium:target"
+    },
+    "power=11": {
+      "model": "portium:target"
+    },
+    "power=12": {
+      "model": "portium:target"
+    },
+    "power=13": {
+      "model": "portium:target"
+    },
+    "power=14": {
+      "model": "portium:target"
+    },
+    "power=15": {
+      "model": "portium:target"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:crimson_button"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:crimson_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_planks"
+    }
+  ],
+  "result": {
+    "item": "minecraft:crimson_button",
+    "count": 1
+  },
+  "group": "wooden_button"
+}

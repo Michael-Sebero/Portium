@@ -30,13 +30,13 @@ public final class WaterColors {
         put("minecraft:taiga_cold", 0x3D57D6, DEFAULT_FOG);
         put("minecraft:taiga_cold_hills", 0x3D57D6, DEFAULT_FOG);
         put("minecraft:mutated_taiga_cold", 0x3D57D6, DEFAULT_FOG);
-        put("portium:warm_ocean", 0x43D5EE, 0x041F33);
-        put("portium:deep_warm_ocean", 0x43D5EE, 0x041F33);
-        put("portium:lukewarm_ocean", 0x45ADF2, 0x041633);
-        put("portium:deep_lukewarm_ocean", 0x45ADF2, 0x041633);
-        put("portium:cold_ocean", 0x3D57D6, DEFAULT_FOG);
-        put("portium:deep_cold_ocean", 0x3D57D6, DEFAULT_FOG);
-        put("portium:deep_frozen_ocean", 0x3938C9, DEFAULT_FOG);
+        put("minecraft:warm_ocean", 0x43D5EE, 0x041F33);
+        put("minecraft:deep_warm_ocean", 0x43D5EE, 0x041F33);
+        put("minecraft:lukewarm_ocean", 0x45ADF2, 0x041633);
+        put("minecraft:deep_lukewarm_ocean", 0x45ADF2, 0x041633);
+        put("minecraft:cold_ocean", 0x3D57D6, DEFAULT_FOG);
+        put("minecraft:deep_cold_ocean", 0x3D57D6, DEFAULT_FOG);
+        put("minecraft:deep_frozen_ocean", 0x3938C9, DEFAULT_FOG);
 
         // Popular mods' swampy and magical biomes, matched to their later-version colours.
         put("biomesoplenty:bayou", 0x62AF84, 0x0C211C);

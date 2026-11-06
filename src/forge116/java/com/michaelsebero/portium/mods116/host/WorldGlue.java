@@ -34,5 +34,26 @@ public final class WorldGlue {
                 new net.minecraft.util.ResourceLocation(com.michaelsebero.portium.mods116.shim.WorldShims116.dimensionName(world)));
     }
 
+    /** 1.16's {@code server.getLevel(dimensionKey)}. */
+    public static net.minecraft.world.server.ServerWorld world(net.minecraft.server.MinecraftServer server, RegistryKey<net.minecraft.world.World> key) {
+        return (net.minecraft.world.server.ServerWorld) com.michaelsebero.portium.mods116.shim.WorldShims116.worldNamed(server, key.func_240901_a_().toString());
+    }
+
+    /** 1.16's {@code biome.getCategory()}. */
+    public static net.minecraft.world.biome.Biome.Category category(net.minecraft.world.biome.Biome biome) {
+        try {
+            return net.minecraft.world.biome.Biome.Category.valueOf(com.michaelsebero.portium.mods116.shim.WorldShims116.categoryName(biome));
+        } catch (IllegalArgumentException e) {
+            return net.minecraft.world.biome.Biome.Category.NONE;
+        }
+    }
+
+    /** Forge 1.16's {@code serverChunkProvider.chunkManager}: none here (see ChunkProviderShims116.trackingPlayers). */
+    @javax.annotation.Nullable
+    public static net.minecraft.world.server.ChunkManager chunkManager(Object provider) {
+        com.michaelsebero.portium.mods116.shim.ChunkProviderShims116.rememberProvider(provider);
+        return null;
+    }
+
     private WorldGlue() {}
 }

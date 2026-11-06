@@ -37,6 +37,10 @@ public abstract class MixinBlock implements IItemProvider, IBlockPropertyHolder 
     public float slipperiness;
     @Shadow
     protected boolean translucent;
+    @Shadow
+    protected boolean fullBlock;
+    @Shadow
+    protected int lightOpacity;
 
     @Inject(method = "<init>(Lnet/minecraft/block/material/Material;Lnet/minecraft/block/material/MapColor;)V", at = @At("TAIL"))
     private void portium$applyModernProperties(Material material, MapColor mapColor, CallbackInfo ci) {
@@ -56,7 +60,16 @@ public abstract class MixinBlock implements IItemProvider, IBlockPropertyHolder 
         // 1.16's additions.
         this.portium$lightLevel = properties.getLightLevel();
         if (properties.getHarvestTool() != null) ((Block) (Object) this).setHarvestLevel(properties.getHarvestTool(), Math.max(0, properties.getHarvestLevel()));
-        if (!properties.isSolid()) this.translucent = true;
+        if (!properties.isSolid()) {
+            this.translucent = true;
+            // 1.16: a block that isn't solid occludes nothing, so it's no opaque cube and light passes it, dimmed by one
+            // where it fills the block (Create's water wheel: 1.12 made it a light-blocking cube, its wheel drawn black).
+            this.fullBlock = false;
+            boolean fills = (Object) this instanceof com.michaelsebero.portium.modern.adapter.IModernBlock
+                    && com.michaelsebero.portium.modern.adapter.ModernBlocks.shapeOf((com.michaelsebero.portium.modern.adapter.IModernBlock) (Object) this,
+                    ((Block) (Object) this).getDefaultState()).isFullCube();
+            this.lightOpacity = fills ? 1 : 0;
+        }
     }
 
     /** 1.16's light level by state, if the block was made with one. */

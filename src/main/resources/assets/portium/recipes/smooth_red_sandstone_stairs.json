@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:smooth_red_sandstone_stairs"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:smooth_red_sandstone"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:smooth_red_sandstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:smooth_red_sandstone_stairs",
+    "count": 4
+  }
+}

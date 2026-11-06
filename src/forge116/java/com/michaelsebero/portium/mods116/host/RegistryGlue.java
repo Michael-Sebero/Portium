@@ -80,5 +80,33 @@ public final class RegistryGlue {
         };
     }
 
+    /**
+     * Forge 1.16's {@code entry.setRegistryName("name")}: a name without a namespace takes the id of the mod being
+     * loaded (Forge 1.12's own would ask its loader, which knows 1.16 mods only as Portium).
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static net.minecraftforge.registries.IForgeRegistryEntry setRegistryName(net.minecraftforge.registries.ForgeRegistryEntry entry, String name) {
+        if (name.indexOf(':') >= 0) return (net.minecraftforge.registries.IForgeRegistryEntry) entry.setRegistryName(new ResourceLocation(name));
+        String namespace = net.minecraftforge.fml.ModLoadingContext.get().getActiveNamespace();
+        return (net.minecraftforge.registries.IForgeRegistryEntry) entry.setRegistryName(new ResourceLocation(namespace, name));
+    }
+
+    /**
+     * Forge 1.16's private {@code GameData.makeRegistry(key, type, defaultKey)}, which mods reach by reflection (Botania's
+     * brew registry; see ReflectShims116): a builder for a registry of that name, type and default.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static net.minecraftforge.registries.RegistryBuilder makeRegistry(net.minecraft.util.RegistryKey key, Class type, String defaultKey) {
+        return new net.minecraftforge.registries.RegistryBuilder().setName(key.func_240901_a_()).setType(type).setMaxID(Integer.MAX_VALUE - 1)
+                .setDefaultKey(new ResourceLocation(defaultKey));
+    }
+
+    /** Forge 1.16's {@code GameData.getWrapper(key, lifecycle, defaultKey)}: the Forge registry of that name as vanilla's. */
+    @SuppressWarnings("rawtypes")
+    public static net.minecraft.util.registry.DefaultedRegistry getWrapper(net.minecraft.util.RegistryKey key, com.mojang.serialization.Lifecycle lifecycle, String defaultKey) {
+        return (net.minecraft.util.registry.DefaultedRegistry) (Object) com.michaelsebero.portium.mods116.shim.RegistryShims116.forgeView(
+                key.func_240901_a_(), new ResourceLocation(defaultKey));
+    }
+
     private RegistryGlue() {}
 }

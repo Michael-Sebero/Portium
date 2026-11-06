@@ -65,7 +65,11 @@ public class Screen116 extends GuiScreen {
 
     @Override
     public void updateScreen() {
-        tick();
+        try {
+            tick();
+        } catch (Throwable e) {
+            closeFailed("couldn't tick", e);
+        }
     }
 
     @Srg("func_231023_e_")
@@ -130,7 +134,44 @@ public class Screen116 extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        render(ScreenRendering116.matrixStack(), mouseX, mouseY, partialTicks);
+        int modelView = org.lwjgl.opengl.GL11.glGetInteger(org.lwjgl.opengl.GL11.GL_MODELVIEW_STACK_DEPTH);
+        int projection = org.lwjgl.opengl.GL11.glGetInteger(org.lwjgl.opengl.GL11.GL_PROJECTION_STACK_DEPTH);
+        try {
+            render(ScreenRendering116.matrixStack(), mouseX, mouseY, partialTicks);
+        } catch (Throwable e) {
+            // Out of memory and the like stop the game as they would; anything else (Guava's caches wrap a mod's
+            // errors in their own) is a screen drawing what Portium can't yet: reported and closed, not a crash.
+            if (e instanceof VirtualMachineError && !(e instanceof StackOverflowError)) throw (VirtualMachineError) e;
+            com.michaelsebero.portium.mods116.ModernFailures.add("Screen " + getClass().getName() + " couldn't be drawn and was closed", e);
+            restoreStack(org.lwjgl.opengl.GL11.GL_PROJECTION, org.lwjgl.opengl.GL11.GL_PROJECTION_STACK_DEPTH, projection);
+            restoreStack(org.lwjgl.opengl.GL11.GL_MODELVIEW, org.lwjgl.opengl.GL11.GL_MODELVIEW_STACK_DEPTH, modelView);
+            Minecraft.getMinecraft().displayGuiScreen(null);
+        }
+    }
+
+    @Override
+    public void handleInput() throws IOException {
+        try {
+            super.handleInput();
+        } catch (IOException e) {
+            throw e;
+        } catch (Throwable e) {
+            closeFailed("couldn't take input", e);
+        }
+    }
+
+    /** A screen that failed: reported and closed (out of memory and the like go on as they would). */
+    private void closeFailed(String what, Throwable e) {
+        if (e instanceof VirtualMachineError && !(e instanceof StackOverflowError)) throw (VirtualMachineError) e;
+        com.michaelsebero.portium.mods116.ModernFailures.add("Screen " + getClass().getName() + " " + what + " and was closed", e);
+        if (Minecraft.getMinecraft().currentScreen == this) Minecraft.getMinecraft().displayGuiScreen(null);
+    }
+
+    /** Pops a GL matrix stack back to where it was before a failed draw. */
+    private static void restoreStack(int mode, int depthName, int depth) {
+        org.lwjgl.opengl.GL11.glMatrixMode(mode);
+        for (int now = org.lwjgl.opengl.GL11.glGetInteger(depthName); now > depth; now--) org.lwjgl.opengl.GL11.glPopMatrix();
+        org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_MODELVIEW);
     }
 
     @Srg("func_230430_a_")
@@ -160,6 +201,12 @@ public class Screen116 extends GuiScreen {
     @Srg("func_243308_b")
     public void renderTooltip(Object matrixStack, List<?> lines, int mouseX, int mouseY) {
         drawHoveringText(FontShims116.strings(lines), mouseX, mouseY, this.fontRenderer);
+    }
+
+    /** Forge 1.16's {@code renderWrappedToolTip}: lines wrapped to the screen, in the font given. */
+    public void renderWrappedToolTip(Object matrixStack, List<?> lines, int mouseX, int mouseY, net.minecraft.client.gui.FontRenderer font) {
+        net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(FontShims116.strings(lines), mouseX, mouseY, this.width, this.height, -1,
+                font == null ? this.fontRenderer : font);
     }
 
     @Srg("func_238654_b_")

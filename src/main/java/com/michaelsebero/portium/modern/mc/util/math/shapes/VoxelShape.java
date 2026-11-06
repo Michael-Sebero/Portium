@@ -116,17 +116,67 @@ public class VoxelShape {
         for (AxisAlignedBB box : toBoundingBoxList()) action.consume(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
     }
 
-    /** Each edge of each box, by its ends (edges boxes share come once per box). */
+    /**
+     * The shape's outline edges, by their ends, as 1.16 finds them: a grid line is an edge where the four cells around
+     * it are not all alike and don't make a flat face (one or three filled, or two diagonally); runs along a line are
+     * joined. Edges inside the shape, where its boxes meet, aren't drawn.
+     */
     @Srg("func_197754_a")
     public void forEachEdge(VoxelShapes.ILineConsumer action) {
-        for (AxisAlignedBB box : toBoundingBoxList()) {
-            double[] xs = {box.minX, box.maxX};
-            double[] ys = {box.minY, box.maxY};
-            double[] zs = {box.minZ, box.maxZ};
-            for (double y : ys) for (double z : zs) action.consume(box.minX, y, z, box.maxX, y, z);
-            for (double x : xs) for (double z : zs) action.consume(x, box.minY, z, x, box.maxY, z);
-            for (double x : xs) for (double y : ys) action.consume(x, y, box.minZ, x, y, box.maxZ);
+        int nx = this.xs.length - 1;
+        int ny = this.ys.length - 1;
+        int nz = this.zs.length - 1;
+        // Lines along z, at each (x, y) grid corner.
+        for (int x = 0; x <= nx; x++) {
+            for (int y = 0; y <= ny; y++) {
+                int start = -1;
+                for (int z = 0; z <= nz; z++) {
+                    boolean edge = z < nz && isEdge(filled(x - 1, y - 1, z), filled(x - 1, y, z), filled(x, y - 1, z), filled(x, y, z));
+                    if (edge) {
+                        if (start < 0) start = z;
+                    } else if (start >= 0) {
+                        action.consume(this.xs[x], this.ys[y], this.zs[start], this.xs[x], this.ys[y], this.zs[z]);
+                        start = -1;
+                    }
+                }
+            }
         }
+        // Lines along y, at each (x, z) corner.
+        for (int x = 0; x <= nx; x++) {
+            for (int z = 0; z <= nz; z++) {
+                int start = -1;
+                for (int y = 0; y <= ny; y++) {
+                    boolean edge = y < ny && isEdge(filled(x - 1, y, z - 1), filled(x - 1, y, z), filled(x, y, z - 1), filled(x, y, z));
+                    if (edge) {
+                        if (start < 0) start = y;
+                    } else if (start >= 0) {
+                        action.consume(this.xs[x], this.ys[start], this.zs[z], this.xs[x], this.ys[y], this.zs[z]);
+                        start = -1;
+                    }
+                }
+            }
+        }
+        // Lines along x, at each (y, z) corner.
+        for (int y = 0; y <= ny; y++) {
+            for (int z = 0; z <= nz; z++) {
+                int start = -1;
+                for (int x = 0; x <= nx; x++) {
+                    boolean edge = x < nx && isEdge(filled(x, y - 1, z - 1), filled(x, y - 1, z), filled(x, y, z - 1), filled(x, y, z));
+                    if (edge) {
+                        if (start < 0) start = x;
+                    } else if (start >= 0) {
+                        action.consume(this.xs[start], this.ys[y], this.zs[z], this.xs[x], this.ys[y], this.zs[z]);
+                        start = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    /** The four cells around a grid line, as (low, low), (low, high), (high, low), (high, high) on the other two axes. */
+    private static boolean isEdge(boolean lowLow, boolean lowHigh, boolean highLow, boolean highHigh) {
+        int count = (lowLow ? 1 : 0) + (lowHigh ? 1 : 0) + (highLow ? 1 : 0) + (highHigh ? 1 : 0);
+        return count == 1 || count == 3 || count == 2 && lowLow == highHigh;
     }
 
     /** The fewest boxes covering the filled cells, found greedily: runs along z, then rows along y, then slabs along x. */

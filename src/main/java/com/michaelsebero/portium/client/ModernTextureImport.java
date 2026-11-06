@@ -40,12 +40,18 @@ public final class ModernTextureImport {
     private static final Logger LOGGER = LogManager.getLogger("Portium");
     public static final String PACK = "Portium - Minecraft 1.16.5";
     /** Raised whenever what's imported changes, so packs made before are made again. */
-    private static final String STAMP = "Imported by Portium from minecraft-1.16.5-client.jar, format 1";
+    private static final String STAMP = "Imported by Portium from minecraft-1.16.5-client.jar, format 2";
     private static final String STAMP_FILE = "portium-import.txt";
 
-    /** Same path, another layout: 1.15's chests, 1.14's villagers, and beds, which 1.12 draws with its own model. */
+    /**
+     * Same path, another layout: 1.15's chests, 1.14's villagers, beds (which 1.12 draws with its own model), 1.15's
+     * horses and their armour (64 pixels square for 1.15's horse model; 1.12's model drew them scrambled), and 1.13's
+     * map icons (16 to a row, 1.12 draws 4). Also the title screen's panorama, which 1.16.5's jar has only as 1-pixel
+     * stand-ins.
+     */
     private static final String[] LEFT_OUT = {"assets/minecraft/textures/entity/chest/", "assets/minecraft/textures/entity/villager/",
-            "assets/minecraft/textures/entity/zombie_villager/", "assets/minecraft/textures/entity/bed/"};
+            "assets/minecraft/textures/entity/zombie_villager/", "assets/minecraft/textures/entity/bed/", "assets/minecraft/textures/entity/horse/",
+            "assets/minecraft/textures/map/map_icons.png", "assets/minecraft/textures/gui/title/background/"};
 
     /** In construction, before the resource load after it: makes the pack if needed and switches it on once. */
     public static void run(Minecraft minecraft) {
@@ -73,7 +79,7 @@ public final class ModernTextureImport {
 
     private static void build(File pack) throws IOException {
         boolean download = !new File(Mods116.gameDir(), "portium/forge-1.16.5/minecraft-1.16.5-client.jar").isFile();
-        if (download) LOGGER.info("Downloading Minecraft 1.16.5's client jar from Mojang to import its textures; this happens once");
+        if (download) LOGGER.info("Fetching Minecraft 1.16.5's client jar through AssetMover to import its textures; this happens once");
         File jar = Mods116.minecraftJar();
         File partial = new File(pack.getPath() + ".part");
         delete(partial.toPath());

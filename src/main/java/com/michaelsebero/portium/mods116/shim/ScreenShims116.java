@@ -45,4 +45,18 @@ public final class ScreenShims116 {
     public static void itemRenderer(GuiScreen screen, RenderItem renderer) {}
 
     private ScreenShims116() {}
+
+    /** 1.16's {@code screen.init(minecraft, width, height)} on any screen, 1.12's ones too (Create re-opens the screen it came from). */
+    public static void init(GuiScreen screen, Minecraft minecraft, int width, int height) {
+        screen.setWorldAndResolution(minecraft, width, height);
+    }
+
+    /** 1.16's {@code screen.render(stack, mouseX, mouseY, partialTicks)} on any screen: 1.12's draw for 1.12's screens (Create draws the screen it came from behind its own). */
+    public static void render(GuiScreen screen, Object matrixStack, int mouseX, int mouseY, float partialTicks) {
+        if (screen instanceof com.michaelsebero.portium.mods116.adapter.Screen116) {
+            ((com.michaelsebero.portium.mods116.adapter.Screen116) screen).render(matrixStack, mouseX, mouseY, partialTicks);
+        } else {
+            screen.drawScreen(mouseX, mouseY, partialTicks);
+        }
+    }
 }

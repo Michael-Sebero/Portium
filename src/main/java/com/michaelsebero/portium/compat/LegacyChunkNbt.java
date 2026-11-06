@@ -57,6 +57,30 @@ public final class LegacyChunkNbt {
         }
     }
 
+    /** 1.12's {@code Chunk.generateSkylightMap} over converted sections: 15 down to the first block that dims light, then less per block. */
+    private static byte[][] skyLight(ExtendedBlockStorage[] storages) {
+        byte[][] sky = new byte[16][];
+        NibbleArray[] arrays = new NibbleArray[16];
+        for (int i = 0; i < 16; i++) {
+            sky[i] = new byte[2048];
+            arrays[i] = new NibbleArray(sky[i]);
+        }
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int light = 15;
+                for (int y = 255; y >= 0; y--) {
+                    ExtendedBlockStorage storage = storages[y >> 4];
+                    int opacity = storage == null ? 0 : storage.get(x, y & 15, z).getLightOpacity();
+                    if (opacity == 0 && light != 15) opacity = 1;
+                    light = Math.max(0, light - opacity);
+                    if (light == 0) break;
+                    arrays[y >> 4].set(x, y & 15, z, light);
+                }
+            }
+        }
+        return sky;
+    }
+
     /** Converts a 1.13 chunk's root compound; the result has no {@code Level} tag if 1.12 should generate it anew. */
     public static NBTTagCompound convert(NBTTagCompound root) {
         NBTTagCompound result = new NBTTagCompound();
@@ -81,7 +105,6 @@ public final class LegacyChunkNbt {
         WaterlogData waterlog = new WaterlogData();
         NBTTagList sections = level.getTagList("Sections", 10);
         NBTTagList legacySections = new NBTTagList();
-        boolean lit = true;
         for (int i = 0; i < sections.tagCount(); i++) {
             NBTTagCompound section = sections.getCompoundTagAt(i);
             int sectionY = section.getByte("Y");
@@ -110,8 +133,6 @@ public final class LegacyChunkNbt {
                 if (entry.describesBlockEntity()) described.put(packedPos(x, (sectionY << 4) + y, z), entry);
             }
             byte[] blockLight = section.getByteArray("BlockLight");
-            byte[] skyLight = section.getByteArray("SkyLight");
-            if (blockLight.length != 2048 || skyLight.length != 2048) lit = false;
             if (empty) continue;
             storages[sectionY] = storage;
             NBTTagCompound legacySection = new NBTTagCompound();
@@ -123,12 +144,19 @@ public final class LegacyChunkNbt {
             legacySection.setByteArray("Data", data.getData());
             if (add != null) legacySection.setByteArray("Add", add.getData());
             legacySection.setByteArray("BlockLight", blockLight.length == 2048 ? blockLight : new byte[2048]);
-            legacySection.setByteArray("SkyLight", skyLight.length == 2048 ? skyLight : full(2048));
             legacySections.appendTag(legacySection);
         }
+        // Sky light is worked out again, column by column as 1.12 lights a new chunk: 1.14+ saves leave out the
+        // light of sections it can derive, and filling those with 15 made bright patches under water.
+        byte[][] sky = skyLight(storages);
+        for (int i = 0; i < legacySections.tagCount(); i++) {
+            NBTTagCompound legacySection = legacySections.getCompoundTagAt(i);
+            legacySection.setByteArray("SkyLight", sky[legacySection.getByte("Y")]);
+        }
         legacy.setTag("Sections", legacySections);
-        // Sections 1.13 never lit are relit by 1.12.
-        legacy.setBoolean("LightPopulated", lit);
+        // The column sky light above leaves out light spreading sideways (under overhangs, into caves): 1.12
+        // rechecks it once the chunk's neighbours are loaded.
+        legacy.setBoolean("LightPopulated", false);
         legacy.setIntArray("HeightMap", heightMap(storages));
         legacy.setByteArray("Biomes", biomes(level.getIntArray("Biomes")));
 

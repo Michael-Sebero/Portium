@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:polished_blackstone_slab"
+    },
+    "half=top": {
+      "model": "portium:polished_blackstone_slab_top"
+    }
+  }
+}

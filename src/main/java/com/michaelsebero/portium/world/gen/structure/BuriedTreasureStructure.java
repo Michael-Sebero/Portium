@@ -43,7 +43,7 @@ public class BuriedTreasureStructure extends OceanStructure {
     }
 
     @Override
-    public ChunkPos getStartInRegion(long seed, int regionX, int regionZ) {
+    public ChunkPos getStartInRegion(World world, int regionX, int regionZ) {
         return new ChunkPos(regionX, regionZ);
     }
 

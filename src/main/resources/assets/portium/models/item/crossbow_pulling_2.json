@@ -1,0 +1,6 @@
+{
+  "parent": "portium:item/crossbow",
+  "textures": {
+    "layer0": "portium:items/crossbow_pulling_2"
+  }
+}

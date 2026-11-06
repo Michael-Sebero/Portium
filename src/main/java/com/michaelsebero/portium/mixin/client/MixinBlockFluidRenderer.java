@@ -48,6 +48,22 @@ public abstract class MixinBlockFluidRenderer {
         return original.call(buffer, red, green, blue, alpha);
     }
 
+    /**
+     * A fluid lit at least by its own light, as 1.16 draws fluids (its light read includes the block's emission). 1.12
+     * reads only the light stored around it, which the Nether's lava seas often don't have yet (1.12 lights them
+     * slowly, near players, as it has no sky light check there), so distant lava showed dark patches.
+     */
+    @WrapOperation(method = "renderFluid", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/block/state/IBlockState;getPackedLightmapCoords(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)I"))
+    private int portium$ownLight(IBlockState state, IBlockAccess world, BlockPos pos, Operation<Integer> original) {
+        int packed = original.call(state, world, pos);
+        @SuppressWarnings("deprecation")
+        int own = state.getLightValue();
+        if (own <= 0) return packed;
+        int block = Math.max(packed >> 4 & 15, own);
+        return packed & ~(15 << 4) | block << 4;
+    }
+
     @Redirect(method = "getFluidHeight", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/IBlockAccess;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;"))
     private IBlockState portium$waterloggedIsSource(IBlockAccess world, BlockPos pos) {

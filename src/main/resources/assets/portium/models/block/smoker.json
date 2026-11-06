@@ -1,0 +1,9 @@
+{
+  "parent": "portium:block/template_orientable_with_bottom",
+  "textures": {
+    "top": "portium:blocks/smoker_top",
+    "side": "portium:blocks/smoker_side",
+    "front": "portium:blocks/smoker_front",
+    "bottom": "portium:blocks/smoker_bottom"
+  }
+}

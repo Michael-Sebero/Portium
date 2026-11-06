@@ -66,14 +66,43 @@ public final class RenderBridge116 {
         }
     }
 
+    /** In a block layer of 1.12's world renderer (1.16 mods drawing after it), and the state that layer draws in. */
+    private static boolean inTerrain;
+    @javax.annotation.Nullable
+    private static GlStateSnapshot terrain;
+
+    /**
+     * Runs 1.16 drawing at the end of one of 1.12's block layers, then puts back the layer's GL state (as read before
+     * the first 1.16 draw, if there was one): left as {@link #end} leaves it for entities, the next layers were drawn
+     * with flat shading and other textures bound, which unlit the terrain while a Create contraption drew.
+     */
+    public static void terrainLayer(Runnable draw) {
+        inTerrain = true;
+        try {
+            draw.run();
+        } finally {
+            inTerrain = false;
+            if (terrain != null) {
+                terrain.restore();
+                terrain = null;
+            }
+        }
+    }
+
+    /** One of 1.16's texture atlases (chests, signs, beds...): their sprites are all in 1.12's block atlas. */
+    public static boolean isAtlas116(ResourceLocation texture) {
+        return "minecraft".equals(texture.getNamespace()) && texture.getPath().startsWith("textures/atlas/");
+    }
+
     /** Sets up the GL state a 1.16 render type (by its description) draws in. */
     public static void begin(String description) {
+        if (inTerrain && terrain == null) terrain = GlStateSnapshot.take();
         State state = STATES.computeIfAbsent(description, State::new);
         Minecraft mc = Minecraft.getMinecraft();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if (state.texture != null) {
             GlStateManager.enableTexture2D();
-            mc.getTextureManager().bindTexture(state.texture);
+            mc.getTextureManager().bindTexture(isAtlas116(state.texture) ? net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE : state.texture);
         } else {
             GlStateManager.disableTexture2D();
         }

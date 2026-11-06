@@ -6,8 +6,8 @@ import java.util.AbstractList;
 import java.util.List;
 
 /**
- * A tooltip as 1.13 code fills it: 1.13 adds text components where 1.12 keeps lines of text, so what's added is
- * turned into its formatted text in 1.12's list.
+ * A tooltip as newer code (1.13, 1.16) fills it: it adds text components where 1.12 keeps lines of text, so what's
+ * added is turned into its formatted text in 1.12's list, and lines are read back as components.
  */
 public final class TooltipList extends AbstractList<Object> {
 
@@ -26,9 +26,16 @@ public final class TooltipList extends AbstractList<Object> {
         return value instanceof ITextComponent ? ((ITextComponent) value).getFormattedText() : value;
     }
 
+    /** Forge 1.13's and 1.16's {@code ItemTooltipEvent.getToolTip()}: the event's lines, as newer code fills them. */
+    public static List<Object> lines(net.minecraftforge.event.entity.player.ItemTooltipEvent event) {
+        return wrap(event.getToolTip());
+    }
+
+    /** A line, as newer code reads one: a text component (1.12's lines are text). */
     @Override
     public Object get(int index) {
-        return this.lines.get(index);
+        Object line = this.lines.get(index);
+        return line instanceof String ? new net.minecraft.util.text.TextComponentString((String) line) : line;
     }
 
     @Override

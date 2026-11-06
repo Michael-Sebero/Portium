@@ -1,0 +1,9 @@
+{
+  "parent": "portium:block/template_campfire",
+  "textures": {
+    "particle": "portium:blocks/campfire_log",
+    "log": "portium:blocks/campfire_log",
+    "fire": "portium:blocks/soul_campfire_fire",
+    "lit_log": "portium:blocks/soul_campfire_log_lit"
+  }
+}

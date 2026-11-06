@@ -51,6 +51,11 @@ final class WorldGenGlue {
         features = null;
     }
 
+    /** Asks the mods for each biome's features and spawns, if not yet (before the world spawns anything). */
+    static synchronized void prepare() {
+        if (features == null) features = collect();
+    }
+
     static void generate(Object world, String biome, int chunkX, int chunkZ, long seed) {
         if (features == null) features = collect();
         List<List<Supplier<ConfiguredFeature<?, ?>>>> stages = features.get(biome);
@@ -70,7 +75,7 @@ final class WorldGenGlue {
                 if (feature == null || FAILED.contains(feature)) continue;
                 random.setSeed(decoration + i + 10000L * stage);
                 try {
-                    boolean placed = feature.func_242765_a((ISeedReader) world, null, random, pos);
+                    boolean placed = feature.func_242765_a((ISeedReader) world, LegacyChunkGenerator116.of(world), random, pos);
                     if (DEBUG) {
                         RUN[0]++;
                         if (placed) RUN[1]++;
@@ -103,6 +108,14 @@ final class WorldGenGlue {
                 Object posted = event.newInstance(new ResourceLocation((String) biome[0]), climate(biome), Biome.Category.valueOf((String) biome[1]),
                         (Float) biome[5], (Float) biome[6], null, generation, spawnBuilder());
                 MinecraftForge.EVENT_BUS.post((BiomeLoadingEvent) posted);
+                // The mods' spawns go into 1.12's biome, as Forge 1.16 builds the biome's spawn settings from them.
+                MobSpawnInfoBuilder spawns = ((BiomeLoadingEvent) posted).getSpawns();
+                for (net.minecraft.entity.EntityClassification classification : spawns.getSpawnerTypes()) {
+                    for (net.minecraft.world.biome.MobSpawnInfo.Spawners spawner : spawns.getSpawner(classification)) {
+                        com.michaelsebero.portium.mods116.ModernEntityTypes.addSpawn((String) biome[0], spawner.field_242588_c, classification,
+                                spawner, spawner.field_242589_d, spawner.field_242590_e);
+                    }
+                }
                 List<List<Supplier<ConfiguredFeature<?, ?>>>> stages = new ArrayList<>();
                 boolean any = false;
                 for (GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
@@ -166,7 +179,7 @@ final class WorldGenGlue {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T allocate(Class<T> type) throws ReflectiveOperationException {
+    static <T> T allocate(Class<T> type) throws ReflectiveOperationException {
         Field unsafe = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
         unsafe.setAccessible(true);
         return (T) ((sun.misc.Unsafe) unsafe.get(null)).allocateInstance(type);

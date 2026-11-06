@@ -165,11 +165,30 @@ public abstract class Fluid extends com.michaelsebero.portium.modern.RegistryEnt
         return null;
     }
 
+    // 1.16 renamed and reshaped some of these: Minecraft 1.16.5's fluids (1.16 mods' water and lava) implement 1.16's
+    // ids, 1.13.2's fluids 1.13's. Each pair answers through whichever its fluid implements.
+
     @Srg("func_211757_a")
-    protected abstract boolean canOtherFlowInto(IFluidState state, Fluid fluid, EnumFacing direction);
+    protected boolean canOtherFlowInto(IFluidState state, Fluid fluid, EnumFacing direction) {
+        return canBeReplacedWith116(state, null, null, fluid, direction);
+    }
+
+    /** 1.16's {@code canBeReplacedWith(state, world, pos, fluid, direction)}. */
+    @Srg("func_215665_a")
+    protected boolean canBeReplacedWith116(IFluidState state, IBlockAccess world, BlockPos pos, Fluid fluid, EnumFacing direction) {
+        return canOtherFlowInto(state, fluid, direction);
+    }
 
     @Srg("func_205564_a")
-    protected abstract Vec3d getFlow(IBlockAccess world, BlockPos pos, IFluidState state);
+    protected Vec3d getFlow(IBlockAccess world, BlockPos pos, IFluidState state) {
+        return getFlow116(world, pos, state);
+    }
+
+    /** 1.16's {@code getFlow(world, pos, state)}; fluids implement this or 1.13's. */
+    @Srg("func_215663_a")
+    protected Vec3d getFlow116(IBlockAccess world, BlockPos pos, IFluidState state) {
+        return Vec3d.ZERO;
+    }
 
     @Srg("func_205569_a")
     public abstract int getTickRate(IBlockAccess world);
@@ -188,7 +207,21 @@ public abstract class Fluid extends com.michaelsebero.portium.modern.RegistryEnt
     protected abstract float getExplosionResistance();
 
     @Srg("func_207181_a")
-    public abstract float getHeight(IFluidState state);
+    public float getHeight(IFluidState state) {
+        return getOwnHeight116(state);
+    }
+
+    /** 1.16's {@code getOwnHeight(state)}: 1.13's {@link #getHeight(IFluidState)}. */
+    @Srg("func_223407_a")
+    public float getOwnHeight116(IFluidState state) {
+        return getHeight(state);
+    }
+
+    /** 1.16's {@code getHeight(state, world, pos)}: how high it stands where it is (full under the same fluid). */
+    @Srg("func_215662_a")
+    public float getHeight116(IFluidState state, IBlockAccess world, BlockPos pos) {
+        return getHeight(state);
+    }
 
     @Srg("func_204527_a")
     protected abstract IBlockState getBlockState(IFluidState state);

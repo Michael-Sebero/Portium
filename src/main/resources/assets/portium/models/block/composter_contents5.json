@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_composter_contents5",
+  "textures": {
+    "particle": "portium:blocks/composter_compost",
+    "inside": "portium:blocks/composter_compost"
+  }
+}

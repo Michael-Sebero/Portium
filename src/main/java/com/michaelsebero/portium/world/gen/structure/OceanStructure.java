@@ -19,13 +19,30 @@ public abstract class OceanStructure {
     private final String name;
     private final int spacing;
     private final int separation;
+    /** 1.14 spread some of them out (shipwrecks 24/4, ocean ruins 20/8): what worlds of 1.14+ generation use. */
+    private final int spacing116;
+    private final int separation116;
     private final int salt;
 
     protected OceanStructure(String name, int spacing, int separation, int salt) {
+        this(name, spacing, separation, spacing, separation, salt);
+    }
+
+    protected OceanStructure(String name, int spacing, int separation, int spacing116, int separation116, int salt) {
         this.name = name;
         this.spacing = spacing;
         this.separation = separation;
+        this.spacing116 = spacing116;
+        this.separation116 = separation116;
         this.salt = salt;
+    }
+
+    private boolean newer(World world) {
+        return com.michaelsebero.portium.world.WorldGeneration.is116(world);
+    }
+
+    private int spacing(World world) {
+        return newer(world) ? this.spacing116 : this.spacing;
     }
 
     /** The name used by {@code /locate} and explorer maps. */
@@ -39,20 +56,22 @@ public abstract class OceanStructure {
     protected abstract List<StructurePiece> createPieces(World world, Random random, int chunkX, int chunkZ, Biome biome);
 
     /** The chunk in a region where this structure may start. */
-    public ChunkPos getStartInRegion(long seed, int regionX, int regionZ) {
-        Random random = new Random(regionX * 341873128712L + regionZ * 132897987541L + seed + this.salt);
-        int x = regionX * this.spacing + random.nextInt(this.spacing - this.separation);
-        int z = regionZ * this.spacing + random.nextInt(this.spacing - this.separation);
+    public ChunkPos getStartInRegion(World world, int regionX, int regionZ) {
+        int spacing = spacing(world);
+        int separation = newer(world) ? this.separation116 : this.separation;
+        Random random = new Random(regionX * 341873128712L + regionZ * 132897987541L + world.getSeed() + this.salt);
+        int x = regionX * spacing + random.nextInt(spacing - separation);
+        int z = regionZ * spacing + random.nextInt(spacing - separation);
         return new ChunkPos(x, z);
     }
 
-    public int regionOf(int chunkCoord) {
-        return Math.floorDiv(chunkCoord, this.spacing);
+    public int regionOf(World world, int chunkCoord) {
+        return Math.floorDiv(chunkCoord, spacing(world));
     }
 
     /** Whether a structure starts in this chunk: it's the region's chosen chunk, in a suitable biome. */
     public boolean hasStartAt(World world, int chunkX, int chunkZ) {
-        ChunkPos start = this.getStartInRegion(world.getSeed(), this.regionOf(chunkX), this.regionOf(chunkZ));
+        ChunkPos start = this.getStartInRegion(world, this.regionOf(world, chunkX), this.regionOf(world, chunkZ));
         return start.x == chunkX && start.z == chunkZ && this.canSpawnIn(startBiome(world, chunkX, chunkZ));
     }
 
@@ -81,13 +100,13 @@ public abstract class OceanStructure {
     /** The nearest start, searching outwards ring by ring up to {@code radius} regions away (1.13's locate). */
     @Nullable
     public BlockPos findNearest(World world, BlockPos pos, int radius) {
-        int originX = this.regionOf(pos.getX() >> 4);
-        int originZ = this.regionOf(pos.getZ() >> 4);
+        int originX = this.regionOf(world, pos.getX() >> 4);
+        int originZ = this.regionOf(world, pos.getZ() >> 4);
         for (int ring = 0; ring <= radius; ++ring) {
             for (int dx = -ring; dx <= ring; ++dx) {
                 for (int dz = -ring; dz <= ring; ++dz) {
                     if (Math.abs(dx) != ring && Math.abs(dz) != ring) continue;
-                    ChunkPos start = this.getStartInRegion(world.getSeed(), originX + dx, originZ + dz);
+                    ChunkPos start = this.getStartInRegion(world, originX + dx, originZ + dz);
                     if (this.hasStartAt(world, start.x, start.z)) return this.getLocatorPos(start.x, start.z);
                 }
             }

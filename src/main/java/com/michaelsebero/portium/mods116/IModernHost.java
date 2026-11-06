@@ -55,6 +55,26 @@ public interface IModernHost {
     /** Hands one of Forge 1.12's events to every 1.16 mod's own event bus (events 1.16 posts there, such as model baking). */
     void postToMods(Object event);
 
+    /** Tick kinds for {@link #tick}: Forge's client, server, world, player and render ticks. */
+    int TICK_CLIENT = 0, TICK_SERVER = 1, TICK_WORLD = 2, TICK_PLAYER = 3, TICK_RENDER = 4;
+
+    /**
+     * One of Forge 1.12's tick events as Forge 1.16's of that kind, on the main bus (1.16 moved them to another
+     * class, which nothing else posts): Create's client tick turns its animations and asks for Ponder's W key.
+     *
+     * @param subject the world of a world tick, the player of a player tick; else null
+     */
+    void tick(int kind, boolean start, @javax.annotation.Nullable Object subject, float partialTicks);
+
+    /**
+     * Posts one of Forge 1.16's events that Forge 1.12 has under another class or not at all (see the glue's
+     * {@code EventGlue} for the names and arguments).
+     *
+     * @return TRUE if a cancellable event was cancelled, a changed value for events that carry one, else null
+     */
+    @javax.annotation.Nullable
+    Object postEvent(String name, Object... arguments);
+
     /** The data packs were loaded again: recipes and the like are read anew. */
     void dataReloaded();
 

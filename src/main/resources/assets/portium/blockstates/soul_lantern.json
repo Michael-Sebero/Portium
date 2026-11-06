@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "portium:soul_lantern"
+    },
+    "hanging=true": {
+      "model": "portium:soul_lantern_hanging"
+    }
+  }
+}

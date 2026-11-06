@@ -137,4 +137,121 @@ public final class RenderShims116 {
     public static void setRenderLayer(@javax.annotation.Nullable String layer) {
         net.minecraftforge.client.ForgeHooksClient.setRenderLayer(layer == null ? null : net.minecraft.util.BlockRenderLayer.valueOf(layer));
     }
+
+    /** Forge 1.16's {@code format.getOffset(index)}: an element's byte offset, 1.12's own (under an SRG id outside development). */
+    public static int offset(VertexFormat format, int index) {
+        return format.getOffset(index);
+    }
+
+    /**
+     * 1.16's {@code renderer.render(tileEntity, partialTicks, stack, buffers, light, overlay)} on whatever renderer
+     * the dispatcher gave: a 1.16 mod's draws so; 1.12's renderers draw through 1.12's own calls, not a matrix stack, and
+     * are left out here (Create's ponder scenes draw their tile entities this way).
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static void renderTileEntity(Object renderer, net.minecraft.tileentity.TileEntity tileEntity, float partialTicks, Object matrixStack, Object buffers,
+                                        int light, int overlay) {
+        if (renderer instanceof com.michaelsebero.portium.mods116.adapter.TileEntityRenderer116) {
+            ((com.michaelsebero.portium.mods116.adapter.TileEntityRenderer116) renderer).render(tileEntity, partialTicks, matrixStack, buffers, light, overlay);
+        }
+    }
+
+    /** 1.16's {@code quad.isShade()}: whether it takes 1.12's diffuse lighting. */
+    public static boolean shade(net.minecraft.client.renderer.block.model.BakedQuad quad) {
+        return quad.shouldApplyDiffuseLighting();
+    }
+
+    /**
+     * 1.16's {@code new BakedQuad(data, tint, face, sprite, shade)}: 1.12's, in the format the data has (7 ints a
+     * vertex, as 1.12's models make them, or 8, 1.16's block layout). Create copies quads so.
+     */
+    public static net.minecraft.client.renderer.block.model.BakedQuad bakedQuad(int[] data, int tint, net.minecraft.util.EnumFacing face,
+                                                                                  net.minecraft.client.renderer.texture.TextureAtlasSprite sprite, boolean shade) {
+        VertexFormat format = data.length == 32 ? block116() : net.minecraft.client.renderer.vertex.DefaultVertexFormats.ITEM;
+        return new net.minecraft.client.renderer.block.model.BakedQuad(data, tint, face, sprite, shade, format);
+    }
+
+    /** Quads already given 1.16's layout, by the 1.12 quad they came from (quads are shared, so this stays small). */
+    private static final java.util.Map<net.minecraft.client.renderer.block.model.BakedQuad, net.minecraft.client.renderer.block.model.BakedQuad> IN_116_LAYOUT =
+            java.util.Collections.synchronizedMap(new java.util.WeakHashMap<>());
+
+    /**
+     * 1.16's {@code model.getQuads(state, side, random)} for 1.16 code: 1.12's quads, in 1.16's block layout (8 ints a
+     * vertex), which 1.16 code reads directly. Create's connected textures rewrite a quad's texture coordinates at
+     * 1.16's offsets, and 1.12's models make quads of 7 ints a vertex.
+     */
+    public static java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> getQuads116(net.minecraft.client.renderer.block.model.IBakedModel model,
+            @javax.annotation.Nullable net.minecraft.block.state.IBlockState state, @javax.annotation.Nullable net.minecraft.util.EnumFacing side, java.util.Random random) {
+        return quads116(model.getQuads(state, side, random.nextLong()));
+    }
+
+    /** Quads in 1.16's block layout; those already in it are kept. */
+    public static java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> quads116(java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> quads) {
+        java.util.List<net.minecraft.client.renderer.block.model.BakedQuad> converted = null;
+        for (int i = 0; i < quads.size(); i++) {
+            net.minecraft.client.renderer.block.model.BakedQuad quad = quads.get(i);
+            net.minecraft.client.renderer.block.model.BakedQuad in116 = to116(quad);
+            if (in116 == quad) continue;
+            if (converted == null) converted = new java.util.ArrayList<>(quads);
+            converted.set(i, in116);
+        }
+        return converted != null ? converted : quads;
+    }
+
+    private static net.minecraft.client.renderer.block.model.BakedQuad to116(net.minecraft.client.renderer.block.model.BakedQuad quad) {
+        VertexFormat from = quad.getFormat();
+        VertexFormat block = block116();
+        if (from == block || from.equals(block)) return quad;
+        net.minecraft.client.renderer.block.model.BakedQuad known = IN_116_LAYOUT.get(quad);
+        if (known != null) return known;
+        int position = -1, color = -1, uv = -1, light = -1, normal = -1;
+        for (int i = 0; i < from.getElementCount(); i++) {
+            VertexFormatElement element = from.getElement(i);
+            int offset = from.getOffset(i) / 4;
+            switch (element.getUsage()) {
+                case POSITION:
+                    if (position < 0) position = offset;
+                    break;
+                case COLOR:
+                    if (color < 0) color = offset;
+                    break;
+                case UV:
+                    if (element.getIndex() == 0) {
+                        if (uv < 0) uv = offset;
+                    } else if (light < 0) {
+                        light = offset;
+                    }
+                    break;
+                case NORMAL:
+                    if (normal < 0) normal = offset;
+                    break;
+                default:
+                    break;
+            }
+        }
+        int[] data = quad.getVertexData();
+        int stride = from.getIntegerSize();
+        int vertices = data.length / stride;
+        int[] out = new int[vertices * 8];
+        for (int v = 0; v < vertices; v++) {
+            int s = v * stride;
+            int d = v * 8;
+            if (position >= 0) {
+                out[d] = data[s + position];
+                out[d + 1] = data[s + position + 1];
+                out[d + 2] = data[s + position + 2];
+            }
+            out[d + 3] = color >= 0 ? data[s + color] : 0xFFFFFFFF;
+            if (uv >= 0) {
+                out[d + 4] = data[s + uv];
+                out[d + 5] = data[s + uv + 1];
+            }
+            out[d + 6] = light >= 0 ? data[s + light] : 0;
+            out[d + 7] = normal >= 0 ? data[s + normal] & 0x00FFFFFF : 0;
+        }
+        net.minecraft.client.renderer.block.model.BakedQuad in116 = new net.minecraft.client.renderer.block.model.BakedQuad(out, quad.getTintIndex(), quad.getFace(),
+                quad.getSprite(), quad.shouldApplyDiffuseLighting(), block);
+        IN_116_LAYOUT.put(quad, in116);
+        return in116;
+    }
 }

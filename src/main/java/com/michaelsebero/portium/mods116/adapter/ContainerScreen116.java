@@ -227,6 +227,12 @@ public abstract class ContainerScreen116 extends GuiContainer {
         drawHoveringText(FontShims116.strings(lines), mouseX, mouseY, this.fontRenderer);
     }
 
+    /** Forge 1.16's {@code renderWrappedToolTip}: lines wrapped to the screen, in the font given. */
+    public void renderWrappedToolTip(Object matrixStack, List<?> lines, int mouseX, int mouseY, net.minecraft.client.gui.FontRenderer font) {
+        net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(FontShims116.strings(lines), mouseX, mouseY, this.width, this.height, -1,
+                font == null ? this.fontRenderer : font);
+    }
+
     @Srg("func_238654_b_")
     public void renderReorderedTooltip(Object matrixStack, List<?> lines, int mouseX, int mouseY) {
         drawHoveringText(FontShims116.strings(lines), mouseX, mouseY, this.fontRenderer);

@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_bamboo3_age1",
+  "textures": {
+    "all": "portium:blocks/bamboo_stalk",
+    "particle": "portium:blocks/bamboo_stalk"
+  }
+}

@@ -1,5 +1,6 @@
 package com.michaelsebero.portium.mods116;
 
+import com.michaelsebero.portium.mods116.shim.WorldShims116;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -21,6 +22,7 @@ public final class ModernWorldGen116 implements IWorldGenerator {
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator generator, IChunkProvider provider) {
         Biome biome = world.getBiome(new BlockPos((chunkX << 4) + 16, 0, (chunkZ << 4) + 16));
         if (biome.getRegistryName() == null) return;
-        Mods116.generateFeatures(world, biome.getRegistryName().toString(), chunkX, chunkZ, world.getSeed());
+        String name = biome.getRegistryName().toString();
+        WorldShims116.placeFeatures(world, chunkX, chunkZ, () -> Mods116.generateFeatures(world, name, chunkX, chunkZ, world.getSeed()));
     }
 }

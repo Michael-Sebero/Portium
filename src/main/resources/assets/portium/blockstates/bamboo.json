@@ -1,0 +1,58 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0"
+      },
+      "apply": [
+        {
+          "model": "portium:bamboo1_age0"
+        },
+        {
+          "model": "portium:bamboo2_age0"
+        },
+        {
+          "model": "portium:bamboo3_age0"
+        },
+        {
+          "model": "portium:bamboo4_age0"
+        }
+      ]
+    },
+    {
+      "when": {
+        "age": "1"
+      },
+      "apply": [
+        {
+          "model": "portium:bamboo1_age1"
+        },
+        {
+          "model": "portium:bamboo2_age1"
+        },
+        {
+          "model": "portium:bamboo3_age1"
+        },
+        {
+          "model": "portium:bamboo4_age1"
+        }
+      ]
+    },
+    {
+      "when": {
+        "leaves": "small"
+      },
+      "apply": {
+        "model": "portium:bamboo_small_leaves"
+      }
+    },
+    {
+      "when": {
+        "leaves": "large"
+      },
+      "apply": {
+        "model": "portium:bamboo_large_leaves"
+      }
+    }
+  ]
+}

@@ -12,6 +12,11 @@ public final class ResourceShims116 {
      * {@code IResourceManagerReloadListener}) reload with 1.12's resources; 1.16's staged ones aren't run yet.
      */
     public static void addReloadListener(Object manager, Object listener) {
+        // The server's data: run with the other data listeners, now (1.16 adds them before its first load) and at each reload.
+        if (manager instanceof com.michaelsebero.portium.mods116.DataResources116) {
+            ((com.michaelsebero.portium.mods116.DataResources116) manager).addListener(listener);
+            return;
+        }
         if (listener instanceof IResourceManagerReloadListener) {
             IResourceManagerReloadListener reloads = (IResourceManagerReloadListener) listener;
             // A mod's reload failing (1.12 can't do what it asks yet) is the mod's, not the game's.
@@ -29,7 +34,14 @@ public final class ResourceShims116 {
                 ((IReloadableResourceManager) manager).addReloadListener(guarded);
             }
         } else {
-            LogManager.getLogger("Portium/1.16.5").warn("1.16 resource reload listener {} isn't run: only 1.13-style listeners reload yet", listener);
+            // 1.16's staged listeners: prepared and applied in one go, with 1.12's resources, whenever 1.12 reloads them.
+            IResourceManagerReloadListener staged = resources -> com.michaelsebero.portium.mods116.Mods116.postEvent("reload_listener", listener, resources,
+                    net.minecraft.client.Minecraft.getMinecraft().profiler);
+            if (manager instanceof com.michaelsebero.portium.modern.mc.resources.ModernResources) {
+                ((com.michaelsebero.portium.modern.mc.resources.ModernResources) manager).addReloadListenerLater(staged);
+            } else if (manager instanceof IReloadableResourceManager) {
+                ((IReloadableResourceManager) manager).addReloadListener(staged);
+            }
         }
     }
 

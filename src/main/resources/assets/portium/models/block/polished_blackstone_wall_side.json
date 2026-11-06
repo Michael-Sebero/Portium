@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_side",
+  "textures": {
+    "wall": "portium:blocks/polished_blackstone"
+  }
+}

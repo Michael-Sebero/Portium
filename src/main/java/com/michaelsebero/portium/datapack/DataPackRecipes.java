@@ -8,6 +8,9 @@ import com.google.gson.JsonSyntaxException;
 import com.michaelsebero.portium.Portium;
 import com.michaelsebero.portium.Tags;
 import com.michaelsebero.portium.compat.LegacyItem;
+import com.michaelsebero.portium.recipe.CookingRecipes;
+import com.michaelsebero.portium.item.Dyes114;
+import net.minecraft.item.Item;
 import com.michaelsebero.portium.compat.LegacyItems;
 import com.michaelsebero.portium.mixin.accessor.FurnaceRecipesAccessor;
 import com.michaelsebero.portium.modern.ModernMods;
@@ -80,11 +83,21 @@ public final class DataPackRecipes {
         }
     }
 
+    /** The data packs' cooking and stonecutting recipes, as sent to clients. */
+    private static List<CookingRecipes.Recipe> cookingSent = Collections.emptyList();
+    private static List<com.michaelsebero.portium.recipe.StonecuttingRecipes.Recipe> stonecuttingSent = Collections.emptyList();
+
+    private static RecipeSyncMessage syncMessage() {
+        return new RecipeSyncMessage(crafting.json, crafting.replaced, cookingSent, stonecuttingSent);
+    }
+
     static void load(DataPackManager packs, TagManager tags) {
         restoreSmelting();
         List<IRecipe> recipes = new ArrayList<>();
         Set<ResourceLocation> replaced = new HashSet<>();
         Map<ResourceLocation, String> json = new LinkedHashMap<>();
+        Map<ResourceLocation, CookingRecipes.Recipe> cooking = new LinkedHashMap<>();
+        Map<ResourceLocation, com.michaelsebero.portium.recipe.StonecuttingRecipes.Recipe> stonecutting = new LinkedHashMap<>();
         for (ResourceLocation id : packs.list("recipes", ".json")) {
             // A pack's recipe file replaces the game's recipe with its id even if it fails to load, as in 1.13.
             replaced.add(id);
@@ -100,6 +113,14 @@ public final class DataPackRecipes {
                     json.put(id, legacy.toString());
                 } else if (type.equals("smelting")) {
                     addSmelting(recipe, tags);
+                } else if (CookingRecipes.Type.byId(type) != null) {
+                    cooking.put(id, parseCooking(id, CookingRecipes.Type.byId(type), recipe, tags));
+                } else if (type.equals("stonecutting")) {
+                    List<ItemStack> inputs = new ArrayList<>();
+                    for (LegacyItem item : resolveIngredient(recipe.get("ingredient"), tags)) inputs.add(CookingRecipes.stack(item));
+                    com.michaelsebero.portium.recipe.StonecuttingRecipes.Recipe parsed = com.michaelsebero.portium.recipe.StonecuttingRecipes.parse(id, recipe, inputs);
+                    if (parsed == null) throw new JsonSyntaxException("Unknown result item");
+                    stonecutting.put(id, parsed);
                 }
                 // The crafting_special_* types are recipes 1.12 already has built in.
             } catch (IOException | RuntimeException e) {
@@ -107,16 +128,34 @@ public final class DataPackRecipes {
             }
         }
         crafting = new Crafting(Collections.unmodifiableList(recipes), Collections.unmodifiableSet(replaced), Collections.unmodifiableMap(json));
-        PortiumNetwork.CHANNEL.sendToAll(new RecipeSyncMessage(crafting.json, crafting.replaced));
+        CookingRecipes.setFromPacks(cooking, replaced);
+        com.michaelsebero.portium.recipe.StonecuttingRecipes.setFromPacks(stonecutting, replaced);
+        cookingSent = Collections.unmodifiableList(new ArrayList<>(cooking.values()));
+        stonecuttingSent = Collections.unmodifiableList(new ArrayList<>(stonecutting.values()));
+        PortiumNetwork.CHANNEL.sendToAll(syncMessage());
     }
 
     static void reset() {
         restoreSmelting();
         crafting = Crafting.EMPTY;
+        cookingSent = Collections.emptyList();
+        stonecuttingSent = Collections.emptyList();
+        CookingRecipes.setFromPacks(Collections.emptyMap(), Collections.emptySet());
+        com.michaelsebero.portium.recipe.StonecuttingRecipes.setFromPacks(Collections.emptyMap(), Collections.emptySet());
     }
 
     /** On a client, the recipes the server sent. */
-    public static void receive(Map<ResourceLocation, String> json, Set<ResourceLocation> replaced) {
+    public static void receive(RecipeSyncMessage message) {
+        receive(message.recipes, message.replaced);
+        Map<ResourceLocation, CookingRecipes.Recipe> cooking = new LinkedHashMap<>();
+        for (CookingRecipes.Recipe recipe : message.cooking) cooking.put(recipe.id, recipe);
+        CookingRecipes.setFromPacks(cooking, message.replaced);
+        Map<ResourceLocation, com.michaelsebero.portium.recipe.StonecuttingRecipes.Recipe> stonecutting = new LinkedHashMap<>();
+        for (com.michaelsebero.portium.recipe.StonecuttingRecipes.Recipe recipe : message.stonecutting) stonecutting.put(recipe.id, recipe);
+        com.michaelsebero.portium.recipe.StonecuttingRecipes.setFromPacks(stonecutting, message.replaced);
+    }
+
+    private static void receive(Map<ResourceLocation, String> json, Set<ResourceLocation> replaced) {
         List<IRecipe> recipes = new ArrayList<>();
         for (Map.Entry<ResourceLocation, String> entry : json.entrySet()) {
             try {
@@ -131,6 +170,8 @@ public final class DataPackRecipes {
     /** Clears recipes a server sent, when leaving it. */
     public static void forgetReceived() {
         crafting = Crafting.EMPTY;
+        CookingRecipes.setFromPacks(Collections.emptyMap(), Collections.emptySet());
+        com.michaelsebero.portium.recipe.StonecuttingRecipes.setFromPacks(Collections.emptyMap(), Collections.emptySet());
     }
 
     @Nullable
@@ -148,7 +189,7 @@ public final class DataPackRecipes {
 
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.player instanceof EntityPlayerMP) PortiumNetwork.CHANNEL.sendTo(new RecipeSyncMessage(crafting.json, crafting.replaced), (EntityPlayerMP) event.player);
+        if (event.player instanceof EntityPlayerMP) PortiumNetwork.CHANNEL.sendTo(syncMessage(), (EntityPlayerMP) event.player);
     }
 
     // ---- Conversion from 1.13's format ----
@@ -161,14 +202,19 @@ public final class DataPackRecipes {
         JsonObject legacy = new JsonObject();
         legacy.addProperty("type", "minecraft:" + type);
         if (recipe.has("group")) legacy.add("group", recipe.get("group"));
+        // 1.14's own dyes take the place of 1.12's in recipes that colour things (Dyes114).
+        LegacyItem made = LegacyItems.resolve(JsonUtils.getString(JsonUtils.getJsonObject(recipe, "result"), "item"));
+        boolean colouring = made != null && Dyes114.isColouring(made.getItem());
         if (type.equals("crafting_shaped")) {
             legacy.add("pattern", recipe.get("pattern"));
             JsonObject key = new JsonObject();
-            for (Map.Entry<String, JsonElement> entry : JsonUtils.getJsonObject(recipe, "key").entrySet()) key.add(entry.getKey(), convertIngredient(entry.getValue(), tags));
+            for (Map.Entry<String, JsonElement> entry : JsonUtils.getJsonObject(recipe, "key").entrySet()) {
+                key.add(entry.getKey(), convertIngredient(entry.getValue(), tags, colouring));
+            }
             legacy.add("key", key);
         } else {
             JsonArray ingredients = new JsonArray();
-            for (JsonElement ingredient : JsonUtils.getJsonArray(recipe, "ingredients")) ingredients.add(convertIngredient(ingredient, tags));
+            for (JsonElement ingredient : JsonUtils.getJsonArray(recipe, "ingredients")) ingredients.add(convertIngredient(ingredient, tags, colouring));
             legacy.add("ingredients", ingredients);
         }
         legacy.add("result", convertResult(JsonUtils.getJsonObject(recipe, "result")));
@@ -176,9 +222,17 @@ public final class DataPackRecipes {
     }
 
     /** An item, a tag or a list of either, as a 1.12 ingredient: an item (any data value where 1.13 ignores it) or a list. */
-    private static JsonElement convertIngredient(JsonElement ingredient, TagManager tags) {
+    private static JsonElement convertIngredient(JsonElement ingredient, TagManager tags, boolean colouring) {
         JsonArray items = new JsonArray();
-        for (LegacyItem item : resolveIngredient(ingredient, tags)) {
+        List<LegacyItem> resolved = resolveIngredient(ingredient, tags);
+        if (colouring) {
+            for (LegacyItem item : new ArrayList<>(resolved)) {
+                Item dye = item.getMeta() == LegacyItem.ANY_META ? null : Dyes114.forLegacy(item.getItem(), item.getMeta());
+                LegacyItem extra = dye == null ? null : new LegacyItem(dye, 0, null);
+                if (extra != null && !resolved.contains(extra)) resolved.add(extra);
+            }
+        }
+        for (LegacyItem item : resolved) {
             JsonObject json = new JsonObject();
             json.addProperty("item", DataPackJson.registryName(item.getItem()));
             boolean anyData = item.getMeta() == LegacyItem.ANY_META || !item.getItem().getHasSubtypes();
@@ -224,6 +278,20 @@ public final class DataPackRecipes {
         legacy.addProperty("count", JsonUtils.getInt(result, "count", 1));
         if (item.getTag() != null) legacy.addProperty("nbt", item.getTag().toString());
         return legacy;
+    }
+
+    // ---- Campfire cooking, smoking and blasting (1.14) ----
+
+    private static CookingRecipes.Recipe parseCooking(ResourceLocation id, CookingRecipes.Type type, JsonObject recipe, TagManager tags) {
+        JsonElement resultJson = recipe.get("result");
+        String resultName = resultJson.isJsonObject() ? JsonUtils.getString(resultJson.getAsJsonObject(), "item") : resultJson.getAsString();
+        LegacyItem resultItem = LegacyItems.resolve(resultName);
+        if (resultItem == null) throw new JsonSyntaxException("Unknown item '" + resultName + "'");
+        List<ItemStack> inputs = new ArrayList<>();
+        for (LegacyItem item : resolveIngredient(recipe.get("ingredient"), tags)) inputs.add(CookingRecipes.stack(item));
+        if (inputs.isEmpty()) throw new JsonSyntaxException("Recipe ingredient matches no items");
+        return new CookingRecipes.Recipe(id, type, Collections.unmodifiableList(inputs), resultItem.createStack(1),
+                JsonUtils.getFloat(recipe, "experience", 0.0F), JsonUtils.getInt(recipe, "cookingtime", CookingRecipes.DEFAULT_TIME));
     }
 
     // ---- Smelting ----

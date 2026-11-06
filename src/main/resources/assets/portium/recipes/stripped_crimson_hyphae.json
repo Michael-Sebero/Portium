@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:stripped_crimson_hyphae"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:stripped_crimson_stem"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_crimson_stem"
+    }
+  },
+  "result": {
+    "item": "minecraft:stripped_crimson_hyphae",
+    "count": 3
+  },
+  "group": "bark"
+}

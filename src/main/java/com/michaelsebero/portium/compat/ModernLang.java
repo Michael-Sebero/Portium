@@ -45,6 +45,9 @@ public final class ModernLang {
 
     private static final String VERSION = "1.13.2";
     private static final File DIR = new File("assetmover/assets/" + Tags.MOD_ID + "/lang_1_13");
+    /** 1.16.5's text: its names for items, blocks and entities (1.14 renamed some: Smooth Stone Slab, Carved Pumpkin). */
+    private static final String NAMES_VERSION = "1.16.5";
+    private static final File NAMES_DIR = new File("assetmover/assets/" + Tags.MOD_ID + "/lang_1_16");
 
     /** Must run during mod construction. */
     public static void fetch(Collection<String> languages) {
@@ -55,6 +58,12 @@ public final class ModernLang {
             files.put("assets/minecraft/lang/" + name, "assets/" + Tags.MOD_ID + "/lang_1_13/" + name);
         }
         AssetMoverAPI.fromMinecraft(VERSION, files);
+        Map<String, String> names = new LinkedHashMap<>();
+        for (String language : languages) {
+            String name = language.toLowerCase(Locale.ROOT) + ".json";
+            names.put("assets/minecraft/lang/" + name, "assets/" + Tags.MOD_ID + "/lang_1_16/" + name);
+        }
+        AssetMoverAPI.fromMinecraft(NAMES_VERSION, names);
     }
 
     /**
@@ -92,8 +101,15 @@ public final class ModernLang {
      */
     public static Map<String, String> inject(String language) {
         String code = language.toLowerCase(Locale.ROOT);
-        Map<String, String> local = read(code);
-        Map<String, String> english = code.equals("en_us") ? local : read("en_us");
+        Map<String, String> local = read(DIR, code);
+        Map<String, String> english = code.equals("en_us") ? local : read(DIR, "en_us");
+        // 1.16.5's names of things win over 1.13.2's; its other text only fills keys 1.13.2 doesn't have.
+        Map<String, String> modern = read(NAMES_DIR, code);
+        for (Map.Entry<String, String> entry : modern.entrySet()) {
+            String key = entry.getKey();
+            boolean name = key.startsWith("item.minecraft.") || key.startsWith("block.minecraft.") || key.startsWith("entity.minecraft.");
+            if (name || !local.containsKey(key)) local.put(key, entry.getValue());
+        }
         Map<String, String> added = new LinkedHashMap<>();
         collect(local, added);
         collect(english, added);
@@ -115,16 +131,16 @@ public final class ModernLang {
         return added;
     }
 
-    private static Map<String, String> read(String language) {
+    private static Map<String, String> read(File dir, String language) {
         Map<String, String> text = new LinkedHashMap<>();
-        File file = new File(DIR, language + ".json");
+        File file = new File(dir, language + ".json");
         if (!file.isFile()) return text;
         try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
             for (Map.Entry<String, JsonElement> entry : new JsonParser().parse(reader).getAsJsonObject().entrySet()) {
                 text.put(entry.getKey(), entry.getValue().getAsString());
             }
         } catch (IOException | RuntimeException e) {
-            Portium.LOGGER.error("Couldn't read 1.13's {} translations", language, e);
+            Portium.LOGGER.error("Couldn't read {} translations from {}", language, dir, e);
         }
         return text;
     }

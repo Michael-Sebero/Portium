@@ -1,0 +1,9 @@
+{
+  "parent": "portium:block/template_scaffolding_stable",
+  "textures": {
+    "particle": "portium:blocks/scaffolding_top",
+    "top": "portium:blocks/scaffolding_top",
+    "side": "portium:blocks/scaffolding_side",
+    "bottom": "portium:blocks/scaffolding_bottom"
+  }
+}

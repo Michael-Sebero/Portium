@@ -190,9 +190,18 @@ public interface IRegistry<T> extends Iterable<T> {
      * registry events: Forge 1.12's registries may refuse it then, and it stays unregistered.
      */
     @Srg("func_218322_a")
+    @SuppressWarnings("unchecked")
     static <V, U extends V> U register(IRegistry<V> registry, ResourceLocation name, U value) {
         try {
+            // One already there under the name (Portium's own sound for a 1.16 sound event, say) is the one 1.16's
+            // code gets, rather than overriding it: Forge 1.12 refuses overrides when it freezes its registries.
+            if (registry.containsKey(name)) {
+                V existing = registry.get(name);
+                if (existing != null && value.getClass().isInstance(existing)) return (U) existing;
+            }
             registry.put(name, value);
+            // A newer mod's loot function or condition type: 1.12's loot tables learn it too.
+            if (registry == LOOT_FUNCTION_TYPE || registry == LOOT_CONDITION_TYPE) com.michaelsebero.portium.mods116.Mods116.postEvent("loot_type", name, value);
         } catch (RuntimeException e) {
             org.apache.logging.log4j.LogManager.getLogger("Portium").debug("Couldn't register {} now", name, e);
         }

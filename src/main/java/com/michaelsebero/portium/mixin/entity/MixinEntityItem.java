@@ -23,6 +23,13 @@ public abstract class MixinEntityItem extends Entity {
     @Redirect(method = "onUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/item/EntityItem;hasNoGravity()Z"))
     private boolean portium$floatInWater(EntityItem self) {
         if (self.hasNoGravity()) return true;
+        // Fireproof items (1.16's netherite; see MixinEntityItemFireproof) rise through lava, slowed sideways.
+        if (this.isImmuneToFire && this.isInLava()) {
+            this.motionX *= 0.95F;
+            this.motionZ *= 0.95F;
+            if (this.motionY < 0.06F) this.motionY += 5.0E-4F;
+            return true;
+        }
         if (!PortiumConfig.mechanics.itemBuoyancy) return false;
         double eyeY = this.posY + this.getEyeHeight();
         BlockPos eyePos = new BlockPos(this.posX, eyeY, this.posZ);

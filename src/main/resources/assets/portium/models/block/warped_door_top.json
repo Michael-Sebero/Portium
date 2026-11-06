@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_top",
+  "textures": {
+    "bottom": "portium:blocks/warped_door_bottom",
+    "top": "portium:blocks/warped_door_top"
+  }
+}

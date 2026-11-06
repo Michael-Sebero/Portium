@@ -1,0 +1,3 @@
+sha256 a4c26f9503b662a7f6b7aa46e60ae5865bd59014339c9defc7be084c8263e96f
+META-INF/MANIFEST.MF
+net/minecraftforge/fml/unsafe/UnsafeHacks.class

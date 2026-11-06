@@ -49,7 +49,9 @@ public final class DisabledLoot {
     private static boolean isMissingItem(JsonObject entry) {
         if (!entry.has("type") || !"item".equals(entry.get("type").getAsString()) || !entry.has("name")) return false;
         ResourceLocation item = new ResourceLocation(entry.get("name").getAsString());
-        return Tags.MOD_ID.equals(item.getNamespace()) && !ForgeRegistries.ITEMS.containsKey(item);
+        // Portium's items answer to portium: and minecraft: ids alike (see PortiumNames).
+        return Tags.MOD_ID.equals(item.getNamespace()) && !ForgeRegistries.ITEMS.containsKey(item)
+                && !ForgeRegistries.ITEMS.containsKey(new ResourceLocation("minecraft", item.getPath()));
     }
 
     private DisabledLoot() {}

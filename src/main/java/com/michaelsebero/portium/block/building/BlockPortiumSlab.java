@@ -36,6 +36,12 @@ public abstract class BlockPortiumSlab extends BlockSlab {
         this.useNeighborBrightness = !this.isDouble();
     }
 
+    /** For wooden slabs (1.12's slab sounds like stone unless told). */
+    public BlockPortiumSlab withSound(net.minecraft.block.SoundType sound) {
+        this.setSoundType(sound);
+        return this;
+    }
+
     public Block getHalfSlab() {
         return this.halfSlab;
     }

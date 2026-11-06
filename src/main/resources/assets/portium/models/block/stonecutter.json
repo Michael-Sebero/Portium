@@ -1,0 +1,10 @@
+{
+  "parent": "portium:block/template_stonecutter",
+  "textures": {
+    "particle": "portium:blocks/stonecutter_bottom",
+    "bottom": "portium:blocks/stonecutter_bottom",
+    "top": "portium:blocks/stonecutter_top",
+    "side": "portium:blocks/stonecutter_side",
+    "saw": "portium:blocks/stonecutter_saw"
+  }
+}

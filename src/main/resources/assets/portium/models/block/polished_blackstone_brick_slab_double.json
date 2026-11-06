@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "portium:blocks/polished_blackstone_bricks",
+    "top": "portium:blocks/polished_blackstone_bricks",
+    "side": "portium:blocks/polished_blackstone_bricks"
+  }
+}

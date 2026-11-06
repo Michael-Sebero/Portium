@@ -16,11 +16,35 @@ public final class CapabilityGlue {
 
     /** {@code provider.getCapability(capability, side)}: 1.12's answer, as a {@code LazyOptional}. */
     public static <T> LazyOptional<T> getCapability(ICapabilityProvider provider, Capability<T> capability, @Nullable Direction side) {
-        return optional(ModernCapabilities.get(provider, capability, side));
+        Object value = ModernCapabilities.get(provider, capability, side);
+        if (value == null && capability != null) value = legacyFluids(provider, capability, side);
+        return optional(value);
+    }
+
+    /**
+     * Forge 1.16's fluid capabilities on what has only 1.12's (vanilla buckets, 1.12 mods' tanks): 1.12's handler as a
+     * 1.16 one. 1.16's fluid API is its own here (see ModernCapabilities), so nothing else answers these for them.
+     */
+    @Nullable
+    private static Object legacyFluids(Object provider, Capability<?> capability, @Nullable Direction side) {
+        boolean item = capability == net.minecraftforge.fluids.capability.CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
+        if (!item && capability != net.minecraftforge.fluids.capability.CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return null;
+        Object handler = com.michaelsebero.portium.mods116.LegacyFluids116.handler(provider, item, side);
+        return handler == null ? null : new LegacyFluidHandler116(handler);
     }
 
     public static <T> LazyOptional<T> getCapability(ICapabilityProvider provider, Capability<T> capability) {
         return getCapability(provider, capability, null);
+    }
+
+    /** For the translator's 1.12 capability methods: a mod's answer, null counting as none. */
+    public static boolean isPresent(@Nullable LazyOptional<?> optional) {
+        return optional != null && optional.isPresent();
+    }
+
+    @Nullable
+    public static Object orNull(@Nullable LazyOptional<?> optional) {
+        return optional == null ? null : optional.orElse(null);
     }
 
     /** {@code capability.orEmpty(asked, optional)}. */
@@ -35,4 +59,16 @@ public final class CapabilityGlue {
     }
 
     private CapabilityGlue() {}
+
+    /** Forge 1.16's {@code SidedInvWrapper.create(inventory, sides...)}: one wrapper per side. */
+    @SuppressWarnings("unchecked")
+    public static LazyOptional<net.minecraftforge.items.IItemHandlerModifiable>[] sidedWrappers(net.minecraft.inventory.ISidedInventory inventory, Direction... sides) {
+        LazyOptional<net.minecraftforge.items.IItemHandlerModifiable>[] wrappers = new LazyOptional[sides.length];
+        for (int i = 0; i < sides.length; i++) {
+            Direction side = sides[i];
+            net.minecraftforge.items.IItemHandlerModifiable wrapper = new net.minecraftforge.items.wrapper.SidedInvWrapper(inventory, side);
+            wrappers[i] = LazyOptional.of(() -> wrapper);
+        }
+        return wrappers;
+    }
 }

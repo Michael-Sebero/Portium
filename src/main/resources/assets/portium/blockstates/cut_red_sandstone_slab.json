@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:cut_red_sandstone_slab"
+    },
+    "half=top": {
+      "model": "portium:cut_red_sandstone_slab_top"
+    }
+  }
+}

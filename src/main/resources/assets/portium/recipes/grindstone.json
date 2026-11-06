@@ -1,0 +1,34 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:grindstone"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "portium:stone_slab"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I-I",
+    "# #"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:stick"
+    },
+    "-": {
+      "item": "portium:stone_slab",
+      "data": 0
+    },
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    }
+  },
+  "result": {
+    "item": "minecraft:grindstone",
+    "count": 1
+  }
+}

@@ -21,6 +21,21 @@ import java.util.stream.StreamSupport;
  */
 public final class NbtShims116 {
 
+    /**
+     * 1.16's {@code NBTUtil.readBlockState}: Minecraft's blocks under their 1.13+ names ({@code white_concrete},
+     * {@code snow_block}, {@code grass} as the plant) through Portium's flattening table, which 1.12's reader doesn't
+     * know (it gives air, or the wrong block for names 1.12 used otherwise); other mods' blocks as 1.12 reads them.
+     */
+    public static net.minecraft.block.state.IBlockState readBlockState(net.minecraft.nbt.NBTTagCompound tag) {
+        if (!tag.hasKey("Name", 8)) return net.minecraft.init.Blocks.AIR.getDefaultState();
+        net.minecraft.util.ResourceLocation id = new net.minecraft.util.ResourceLocation(tag.getString("Name"));
+        if (!"minecraft".equals(id.getNamespace())) return net.minecraft.nbt.NBTUtil.readBlockState(tag);
+        java.util.Map<String, String> properties = new java.util.HashMap<>();
+        net.minecraft.nbt.NBTTagCompound propertiesTag = tag.getCompoundTag("Properties");
+        for (String key : propertiesTag.getKeySet()) properties.put(key, propertiesTag.getString(key));
+        return com.michaelsebero.portium.compat.LegacyBlockStates.convert(id.toString(), properties);
+    }
+
     public static NBTTagString string(String value) {
         return new NBTTagString(value);
     }
@@ -120,5 +135,10 @@ public final class NbtShims116 {
     private static boolean fits(NBTTagList list, Object tag) {
         if (!(tag instanceof NBTBase) || ((NBTBase) tag).getId() == 0) return false;
         return list.tagCount() == 0 || list.getTagType() == 0 || list.getTagType() == ((NBTBase) tag).getId();
+    }
+
+    /** 1.16's {@code compound.isEmpty()}, left unobfuscated by 1.16 and 1.12's under an SRG id. */
+    public static boolean isEmpty(net.minecraft.nbt.NBTTagCompound compound) {
+        return compound.isEmpty();
     }
 }

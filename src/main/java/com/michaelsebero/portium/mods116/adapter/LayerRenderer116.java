@@ -38,11 +38,45 @@ public abstract class LayerRenderer116<T extends EntityLivingBase> implements La
     public void render(Object matrixStack, Object buffers, int light, Entity entity, float limbSwing, float limbSwingAmount, float partialTicks,
                        float ageInTicks, float netHeadYaw, float headPitch) {}
 
-    /** 1.16's: the model of the renderer the layer is on. */
+    public Render<?> renderer() {
+        return this.renderer;
+    }
+
+    @Nullable
+    private static Method rendererModel;
+
+    /**
+     * 1.16's: the model of the renderer the layer is on. On a 1.16 renderer (a mod's mob's) that's its 1.16 model;
+     * on one of 1.12's, 1.12's model.
+     */
     @Srg("func_215332_c")
     @Nullable
-    public ModelBase getEntityModel() {
-        return this.renderer instanceof RenderLivingBase ? ((RenderLivingBase<?>) this.renderer).getMainModel() : null;
+    public Object getEntityModel() {
+        // 1.12's renderer: the 1.16 model standing for its own, posed as it is (see EntityRendering116.proxyModel).
+        if (this.renderer instanceof RenderLivingBase) return EntityRendering116.proxyModel((RenderLivingBase<?>) this.renderer);
+        try {
+            Method method = rendererModel;
+            if (method == null || !method.getDeclaringClass().isInstance(this.renderer)) {
+                method = findModelGetter(this.renderer.getClass());
+                rendererModel = method;
+            }
+            return method == null ? null : method.invoke(this.renderer);
+        } catch (ReflectiveOperationException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    private static Method findModelGetter(Class<?> type) {
+        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+            for (Method method : c.getDeclaredMethods()) {
+                if (method.getParameterCount() == 0 && "func_217764_d".equals(method.getName())) {
+                    method.setAccessible(true);
+                    return method;
+                }
+            }
+        }
+        return null;
     }
 
     /** 1.16's: the renderer's texture for the entity. */

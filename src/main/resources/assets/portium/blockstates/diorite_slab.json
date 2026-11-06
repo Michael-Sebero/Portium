@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:diorite_slab"
+    },
+    "half=top": {
+      "model": "portium:diorite_slab_top"
+    }
+  }
+}

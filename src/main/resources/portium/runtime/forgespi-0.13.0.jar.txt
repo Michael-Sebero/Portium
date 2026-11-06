@@ -1,0 +1,21 @@
+sha256 806687deec2dbf96fcd269a50dacf15cfc1c7c85be92f27be7da7da4701990cf
+META-INF/MANIFEST.MF
+net/minecraftforge/api/distmarker/Dist.class
+net/minecraftforge/api/distmarker/OnlyIns.class
+net/minecraftforge/api/distmarker/OnlyIn.class
+net/minecraftforge/forgespi/Environment.class
+net/minecraftforge/forgespi/Environment$Keys.class
+net/minecraftforge/forgespi/language/IModLanguageProvider$IModLanguageLoader.class
+net/minecraftforge/forgespi/language/IModInfo$ModVersion.class
+net/minecraftforge/forgespi/language/ModFileScanData$ClassData.class
+net/minecraftforge/forgespi/language/ILifecycleEvent.class
+net/minecraftforge/forgespi/language/IModInfo.class
+net/minecraftforge/forgespi/language/ModFileScanData$AnnotationData.class
+net/minecraftforge/forgespi/language/IModInfo$Ordering.class
+net/minecraftforge/forgespi/language/IModInfo$DependencySide.class
+net/minecraftforge/forgespi/language/MavenVersionAdapter.class
+net/minecraftforge/forgespi/language/IModLanguageProvider.class
+net/minecraftforge/forgespi/language/IModFileInfo.class
+net/minecraftforge/forgespi/language/ModFileScanData.class
+net/minecraftforge/forgespi/coremod/ICoreModProvider.class
+net/minecraftforge/forgespi/coremod/ICoreModFile.class

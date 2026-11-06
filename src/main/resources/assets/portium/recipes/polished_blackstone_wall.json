@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:polished_blackstone_wall"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:polished_blackstone"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:polished_blackstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:polished_blackstone_wall",
+    "count": 6,
+    "data": 0
+  }
+}

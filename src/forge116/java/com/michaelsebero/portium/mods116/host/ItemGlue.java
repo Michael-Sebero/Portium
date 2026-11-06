@@ -31,5 +31,25 @@ public final class ItemGlue {
         return (Item.Properties) (Object) ((com.michaelsebero.portium.modern.mc.item.Item$Properties) (Object) properties).portium$food(values);
     }
 
+    private static final java.util.Map<Item, java.util.Optional<net.minecraft.item.Food>> FOODS = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** 1.16's {@code item.getFood()}: a 1.16 mod's item's food, or 1.12's food item's values as 1.16's food; null if it isn't food. */
+    @javax.annotation.Nullable
+    @SuppressWarnings("unchecked")
+    public static net.minecraft.item.Food foodOf(Item item) {
+        return FOODS.computeIfAbsent(item, key -> {
+            com.michaelsebero.portium.modern.adapter.FoodValues values = com.michaelsebero.portium.mods116.shim.ItemShims116.foodValues(key);
+            if (values == null) return java.util.Optional.empty();
+            net.minecraft.item.Food.Builder builder = new net.minecraft.item.Food.Builder().func_221456_a(values.hunger).func_221454_a(values.saturation);
+            if (values.meat) builder.func_221451_a();
+            if (values.alwaysEdible) builder.func_221455_b();
+            if (values.fast) builder.func_221457_c();
+            for (int i = 0; i < values.effects.size(); i++) {
+                builder.func_221452_a((net.minecraft.potion.EffectInstance) values.effects.get(i), values.chances.get(i));
+            }
+            return java.util.Optional.of(builder.func_221453_d());
+        }).orElse(null);
+    }
+
     private ItemGlue() {}
 }

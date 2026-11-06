@@ -2,13 +2,13 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:birch_wood"
+      "item": "minecraft:birch_wood"
     }
   ],
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "portium:birch_wood"
+      "item": "minecraft:birch_wood"
     }
   ],
   "result": {

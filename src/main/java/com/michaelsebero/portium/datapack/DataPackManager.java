@@ -209,6 +209,11 @@ public final class DataPackManager {
         return null;
     }
 
+    /** The enabled packs, in load order (later ones override earlier ones). */
+    public List<DataPack> loaded() {
+        return this.loaded;
+    }
+
     /** Every file id in a folder across the enabled packs. */
     public Set<ResourceLocation> list(String folder, String extension) {
         Set<ResourceLocation> ids = new LinkedHashSet<>();

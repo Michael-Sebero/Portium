@@ -1,0 +1,6 @@
+{
+  "parent": "portium:block/template_wall_side_tall",
+  "textures": {
+    "wall": "blocks/red_nether_brick"
+  }
+}

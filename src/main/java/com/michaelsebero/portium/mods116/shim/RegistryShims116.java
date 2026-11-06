@@ -53,4 +53,20 @@ public final class RegistryShims116 {
     }
 
     private RegistryShims116() {}
+
+    /** Forge 1.16's {@code RegistryBuilder.tagFolder(folder)}: 1.12 has no tags of custom registries. */
+    public static net.minecraftforge.registries.RegistryBuilder<?> tagFolder(net.minecraftforge.registries.RegistryBuilder<?> builder, String folder) {
+        return builder;
+    }
+
+    public static net.minecraftforge.registries.RegistryBuilder<?> hasTags(net.minecraftforge.registries.RegistryBuilder<?> builder) {
+        return builder;
+    }
+
+    /** A Forge registry, by name, as 1.16's vanilla registry (Forge 1.16's GameData.getWrapper): Portium's wrapper of it. */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static Object forgeView(net.minecraft.util.ResourceLocation name, net.minecraft.util.ResourceLocation defaultKey) {
+        net.minecraftforge.registries.ForgeRegistry forge = net.minecraftforge.registries.RegistryManager.ACTIVE.getRegistry(name);
+        return forge == null ? null : com.michaelsebero.portium.modern.shim.RegistryShims.wrapper((Class) forge.getRegistrySuperType());
+    }
 }

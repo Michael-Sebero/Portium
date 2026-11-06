@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:stick"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:bamboo"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo"
+    }
+  },
+  "result": {
+    "item": "minecraft:stick",
+    "count": 1
+  },
+  "group": "sticks"
+}

@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 /**
  * Sound event ids across the flattening. 1.13 renamed many sound events, and the ones it added are Portium's own
- * ({@code portium:entity.dolphin.ambient} for {@code minecraft:entity.dolphin.ambient}).
+ * (registered as {@code minecraft:entity.dolphin.ambient}; as {@code portium:} only where 1.12 has the name, like its cat sounds).
  */
 public final class LegacySounds {
 
@@ -66,9 +66,15 @@ public final class LegacySounds {
 
     /** The sound event to send for a 1.13 id; unknown ids pass through, as resource packs may define them. */
     public static ResourceLocation toLegacy(ResourceLocation id) {
+        // An old portium: name of a sound Portium now registers as minecraft: (clients know it only by that name).
+        ResourceLocation moved = com.michaelsebero.portium.init.PortiumNames.movedFrom(SoundEvent.class, id);
+        if (moved != null) return moved;
         if (!id.getNamespace().equals("minecraft")) return id;
+        // Portium's own sound under portium: only where 1.12 has the name (1.14's cats): it wins over 1.12's.
         ResourceLocation ours = new ResourceLocation(Tags.MOD_ID, id.getPath());
-        if (SoundEvent.REGISTRY.containsKey(ours)) return ours;
+        if (SoundEvent.REGISTRY.containsKey(ours) && com.michaelsebero.portium.init.PortiumNames.movedFrom(SoundEvent.class, ours) == null) return ours;
+        // Portium's own sounds are registered under their minecraft: names (and 1.12's own keep theirs).
+        if (SoundEvent.REGISTRY.containsKey(id)) return id;
         String path = id.getPath();
         String legacy = EXACT.get(path);
         if (legacy == null) {

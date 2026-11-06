@@ -89,7 +89,8 @@ public final class WorldGeneration {
     /** A stored value, or the configured default for new worlds (1.16.5 unless the config names another version). */
     public static String resolve(@Nullable String generation) {
         if (VERSIONS.contains(generation)) return generation;
-        String configured = PortiumConfig.worldGen.defaultGeneration;
+        // A development aid: -Dportium.dev.generation=<version> for new worlds, whatever the config says.
+        String configured = System.getProperty("portium.dev.generation", PortiumConfig.worldGen.defaultGeneration);
         return VERSIONS.contains(configured) ? configured : V1_16;
     }
 

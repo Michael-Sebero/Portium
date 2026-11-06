@@ -105,6 +105,8 @@ public final class ModernHost implements IModernHost {
 
     @Override
     public List<String> construct(List<File> jars) {
+        // The render thread before anything renders or reloads (the first resource reload comes before setup).
+        if (Mods116.isClient()) renderThread();
         // 1.16's vanilla fluids, which its bootstrap makes before mods load.
         com.michaelsebero.portium.mods116.ModernFluids.setVanilla(new net.minecraft.fluid.EmptyFluid(), new net.minecraft.fluid.WaterFluid.Flowing(),
                 new net.minecraft.fluid.WaterFluid.Source(), new net.minecraft.fluid.LavaFluid.Flowing(), new net.minecraft.fluid.LavaFluid.Source());
@@ -126,6 +128,7 @@ public final class ModernHost implements IModernHost {
             for (IModInfo info : file.getMods()) {
                 String modClass = modClasses.get(info.getModId());
                 if (modClass == null) throw new IllegalStateException(jar.getName() + " lists mod " + info.getModId() + " but has no @Mod class for it");
+                ModList.portium$announce(info);
                 this.containers.add(new FMLModContainer(info, modClass, getClass().getClassLoader(), scan));
                 ids.add(info.getModId());
             }
@@ -177,6 +180,12 @@ public final class ModernHost implements IModernHost {
         }
     }
 
+    /** The jar a mod file came from, if it's one Portium read. */
+    @Nullable
+    public static File jarOf(@Nullable Object owningFile) {
+        return owningFile instanceof ModernModFile ? ((ModernModFile) owningFile).jar : null;
+    }
+
     @Override
     public List<Map<String, String>> describeMods() {
         List<Map<String, String>> mods = new ArrayList<>();
@@ -198,8 +207,23 @@ public final class ModernHost implements IModernHost {
         return mods;
     }
 
+    private static boolean forgeCapabilities;
+
     /** {@code @CapabilityInject} fields and methods, filled as Forge 1.12 registers their capabilities. */
     private void injectCapabilities(ModFileScanData scan) {
+        if (!forgeCapabilities) {
+            // Forge 1.16's own: its fluid handlers' (1.16's own API), which no mod's scan names.
+            forgeCapabilities = true;
+            try {
+                // Forge 1.16's own class (translated to Portium's prefix for those; 1.12 has one of the same name).
+                Class<?> fluids = net.minecraftforge.fluids.capability.CapabilityFluidHandler.class;
+                ModernCapabilities.inject("net.minecraftforge.fluids.capability.IFluidHandler", fluids, "FLUID_HANDLER_CAPABILITY");
+                ModernCapabilities.inject("net.minecraftforge.fluids.capability.IFluidHandlerItem", fluids, "FLUID_HANDLER_ITEM_CAPABILITY");
+                LOGGER.info("Forge 1.16's fluid capabilities set up");
+            } catch (RuntimeException | LinkageError e) {
+                LOGGER.warn("Couldn't set up Forge 1.16's fluid capabilities", e);
+            }
+        }
         for (ModFileScanData.AnnotationData annotation : scan.getAnnotations()) {
             if (!CAPABILITY_INJECT.equals(annotation.getAnnotationType())) continue;
             Object value = annotation.getAnnotationData().get("value");
@@ -230,8 +254,45 @@ public final class ModernHost implements IModernHost {
 
     @Override
     public void setup() {
+        if (Mods116.isClient()) renderThread();
+        try {
+            java.util.Map<net.minecraft.entity.EntityType<? extends net.minecraft.entity.LivingEntity>, net.minecraft.entity.ai.attributes.AttributeModifierMap> attributes =
+                    new java.util.HashMap<>();
+            postToMods(new net.minecraftforge.event.entity.EntityAttributeCreationEvent(attributes));
+            attributes.forEach(com.michaelsebero.portium.modern.mc.entity.ai.attributes.GlobalEntityTypeAttributes::portium$put);
+        } catch (Throwable e) {
+            com.michaelsebero.portium.mods116.ModernFailures.add("Forge 1.16's entity attribute event couldn't be posted, so mods' mobs lack their attributes", e);
+        }
         each(ModLoadingStage.COMMON_SETUP, FMLCommonSetupEvent::new);
+        if (Mods116.isClient()) {
+            try {
+                ParticleGlue.postRegister(this);
+            } catch (Throwable e) {
+                com.michaelsebero.portium.mods116.ModernFailures.add("Forge 1.16's particle factory event couldn't be posted, so mods' particles don't show", e);
+            }
+        }
         each(ModLoadingStage.SIDED_SETUP, Mods116.isClient() ? FMLClientSetupEvent::new : FMLDedicatedServerSetupEvent::new);
+    }
+
+    /**
+     * 1.16's render system checks it's called from the threads 1.16's main method registers, which nothing registers
+     * here: 1.12's client thread is both (Create's Ponder clears a framebuffer through 1.16's code).
+     */
+    private static void replayRenderCalls() {
+        try {
+            com.mojang.blaze3d.systems.RenderSystem.replayQueue();
+        } catch (RuntimeException | LinkageError e) {
+            ModernFailures.add("A 1.16 mod's queued render work failed", e);
+        }
+    }
+
+    private static void renderThread() {
+        try {
+            com.mojang.blaze3d.systems.RenderSystem.initRenderThread();
+            com.mojang.blaze3d.systems.RenderSystem.initGameThread(false);
+        } catch (IllegalStateException | LinkageError e) {
+            LOGGER.debug("1.16's render system threads were set already", e);
+        }
     }
 
     @Override
@@ -254,6 +315,7 @@ public final class ModernHost implements IModernHost {
     @Override
     public void serverStarting(MinecraftServer server) {
         ModernCommands.reset();
+        WorldGenGlue.prepare();
         // Forge 1.16 registers commands on this event, before the server starts.
         MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.RegisterCommandsEvent(ModernCommands.dispatcher(),
                 server.func_71262_S() ? net.minecraft.command.Commands.EnvironmentType.DEDICATED : net.minecraft.command.Commands.EnvironmentType.INTEGRATED));
@@ -316,6 +378,44 @@ public final class ModernHost implements IModernHost {
         net.minecraftforge.common.crafting.CraftingHelper.register(net.minecraftforge.common.crafting.conditions.OrCondition.Serializer.INSTANCE);
         net.minecraftforge.common.crafting.CraftingHelper.register(net.minecraftforge.common.crafting.conditions.TrueCondition.Serializer.INSTANCE);
         net.minecraftforge.common.crafting.CraftingHelper.register(net.minecraftforge.common.crafting.conditions.TagEmptyCondition.Serializer.INSTANCE);
+    }
+
+    /** Forge 1.16's tick event of this kind, on the main bus, where 1.16 mods listen for it. */
+    @Override
+    public void tick(int kind, boolean start, @javax.annotation.Nullable Object subject, float partialTicks) {
+        // 1.16's render loop runs what was queued for the render thread each frame (Create makes its screens'
+        // framebuffer so); 1.12's doesn't know the queue.
+        if (kind == TICK_RENDER && start) replayRenderCalls();
+        net.minecraftforge.event.TickEvent.Phase phase = start ? net.minecraftforge.event.TickEvent.Phase.START : net.minecraftforge.event.TickEvent.Phase.END;
+        net.minecraftforge.event.TickEvent event;
+        switch (kind) {
+            case TICK_CLIENT:
+                event = new net.minecraftforge.event.TickEvent.ClientTickEvent(phase);
+                break;
+            case TICK_SERVER:
+                event = new net.minecraftforge.event.TickEvent.ServerTickEvent(phase);
+                break;
+            case TICK_WORLD: {
+                net.minecraft.world.World world = (net.minecraft.world.World) subject;
+                event = new net.minecraftforge.event.TickEvent.WorldTickEvent(world.field_72995_K ? net.minecraftforge.fml.LogicalSide.CLIENT
+                        : net.minecraftforge.fml.LogicalSide.SERVER, phase, world);
+                break;
+            }
+            case TICK_PLAYER:
+                event = new net.minecraftforge.event.TickEvent.PlayerTickEvent(phase, (net.minecraft.entity.player.PlayerEntity) subject);
+                break;
+            case TICK_RENDER:
+                event = new net.minecraftforge.event.TickEvent.RenderTickEvent(phase, partialTicks);
+                break;
+            default:
+                return;
+        }
+        MinecraftForge.EVENT_BUS.post(event);
+    }
+
+    @Override
+    public Object postEvent(String name, Object... arguments) {
+        return EventGlue.post(name, arguments);
     }
 
     /** Straight to each mod's bus: Forge 1.16's own posting asks for its mod bus event marker, which 1.12's events lack. */

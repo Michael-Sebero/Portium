@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:end_stone_brick_wall"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:end_bricks"
+    }
+  },
+  "result": {
+    "item": "minecraft:end_stone_brick_wall",
+    "count": 6,
+    "data": 0
+  }
+}

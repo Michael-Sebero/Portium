@@ -26,6 +26,7 @@ public final class ModernFailures {
         if (!SEEN.add(line)) return;
         FAILURES.add(line);
         LOGGER.error("1.16.5 mod problem: {}", what, cause);
+        com.michaelsebero.portium.diagnostics.ProblemReport.record(what, cause);
     }
 
     public static synchronized List<String> list() {

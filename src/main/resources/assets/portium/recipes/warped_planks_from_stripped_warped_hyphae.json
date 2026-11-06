@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:stripped_warped_hyphae"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:stripped_warped_hyphae"
+    }
+  ],
+  "result": {
+    "item": "minecraft:warped_planks",
+    "count": 4
+  },
+  "group": "planks"
+}

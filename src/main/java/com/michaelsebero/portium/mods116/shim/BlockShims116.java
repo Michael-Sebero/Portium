@@ -121,4 +121,134 @@ public final class BlockShims116 {
     }
 
     private BlockShims116() {}
+
+    /** 1.16's {@code RedstoneWireBlock.getRGBByPower}: 1.12's colour of wire at that power. */
+    public static int redstoneColor(int power) {
+        return net.minecraft.block.BlockRedstoneWire.colorMultiplier(power);
+    }
+
+    // Forge 1.16's block state methods (IForgeBlockState), on Forge 1.12's block methods they come from.
+
+    public static net.minecraft.block.SoundType soundType(IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos,
+                                                          @javax.annotation.Nullable net.minecraft.entity.Entity entity) {
+        return state.getBlock().getSoundType(state, world, pos, entity);
+    }
+
+    public static float slipperiness(IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos,
+                                     @javax.annotation.Nullable net.minecraft.entity.Entity entity) {
+        return state.getBlock().getSlipperiness(state, world, pos, entity);
+    }
+
+    public static IBlockState rotate(IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.util.Rotation rotation) {
+        return state.withRotation(rotation);
+    }
+
+    @javax.annotation.Nullable
+    public static net.minecraft.tileentity.TileEntity createTileEntity(IBlockState state, net.minecraft.world.IBlockAccess world) {
+        return state.getBlock().createTileEntity(world instanceof net.minecraft.world.World ? (net.minecraft.world.World) world : null, state);
+    }
+
+    public static boolean removedByPlayer(IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, EntityPlayer player,
+                                          boolean willHarvest, Object fluid) {
+        return state.getBlock().removedByPlayer(state, world, pos, player, willHarvest);
+    }
+
+    public static boolean canSustainPlant(IBlockState state, net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos,
+                                          net.minecraft.util.EnumFacing facing, net.minecraftforge.common.IPlantable plantable) {
+        return state.getBlock().canSustainPlant(state, world, pos, facing, plantable);
+    }
+
+    /** Forge 1.16: whether two blocks a piston moves stick together (slime; 1.12 has no honey). */
+    public static boolean canStickTo(IBlockState state, IBlockState other) {
+        return state.getBlock().isStickyBlock(state) || other.getBlock().isStickyBlock(other);
+    }
+
+    public static boolean canHarvestBlock(IBlockState state, net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos, EntityPlayer player) {
+        return state.getBlock().canHarvestBlock(world, pos, player);
+    }
+
+    public static boolean addRunningEffects(IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.entity.Entity entity) {
+        return state.getBlock().addRunningEffects(state, world, pos, entity);
+    }
+
+    @javax.annotation.Nullable
+    private static java.lang.reflect.Field mapColor;
+
+    /** 1.16's {@code block.getMaterialColor()}: 1.12's block map colour (its default state's, else the block's own). */
+    public static net.minecraft.block.material.MapColor materialColor(net.minecraft.block.Block block) {
+        try {
+            return block.getDefaultState().getMapColor((net.minecraft.world.IBlockAccess) null, net.minecraft.util.math.BlockPos.ORIGIN);
+        } catch (RuntimeException e) {
+            try {
+                if (mapColor == null) {
+                    mapColor = net.minecraftforge.fml.common.ObfuscationReflectionHelper.findField(net.minecraft.block.Block.class, "field_181083_K");
+                }
+                return (net.minecraft.block.material.MapColor) mapColor.get(block);
+            } catch (ReflectiveOperationException | RuntimeException again) {
+                return net.minecraft.block.material.MapColor.AIR;
+            }
+        }
+    }
+
+    public static net.minecraft.dispenser.IBehaviorDispenseItem noDispense() {
+        return net.minecraft.dispenser.IBehaviorDispenseItem.DEFAULT_BEHAVIOR;
+    }
+
+    /** 1.16's {@code Block.getDrops(state, world, pos, tile[, entity, tool])}: 1.12's drops, with the tool's fortune. */
+    public static java.util.List<net.minecraft.item.ItemStack> drops(net.minecraft.block.state.IBlockState state, net.minecraft.world.World world,
+            net.minecraft.util.math.BlockPos pos, @javax.annotation.Nullable net.minecraft.tileentity.TileEntity tile) {
+        return drops(state, world, pos, tile, null, net.minecraft.item.ItemStack.EMPTY);
+    }
+
+    public static java.util.List<net.minecraft.item.ItemStack> drops(net.minecraft.block.state.IBlockState state, net.minecraft.world.World world,
+            net.minecraft.util.math.BlockPos pos, @javax.annotation.Nullable net.minecraft.tileentity.TileEntity tile, @javax.annotation.Nullable net.minecraft.entity.Entity entity,
+            net.minecraft.item.ItemStack tool) {
+        net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> drops = net.minecraft.util.NonNullList.create();
+        int fortune = tool == null || tool.isEmpty() ? 0 : net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(net.minecraft.init.Enchantments.FORTUNE, tool);
+        state.getBlock().getDrops(drops, world, pos, state, fortune);
+        return drops;
+    }
+
+    /** 1.16's {@code Block.spawnDrops(state, world, pos[, tile[, entity, tool]])}. */
+    public static void spawnDrops(net.minecraft.block.state.IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos) {
+        spawnDrops(state, world, pos, null, null, net.minecraft.item.ItemStack.EMPTY);
+    }
+
+    public static void spawnDrops(net.minecraft.block.state.IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos,
+            @javax.annotation.Nullable net.minecraft.tileentity.TileEntity tile) {
+        spawnDrops(state, world, pos, tile, null, net.minecraft.item.ItemStack.EMPTY);
+    }
+
+    public static void spawnDrops(net.minecraft.block.state.IBlockState state, net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos,
+            @javax.annotation.Nullable net.minecraft.tileentity.TileEntity tile, @javax.annotation.Nullable net.minecraft.entity.Entity entity, net.minecraft.item.ItemStack tool) {
+        if (world.isRemote) return;
+        for (net.minecraft.item.ItemStack drop : drops(state, world, pos, tile, entity, tool)) net.minecraft.block.Block.spawnAsEntity(world, pos, drop);
+    }
+
+    /** Forge 1.16's {@code ForgeHooks.getBurnTime(stack[, recipeType])}: 1.12's furnace fuel value. */
+    public static int burnTime(net.minecraft.item.ItemStack stack) {
+        return net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime(stack);
+    }
+
+    public static int burnTime(net.minecraft.item.ItemStack stack, Object recipeType) {
+        return burnTime(stack);
+    }
+
+    /** Forge 1.16's {@code ForgeHooks.onRightClickBlock(player, hand, pos, hit)}. */
+    public static net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock rightClickBlock(net.minecraft.entity.player.EntityPlayer player,
+            net.minecraft.util.EnumHand hand, net.minecraft.util.math.BlockPos pos, net.minecraft.util.math.RayTraceResult hit) {
+        return net.minecraftforge.common.ForgeHooks.onRightClickBlock(player, hand, pos, hit.sideHit, hit.hitVec);
+    }
+
+    /**
+     * {@code x instanceof AbstractFurnaceBlock}: 1.16's furnaces, 1.12's furnace (lit or not) and Portium's blast
+     * furnace and smoker.
+     */
+    public static boolean isFurnace(Object block) {
+        if (block instanceof net.minecraft.block.BlockFurnace || block instanceof com.michaelsebero.portium.block.workstation.BlockCookingFurnace) return true;
+        for (Class<?> type = block == null ? null : block.getClass(); type != null; type = type.getSuperclass()) {
+            if (type.getName().endsWith("net.minecraft.block.AbstractFurnaceBlock")) return true;
+        }
+        return false;
+    }
 }

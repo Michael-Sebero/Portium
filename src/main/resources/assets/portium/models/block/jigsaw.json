@@ -1,0 +1,12 @@
+{
+  "parent": "portium:block/template_cube_directional",
+  "textures": {
+    "particle": "portium:blocks/jigsaw_top",
+    "north": "portium:blocks/jigsaw_top",
+    "south": "portium:blocks/jigsaw_bottom",
+    "east": "portium:blocks/jigsaw_side",
+    "west": "portium:blocks/jigsaw_side",
+    "up": "portium:blocks/jigsaw_lock",
+    "down": "portium:blocks/jigsaw_side"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:honeycomb_block"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HH",
+    "HH"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:honeycomb"
+    }
+  },
+  "result": {
+    "item": "minecraft:honeycomb_block",
+    "count": 1
+  }
+}

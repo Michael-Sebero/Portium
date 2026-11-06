@@ -1,0 +1,9 @@
+{
+  "parent": "portium:block/template_honey_block",
+  "textures": {
+    "particle": "portium:blocks/honey_block_top",
+    "down": "portium:blocks/honey_block_bottom",
+    "up": "portium:blocks/honey_block_top",
+    "side": "portium:blocks/honey_block_side"
+  }
+}

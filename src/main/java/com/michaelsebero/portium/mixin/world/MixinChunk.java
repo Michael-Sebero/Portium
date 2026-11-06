@@ -40,6 +40,14 @@ public abstract class MixinChunk implements IWaterlogChunk {
      * The server decides; clients follow its updates, which may arrive before the block itself, so a client never
      * drains a cell on its own.
      */
+    /** 1.14's points of interest (workstations, beds, bells) follow block changes in sections already scanned. */
+    @Inject(method = "setBlockState", at = @At("RETURN"))
+    private void portium$trackPoi(BlockPos pos, IBlockState state, CallbackInfoReturnable<IBlockState> cir) {
+        if (cir.getReturnValue() != null && !this.world.isRemote) {
+            com.michaelsebero.portium.world.poi.PoiManager116.onBlockChanged(this.world, pos, cir.getReturnValue(), state);
+        }
+    }
+
     @Inject(method = "setBlockState", at = @At("HEAD"))
     private void portium$drainReplacedBlock(BlockPos pos, IBlockState state, CallbackInfoReturnable<IBlockState> cir) {
         if (this.world.isRemote || !this.portium$waterlog.get(pos.getX(), pos.getY(), pos.getZ())) return;

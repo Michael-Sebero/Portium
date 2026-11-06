@@ -25,7 +25,8 @@ import java.util.Random;
 
 /**
  * 1.16's Nether for worlds of 1.16.5 generation: its terrain and lava sea, biome surfaces, bedrock and caves, then
- * each biome's features as the chunk populates. Fortresses are still 1.12's for now. Other mods hook in as they do
+ * each biome's features as the chunk populates. Fortresses are 1.12's, placed on 1.16's grid (shared with bastion
+ * remnants: two candidates in five are fortresses). Other mods hook in as they do
  * with 1.12's Nether: the populate and decorate events fire, and their own world generators run after.
  */
 public class ChunkGeneratorNether116 implements IChunkGenerator {
@@ -39,7 +40,41 @@ public class ChunkGeneratorNether116 implements IChunkGenerator {
     private final NetherCaves caves;
     private final NetherDecoration decoration;
     private final Random rand = new Random();
-    private MapGenNetherBridge fortress = new MapGenNetherBridge();
+    private MapGenNetherBridge fortress = new MapGenNetherBridge() {
+        @Override
+        protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+            return com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.isFortressStart(this.world.getSeed(), chunkX, chunkZ);
+        }
+
+        @Override
+        public net.minecraft.util.math.BlockPos getNearestStructurePos(World world, net.minecraft.util.math.BlockPos pos, boolean findUnexplored) {
+            this.world = world;
+            int chunkX = pos.getX() >> 4;
+            int chunkZ = pos.getZ() >> 4;
+            for (int ring = 0; ring <= 100; ring++) {
+                net.minecraft.util.math.BlockPos best = null;
+                double bestSq = Double.MAX_VALUE;
+                for (int dx = -ring; dx <= ring; dx++) {
+                    for (int dz = -ring; dz <= ring; dz++) {
+                        if (Math.abs(dx) != ring && Math.abs(dz) != ring) continue;
+                        int regionX = Math.floorDiv(chunkX, 27) + dx;
+                        int regionZ = Math.floorDiv(chunkZ, 27) + dz;
+                        net.minecraft.util.math.ChunkPos start = com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.fortressCandidate(this.world.getSeed(),
+                                regionX * 27, regionZ * 27);
+                        if (start == null) continue;
+                        net.minecraft.util.math.BlockPos found = new net.minecraft.util.math.BlockPos((start.x << 4) + 8, 64, (start.z << 4) + 8);
+                        double sq = found.distanceSq(pos);
+                        if (sq < bestSq) {
+                            bestSq = sq;
+                            best = found;
+                        }
+                    }
+                }
+                if (best != null) return best;
+            }
+            return null;
+        }
+    };
 
     public ChunkGeneratorNether116(World world, boolean generateStructures, long seed, BiomeProviderNether116 biomes) {
         this.world = world;
@@ -101,6 +136,7 @@ public class ChunkGeneratorNether116 implements IChunkGenerator {
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(this.world, this.rand, corner));
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(this.world, this.rand, corner));
         MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(this.world, this.rand, chunkPos));
+        com.michaelsebero.portium.world.v116.GenerationLight.afterDecoration(this.world, x, z);
         BlockFalling.fallInstantly = false;
     }
 
@@ -123,6 +159,9 @@ public class ChunkGeneratorNether116 implements IChunkGenerator {
     @Nullable
     @Override
     public BlockPos getNearestStructurePos(World world, String structureName, BlockPos position, boolean findUnexplored) {
+        if (com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.isOurs(structureName)) {
+            return com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.findNearest(world, structureName, position);
+        }
         return "Fortress".equals(structureName) && this.fortress != null ? this.fortress.getNearestStructurePos(world, position, findUnexplored) : null;
     }
 
@@ -133,6 +172,9 @@ public class ChunkGeneratorNether116 implements IChunkGenerator {
 
     @Override
     public boolean isInsideStructure(World world, String structureName, BlockPos pos) {
+        if (com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.isOurs(structureName)) {
+            return com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.isInside(this.world, structureName, pos);
+        }
         return "Fortress".equals(structureName) && this.fortress != null && this.fortress.isInsideStructure(pos);
     }
 }

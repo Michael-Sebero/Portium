@@ -52,7 +52,9 @@ public final class Flattening {
     /** {@code Blocks.X} for a block 1.12's {@code Blocks} lacks, by 1.13 name; of the field's type if it can be. */
     public static Block block(String name, Class<?> type) {
         index();
+        // A miss isn't kept: what isn't registered yet may be later.
         Block block = BLOCKS.computeIfAbsent(name, Flattening::resolveBlock);
+        if (block == null) return Blocks.AIR;
         if (type.isInstance(block)) return block;
         return block instanceof FlattenedBlock ? ((FlattenedBlock) block).base() : block;
     }
@@ -61,6 +63,7 @@ public final class Flattening {
     public static Item item(String name, Class<?> type) {
         index();
         Item item = ITEMS.computeIfAbsent(name, Flattening::resolveItem);
+        if (item == null) return Items.AIR;
         if (type.isInstance(item)) return item;
         return item instanceof FlattenedItemView ? ((FlattenedItemView) item).base() : item;
     }
@@ -142,7 +145,7 @@ public final class Flattening {
     private static Block resolveBlock(String name) {
         String id = new ResourceLocation(name).toString();
         LegacyBlock legacy = LegacyBlockStates.resolve(id);
-        if (legacy == null) return Blocks.AIR;
+        if (legacy == null) return null;
         if (legacy.getVariant().isEmpty()) return legacy.getBlock();
         IBlockState state = legacy.getBlock().getDefaultState();
         for (Map.Entry<IProperty<?>, Comparable<?>> entry : legacy.getVariant().entrySet()) state = with(state, entry.getKey(), entry.getValue());
@@ -153,7 +156,7 @@ public final class Flattening {
     private static Item resolveItem(String name) {
         String id = new ResourceLocation(name).toString();
         LegacyItem legacy = LegacyItems.resolve(id);
-        if (legacy == null) return Items.AIR;
+        if (legacy == null) return null;
         int meta = legacy.getMeta() == LegacyItem.ANY_META ? 0 : legacy.getMeta();
         if (meta == 0) return legacy.getItem();
         Block block = BLOCKS.get(id);

@@ -52,9 +52,9 @@ public final class OceanStructures {
         Random random = event.getRand();
         for (OceanStructure structure : ALL) {
             int reach = structure == BURIED_TREASURE ? 0 : REACH;
-            for (int regionX = structure.regionOf(chunkX - reach); regionX <= structure.regionOf(chunkX + 1 + reach); regionX++) {
-                for (int regionZ = structure.regionOf(chunkZ - reach); regionZ <= structure.regionOf(chunkZ + 1 + reach); regionZ++) {
-                    ChunkPos start = structure.getStartInRegion(world.getSeed(), regionX, regionZ);
+            for (int regionX = structure.regionOf(world, chunkX - reach); regionX <= structure.regionOf(world, chunkX + 1 + reach); regionX++) {
+                for (int regionZ = structure.regionOf(world, chunkZ - reach); regionZ <= structure.regionOf(world, chunkZ + 1 + reach); regionZ++) {
+                    ChunkPos start = structure.getStartInRegion(world, regionX, regionZ);
                     if (Math.abs(start.x - chunkX) > reach + 1 || Math.abs(start.z - chunkZ) > reach + 1) continue;
                     if (!structure.hasStartAt(world, start.x, start.z)) continue;
                     placePieces(world, structure, start, area, data, random);
@@ -75,6 +75,9 @@ public final class OceanStructures {
                 y = piece.resolveY(world, OceanStructure.startRandom(world.getSeed(), start.x, start.z));
                 data.setHeight(structure, start.x, start.z, i, y);
             }
+            // A ruin is an undersea ruin: a piece of a cluster reaching over a shore or an island (whose ground is at or
+            // above the water's surface) is left out, with its drowned, rather than standing on land in the sun.
+            if (structure == OCEAN_RUIN && y >= world.getSeaLevel()) continue;
             piece.place(world, y, area, random);
         }
     }

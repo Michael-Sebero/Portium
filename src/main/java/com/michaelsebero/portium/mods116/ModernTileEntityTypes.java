@@ -61,9 +61,29 @@ public final class ModernTileEntityTypes {
             if (report) LOGGER.error("Couldn't make a tile entity of type {} to learn its class", name, e);
             return report;
         }
+        // A name 1.12 already has (minecraft:chest, made by 1.16's own chest class here) stays 1.12's: taking it over
+        // would leave 1.12's class without a name, and its block entities couldn't be saved or sent.
+        Class<?> existing = legacyClass(name);
+        if (existing != null && existing != tileClass) return true;
         if (TileEntity.getKey(tileClass) == null) GameRegistry.registerTileEntity(tileClass, name);
         com.michaelsebero.portium.modern.TileEntityFactories.register(tileClass, type::create);
         return true;
+    }
+
+    @javax.annotation.Nullable
+    private static java.lang.reflect.Field legacyRegistry;
+
+    /** The 1.12 tile entity class registered under a name, or null. */
+    @javax.annotation.Nullable
+    private static Class<?> legacyClass(ResourceLocation name) {
+        try {
+            if (legacyRegistry == null) legacyRegistry = net.minecraftforge.fml.common.ObfuscationReflectionHelper.findField(TileEntity.class, "field_190562_f");
+            Object registry = legacyRegistry.get(null);
+            @SuppressWarnings("unchecked") net.minecraft.util.registry.RegistryNamespaced<ResourceLocation, Object> names = (net.minecraft.util.registry.RegistryNamespaced<ResourceLocation, Object>) registry;
+            return (Class<?>) names.getObject(name);
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            return null;
+        }
     }
 
     private ModernTileEntityTypes() {}

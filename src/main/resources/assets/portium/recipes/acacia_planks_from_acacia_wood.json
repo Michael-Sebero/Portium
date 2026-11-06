@@ -2,13 +2,13 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:acacia_wood"
+      "item": "minecraft:acacia_wood"
     }
   ],
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "portium:acacia_wood"
+      "item": "minecraft:acacia_wood"
     }
   ],
   "result": {

@@ -92,6 +92,29 @@ public final class ItemStackShims116 {
         return result;
     }
 
+    /**
+     * {@code ItemStack.useOn(context)}: 1.12's {@code onItemUse}, which places blocks with Forge's snapshots and events
+     * and counts the use, and reaches 1.16 items' own {@code useOn} through Portium's adapter. 1.16's own body only
+     * knows 1.16 items, so 1.12's (a deployer placing cobblestone) did nothing. Without a player (a dispenser) only
+     * 1.16 items can be used, as 1.12's need one.
+     */
+    public static EnumActionResult useOn(ItemStack stack, ItemUseContext context) {
+        EntityPlayer player = context.getPlayer();
+        BlockPos pos = context.getPos();
+        Vec3d hit = context.getHitVec();
+        float x = (float) (hit.x - pos.getX()), y = (float) (hit.y - pos.getY()), z = (float) (hit.z - pos.getZ());
+        if (player == null) {
+            Item item = stack.getItem();
+            return item instanceof com.michaelsebero.portium.modern.adapter.ModernItem
+                    ? ((com.michaelsebero.portium.modern.adapter.ModernItem) item).onItemUse(context) : EnumActionResult.PASS;
+        }
+        EnumActionResult result = stack.onItemUse(player, context.getWorld(), pos, context.getHand(), context.getFace(), x, y, z);
+        if (TRACE) org.apache.logging.log4j.LogManager.getLogger("Portium/Trace").info("useOn {} at {} {} by {} -> {}", stack, pos, context.getFace(), player.getName(), result);
+        return result;
+    }
+
+    private static final boolean TRACE = System.getProperty("portium.dev.trace") != null;
+
     public static boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
         return !stack.isEmpty() && stack.getItem().onBlockStartBreak(stack, pos, player);
     }

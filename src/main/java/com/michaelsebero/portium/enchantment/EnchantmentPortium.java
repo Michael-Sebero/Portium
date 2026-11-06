@@ -16,6 +16,8 @@ import java.util.function.Predicate;
 public class EnchantmentPortium extends Enchantment {
 
     public static final EnumEnchantmentType TRIDENT = EnumHelper.addEnchantmentType("PORTIUM_TRIDENT", item -> item instanceof ItemTrident);
+    public static final EnumEnchantmentType CROSSBOW = EnumHelper.addEnchantmentType("PORTIUM_CROSSBOW",
+            item -> item instanceof com.michaelsebero.portium.item.ItemCrossbow);
 
     private final int maxLevel;
     private final IntUnaryOperator minEnchantability;
@@ -23,7 +25,12 @@ public class EnchantmentPortium extends Enchantment {
     private final Predicate<Enchantment> compatible;
 
     private EnchantmentPortium(String name, Rarity rarity, int maxLevel, IntUnaryOperator min, IntUnaryOperator max, Predicate<Enchantment> compatible) {
-        super(rarity, TRIDENT, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+        this(name, TRIDENT, rarity, maxLevel, min, max, compatible);
+    }
+
+    private EnchantmentPortium(String name, EnumEnchantmentType type, Rarity rarity, int maxLevel, IntUnaryOperator min, IntUnaryOperator max,
+                               Predicate<Enchantment> compatible) {
+        super(rarity, type, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
         this.maxLevel = maxLevel;
         this.minEnchantability = min;
         this.maxEnchantability = max;
@@ -49,6 +56,21 @@ public class EnchantmentPortium extends Enchantment {
     /** Thrown tridents summon lightning on the struck mob during thunderstorms. */
     public static EnchantmentPortium channeling() {
         return new EnchantmentPortium("channeling", Rarity.VERY_RARE, 1, l -> 25, l -> 50, e -> !is(e, "riptide"));
+    }
+
+    /** Crossbows (1.14) shoot three arrows at once. */
+    public static EnchantmentPortium multishot() {
+        return new EnchantmentPortium("multishot", CROSSBOW, Rarity.RARE, 1, l -> 20, l -> 50, e -> !is(e, "piercing"));
+    }
+
+    /** Crossbow arrows pass through a mob per level. */
+    public static EnchantmentPortium piercing() {
+        return new EnchantmentPortium("piercing", CROSSBOW, Rarity.COMMON, 4, l -> 1 + (l - 1) * 10, l -> 50, e -> !is(e, "multishot"));
+    }
+
+    /** Crossbows load 5 ticks quicker per level. */
+    public static EnchantmentPortium quickCharge() {
+        return new EnchantmentPortium("quick_charge", CROSSBOW, Rarity.UNCOMMON, 3, l -> 12 + (l - 1) * 20, l -> 50, e -> true);
     }
 
     private static boolean is(Enchantment enchantment, String name) {

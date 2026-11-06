@@ -257,6 +257,8 @@ final class ModernRedirects {
         String playerEvent = "net/minecraftforge/fml/common/gameevent/PlayerEvent";
         String dimensionType = "Lnet/minecraft/world/dimension/DimensionType;";
         method(playerEvent, "getPlayer", "()Lnet/minecraft/entity/player/EntityPlayer;", events, "getPlayer");
+        // Forge 1.13's tooltip lines are text components; 1.12's event holds text.
+        method("net/minecraftforge/event/entity/player/ItemTooltipEvent", "getToolTip", "()Ljava/util/List;", SHIMS + "TooltipList", "lines");
         method(playerEvent + "$ItemCraftedEvent", "getCrafting", "()Lnet/minecraft/item/ItemStack;", events, "getCrafting");
         method(playerEvent + "$ItemCraftedEvent", "getInventory", "()Lnet/minecraft/inventory/IInventory;", events, "getInventory");
         method(playerEvent + "$ItemSmeltedEvent", "getSmelting", "()Lnet/minecraft/item/ItemStack;", events, "getSmelting");

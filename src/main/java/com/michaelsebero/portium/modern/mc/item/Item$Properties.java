@@ -29,6 +29,19 @@ public class Item$Properties {
     @Nullable
     Supplier<?> renderer;
 
+    /** 1.16's fire-immune items (netherite's): 1.12's items burn alike; kept for what asks. */
+    private boolean immuneToFire;
+
+    @Srg("func_234689_a_")
+    public Item$Properties isImmuneToFire() {
+        this.immuneToFire = true;
+        return this;
+    }
+
+    public boolean portium$isImmuneToFire() {
+        return this.immuneToFire;
+    }
+
     @Srg("func_200917_a")
     public Item$Properties maxStackSize(int maxStackSize) {
         if (this.maxDamage > 0) throw new RuntimeException("Unable to have damage AND stack.");

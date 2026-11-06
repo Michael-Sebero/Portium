@@ -113,12 +113,68 @@ final class ModernMappings {
         RENAMED.put("net/minecraft/client/renderer/ItemRenderer", "net/minecraft/client/renderer/RenderItem");
         // 1.16's player renderer, which the generated table misses.
         RENAMED.put("net/minecraft/client/renderer/entity/PlayerRenderer", "net/minecraft/client/renderer/entity/RenderPlayer");
-        // 1.16's entity model (a living renderer's): 1.12's model base.
-        RENAMED.put("net/minecraft/client/renderer/entity/model/EntityModel", "net/minecraft/client/model/ModelBase");
         RENAMED.put("net/minecraft/block/BlockSnow", "net/minecraft/block/BlockSnowBlock");
         // 1.13's namespaced registries are its IRegistry; 1.12's classes of these names aren't (GameData.getWrapper).
         RENAMED.put("net/minecraft/util/registry/RegistryNamespaced", "com/michaelsebero/portium/modern/mc/util/registry/IRegistry");
         RENAMED.put("net/minecraft/util/registry/RegistryNamespacedDefaultedByKey", "com/michaelsebero/portium/modern/mc/util/registry/IRegistry");
+        // 1.16's model transform (a rotation, a variant) is what Forge 1.12 calls a model state; the generated table
+        // says a variant, which 1.12's rotations aren't.
+        RENAMED.put("net/minecraft/client/renderer/model/IModelTransform", "net/minecraftforge/common/model/IModelState");
+        // 1.16's loot function serializers go with its loot functions, which are Minecraft 1.16.5's own here; the
+        // generated table pairs them with 1.12's, which are made another way.
+        RENAMED.put("net/minecraft/loot/LootFunction$Serializer", "net/minecraft/loot/LootFunction$Serializer");
+        // 1.16's loot entries stay 1.16's own (their generators aren't 1.12's entries; see the glue's LootGlue); its
+        // number ranges are 1.12's range (constant and binomial ones made by redirects).
+        // Mob base classes 1.12 has under other names (the generated table pairs classes by name and missed these):
+        // a mod's monster must be 1.12's monster (hostile spawning, peaceful despawn, mobs' targeting).
+        // 1.16's crafting menus' base (the workbench's and player's): 1.12's have none but Container (ContainerShims116).
+        RENAMED.put("net/minecraft/inventory/container/RecipeBookContainer", "net/minecraft/inventory/Container");
+        RENAMED.put("net/minecraft/entity/monster/MonsterEntity", "net/minecraft/entity/monster/EntityMob");
+        // The mobs Portium backports are its own classes to 1.16 mods too: `x instanceof PillagerEntity` means Portium's
+        // pillager, and naming one doesn't load Minecraft 1.16.5's, which isn't built on 1.12's (Quark: VerifyError).
+        String mobs = "com/michaelsebero/portium/entity/";
+        RENAMED.put("net/minecraft/entity/monster/PillagerEntity", mobs + "monster/EntityPillager");
+        RENAMED.put("net/minecraft/entity/monster/RavagerEntity", mobs + "monster/EntityRavager");
+        RENAMED.put("net/minecraft/entity/monster/DrownedEntity", mobs + "monster/EntityDrowned");
+        RENAMED.put("net/minecraft/entity/monster/PhantomEntity", mobs + "monster/EntityPhantom");
+        RENAMED.put("net/minecraft/entity/monster/HoglinEntity", mobs + "monster/EntityHoglin");
+        RENAMED.put("net/minecraft/entity/monster/ZoglinEntity", mobs + "monster/EntityZoglin");
+        RENAMED.put("net/minecraft/entity/monster/ZombifiedPiglinEntity", mobs + "monster/EntityZombifiedPiglin");
+        RENAMED.put("net/minecraft/entity/monster/piglin/AbstractPiglinEntity", mobs + "monster/piglin/EntityAbstractPiglin");
+        RENAMED.put("net/minecraft/entity/monster/piglin/PiglinEntity", mobs + "monster/piglin/EntityPiglin");
+        RENAMED.put("net/minecraft/entity/monster/piglin/PiglinBruteEntity", mobs + "monster/piglin/EntityPiglinBrute");
+        RENAMED.put("net/minecraft/entity/passive/StriderEntity", mobs + "passive/EntityStrider");
+        RENAMED.put("net/minecraft/entity/passive/DolphinEntity", mobs + "passive/EntityDolphin");
+        RENAMED.put("net/minecraft/entity/passive/FoxEntity", mobs + "passive/EntityFox");
+        RENAMED.put("net/minecraft/entity/passive/TurtleEntity", mobs + "passive/EntityTurtle");
+        RENAMED.put("net/minecraft/entity/passive/CatEntity", mobs + "passive/EntityCat");
+        RENAMED.put("net/minecraft/entity/passive/PandaEntity", mobs + "passive/EntityPanda");
+        RENAMED.put("net/minecraft/entity/passive/BeeEntity", mobs + "passive/bee/EntityBee");
+        // (Not WaterMobEntity: 1.16's is a creature, 1.12's EntityWaterMob isn't, so mods' swimmers keep 1.16's own.)
+        RENAMED.put("net/minecraft/entity/passive/GolemEntity", "net/minecraft/entity/monster/EntityGolem");
+        RENAMED.put("net/minecraft/entity/passive/AmbientEntity", "net/minecraft/entity/passive/EntityAmbientCreature");
+        RENAMED.put("net/minecraft/entity/FlyingEntity", "net/minecraft/entity/EntityFlying");
+        RENAMED.put("net/minecraft/dispenser/IDispenseItemBehavior", "net/minecraft/dispenser/IBehaviorDispenseItem");
+        RENAMED.put("net/minecraft/loot/ILootGenerator", "net/minecraft/loot/ILootGenerator");
+        // 1.16's shader manager interface isn't 1.12's shader manager class (Botania implements it; ShaderShims116).
+        RENAMED.put("net/minecraft/client/shader/IShaderManager", "net/minecraft/client/shader/IShaderManager");
+        RENAMED.put("net/minecraft/loot/IRandomRange", "net/minecraft/world/storage/loot/RandomValueRange");
+        RENAMED.put("net/minecraft/loot/ConstantRange", "net/minecraft/world/storage/loot/RandomValueRange");
+        RENAMED.put("net/minecraft/loot/BinomialRange", "net/minecraft/world/storage/loot/RandomValueRange");
+        // A server world's scheduled ticks: Portium's tick list over 1.12's.
+        RENAMED.put("net/minecraft/world/server/ServerTickList", SHIMS + "world/ITickList");
+        // 1.16's projectile base: 1.12's projectiles (arrows, throwables, fireballs) are plain entities, so references
+        // to it mean 1.12's entity; a mod's projectile still builds on 1.16's own class (ModernTranslator.superclass).
+        RENAMED.put("net/minecraft/entity/projectile/ProjectileEntity", "net/minecraft/entity/Entity");
+        // 1.16's attribute instances and per-entity attribute set: 1.12's (most of their methods keep their ids).
+        RENAMED.put("net/minecraft/entity/ai/attributes/ModifiableAttributeInstance", "net/minecraft/entity/ai/attributes/IAttributeInstance");
+        RENAMED.put("net/minecraft/entity/ai/attributes/AttributeModifierManager", "net/minecraft/entity/ai/attributes/AbstractAttributeMap");
+        // 1.16's movement controller states: 1.12's move helper's.
+        RENAMED.put("net/minecraft/entity/ai/controller/MovementController$Action", "net/minecraft/entity/ai/EntityMoveHelper$Action");
+        // 1.16's equipment slot group (hand or armour): 1.12's slot type.
+        RENAMED.put("net/minecraft/inventory/EquipmentSlotType$Group", "net/minecraft/inventory/EntityEquipmentSlot$Type");
+        // A mob group's spawn data, which the SRG ids don't tie together.
+        RENAMED.put("net/minecraft/entity/ILivingEntityData", "net/minecraft/entity/IEntityLivingData");
         // The marker for animals (and golems, mobs, villagers) is IAnimals in 1.12.
         RENAMED.put("net/minecraft/entity/passive/IAnimal", "net/minecraft/entity/passive/IAnimals");
         // Data fixer types only describe data to 1.13's fixers, which 1.12 doesn't have.
@@ -132,8 +188,6 @@ final class ModernMappings {
         RENAMED.put("net/minecraft/block/AbstractBlock$Properties", SHIMS + "block/Block$Properties");
         RENAMED.put("net/minecraft/particles/ParticleTypes", SHIMS + "init/Particles");
         RENAMED.put("net/minecraft/util/registry/Registry", SHIMS + "util/registry/IRegistry");
-        // Locked containers' base, which the SRG ids don't tie together (1.16 rewrote it around menus and names).
-        RENAMED.put("net/minecraft/tileentity/LockableTileEntity", "net/minecraft/tileentity/TileEntityLockable");
         // 1.16's fluid states are Portium's (1.13's) fluid state interface, whose methods they share; its fluids, Portium's holder.
         RENAMED.put("net/minecraft/fluid/FluidState", SHIMS + "fluid/IFluidState");
         RENAMED.put("net/minecraft/fluid/Fluids", SHIMS + "init/Fluids");
@@ -152,6 +206,8 @@ final class ModernMappings {
         RENAMED.put("com/mojang/bridge/game/Language", "net/minecraft/client/resources/Language");
         // 1.16's formattable text is 1.12's text (whose styles change in place).
         RENAMED.put("net/minecraft/util/text/IFormattableTextComponent", "net/minecraft/util/text/ITextComponent");
+        // Text properties (what fonts measure and wrap) are 1.12's components too; Create casts its lines to them.
+        RENAMED.put("net/minecraft/util/text/ITextProperties", "net/minecraft/util/text/ITextComponent");
         // 1.16's crafting recipe interface adds only a default type to the recipe interface; 1.12's crafting recipes,
         // which 1.16 mods are given as 1.16's (and cast to it), have 1.12's.
         RENAMED.put("net/minecraft/item/crafting/ICraftingRecipe", "net/minecraft/item/crafting/IRecipe");
@@ -159,9 +215,10 @@ final class ModernMappings {
         RENAMED.put("org/lwjgl/system/MemoryUtil", "com/michaelsebero/portium/mods116/lwjgl/MemoryUtil116");
         RENAMED.put("org/lwjgl/system/MemoryStack", "com/michaelsebero/portium/mods116/lwjgl/MemoryStack116");
         // 1.16's world interfaces, which 1.12's world class covers: like IWorld (World by the generated table), so 1.16 code
-        // handing one as another (a generation reader as a world writer) still type-checks.
+        // handing one as another (a generation reader as a world writer) still type-checks. 1.16's generation region too:
+        // features are handed the world (Quark keeps it as a WorldGenRegion where its frames say ISeedReader).
         for (String world : new String[] {"ICollisionReader", "IBiomeReader", "IDayTimeReader", "IServerWorld", "gen/IWorldGenerationReader",
-                "gen/IWorldGenerationBaseReader"}) {
+                "gen/IWorldGenerationBaseReader", "gen/WorldGenRegion"}) {
             RENAMED.put("net/minecraft/world/" + world, "net/minecraft/world/World");
         }
         RENAMED.put("net/minecraft/world/IBlockDisplayReader", "net/minecraft/world/IBlockAccess");
@@ -202,6 +259,21 @@ final class ModernMappings {
         NATIVE_CLASSES.add("net/minecraft/client/renderer/BufferBuilder");
         NATIVE_CLASSES.add("net/minecraft/client/renderer/Tessellator");
         NATIVE_CLASSES.add("net/minecraft/client/renderer/WorldVertexBufferUploader");
+        // 1.16's pillar block (logs, stems): 1.12's lacks its properties constructor, so a mod's are always 1.16's own;
+        // typed so as well (Mantle's wood registration returns the one it makes).
+        NATIVE_CLASSES.add("net/minecraft/block/RotatedPillarBlock");
+        // 1.16's container block entities (chests, machines): 1.16's own, on Portium's block entity adapter, so a
+        // mod's container keeps 1.16's menu provider (1.12's lockable block entities have no menus to open).
+        // Everything 1.16 builds on it goes with it, so 1.16 code passing one to another still type-checks.
+        for (String lockable : new String[] {"LockableTileEntity", "LockableLootTileEntity", "ChestTileEntity", "TrappedChestTileEntity", "BarrelTileEntity",
+                "ShulkerBoxTileEntity", "DispenserTileEntity", "DropperTileEntity", "HopperTileEntity", "BrewingStandTileEntity", "AbstractFurnaceTileEntity",
+                "FurnaceTileEntity", "BlastFurnaceTileEntity", "SmokerTileEntity"}) {
+            NATIVE_CLASSES.add("net/minecraft/tileentity/" + lockable);
+        }
+        // 1.16's image button, which mods' buttons build on (on 1.16's button, Portium's adapter); 1.12's differs.
+        NATIVE_CLASSES.add("net/minecraft/client/gui/widget/button/ImageButton");
+        // 1.16's particle factories make particles from a particle's data; 1.12's, of the same name, from numbers.
+        NATIVE_CLASSES.add("net/minecraft/client/particle/IParticleFactory");
         // A buffer per block render type (mods build their own render buffers on it).
         NATIVE_CLASSES.add("net/minecraft/client/renderer/RegionRenderCacheBuilder");
         // 1.16's palettes, which mods use on their own (Create saves a contraption's blocks with one); 1.12's chunk
@@ -216,7 +288,10 @@ final class ModernMappings {
     /** Forge 1.13 classes, or prefixes of their names, kept as 1.13's although 1.12 has classes so named. */
     private static final String[] OWN = {"net/minecraftforge/fml/common/Mod", "net/minecraftforge/common/MinecraftForge",
             // Forge 1.13's recipe conditions and serializers, which data pack recipes go through.
-            "net/minecraftforge/common/crafting/CraftingHelper"};
+            "net/minecraftforge/common/crafting/CraftingHelper",
+            // 1.16's screen mouse events (clicked, released, dragged, scrolled) extend 1.16's version of this, which
+            // carries the mouse position; 1.12's is another event altogether (posted per raw mouse event).
+            "net/minecraftforge/client/event/GuiScreenEvent$MouseInputEvent"};
 
     static {
         SHARED.put("net/minecraftforge/registries/ForgeRegistryEntry", "net/minecraftforge/registries/IForgeRegistryEntry$Impl");
@@ -276,7 +351,7 @@ final class ModernMappings {
                 String shim = SHIMS + name.substring(MINECRAFT.length());
                 if (this.shims.contains(shim)) {
                     mapped = shim;
-                } else if (NATIVE_CLASSES.contains(name) || NATIVE_CLASSES.contains(outermost(name))) {
+                } else if (NATIVE_CLASSES.contains(name) || NATIVE_CLASSES.contains(outermost(name)) || isNativePackage(name)) {
                     mapped = NATIVE + name;
                 } else {
                     mapped = this.generated.get(name);
@@ -304,6 +379,29 @@ final class ModernMappings {
         }
         matcher.appendTail(out);
         return out.toString();
+    }
+
+    /**
+     * 1.16's models, run as 1.16's own wherever 1.16 code names them: a model is built and drawn the 1.16 way (parts
+     * with boxes drawn into a vertex builder under a matrix stack), which 1.12's models of the same names aren't.
+     */
+    private static final String[] NATIVE_PACKAGES = {"net/minecraft/client/renderer/entity/model/", "net/minecraft/entity/ai/goal/"};
+    /**
+     * Of 1.16's AI goals, its own run as 1.16's (tempting, attacking, wandering...); the goal base and the selector stay
+     * 1.12's task base and task list, so 1.12 runs them.
+     */
+    private static final Set<String> NOT_NATIVE = new HashSet<>(java.util.Arrays.asList("net/minecraft/entity/ai/goal/Goal",
+            "net/minecraft/entity/ai/goal/GoalSelector", "net/minecraft/entity/ai/goal/PrioritizedGoal"));
+    private static final Set<String> NATIVE_MODEL_CLASSES = new HashSet<>(java.util.Arrays.asList(
+            "net/minecraft/client/renderer/model/ModelRenderer", "net/minecraft/client/renderer/model/Model"));
+
+    private static boolean isNativePackage(String name) {
+        if (NATIVE_MODEL_CLASSES.contains(outermost(name))) return true;
+        if (NOT_NATIVE.contains(outermost(name))) return false;
+        for (String prefix : NATIVE_PACKAGES) {
+            if (name.startsWith(prefix) && name.indexOf('/', prefix.length()) < 0) return true;
+        }
+        return false;
     }
 
     private static String outermost(String name) {
@@ -551,7 +649,46 @@ final class ModernMappings {
                 String srgName = srg.substring(srg.lastIndexOf('/') + 1);
                 this.members.putIfAbsent(srgName, mcp.substring(mcp.lastIndexOf('/') + 1));
                 if (method) this.srgNames.put(mcp + parts[4], srgName);
+                else this.srgFieldNames.put(mcp, srgName);
             }
         }
+    }
+
+    /** In a development environment, the SRG names of Minecraft's fields by owner and MCP name. */
+    private final Map<String, String> srgFieldNames = new HashMap<>();
+
+    /**
+     * In a development environment only: the name a 1.16 mod's reference to {@code owner.name desc} (1.12 names, the
+     * name as the mod has it) would have to have outside one, if it reaches one of Minecraft's own members by that
+     * member's MCP name. Such a reference works here and fails in a normal install, where the member goes by its SRG
+     * id (Create's {@code world.isAreaLoaded(pos, range)}, which Forge 1.16 adds and 1.12 has as
+     * {@code func_175697_a}). Null in production, for SRG ids, and when no MCP name is reached.
+     */
+    /** Whether {@link #mapMember(String, String)} renames this member by Portium's table of Forge's renamed ones. */
+    boolean isForgeRenamed(String owner, String name) {
+        return FORGE_MEMBER_NAMES.contains(name) && owner != null && !owner.startsWith("[") && forgeRenamed(mapClass(owner), name, new HashSet<>()) != null;
+    }
+
+    /** Whether Minecraft runs with MCP names here (a development environment). */
+    boolean isDevelopment() {
+        return this.srgNames != null;
+    }
+
+    @Nullable
+    String productionName(String owner, String name, String desc, boolean method) {
+        if (this.srgNames == null || name.startsWith("func_") || name.startsWith("field_") || name.startsWith("<")) return null;
+        return productionName(owner, name, desc, method, new HashSet<>());
+    }
+
+    @Nullable
+    private String productionName(@Nullable String owner, String name, String desc, boolean method, Set<String> seen) {
+        if (owner == null || !seen.add(owner) || owner.startsWith("java/") || owner.startsWith("[")) return null;
+        String srg = method ? this.srgNames.get(owner + "/" + name + desc) : this.srgFieldNames.get(owner + "/" + name);
+        if (srg != null && !srg.equals(name)) return srg;
+        for (String parent : this.supertypes.apply(owner)) {
+            String found = productionName(parent, name, desc, method, seen);
+            if (found != null) return found;
+        }
+        return null;
     }
 }

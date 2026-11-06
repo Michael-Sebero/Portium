@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:acacia_trapdoor"
+      "item": "minecraft:acacia_trapdoor"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "portium:acacia_trapdoor",
+    "item": "minecraft:acacia_trapdoor",
     "count": 2
   },
   "group": "wooden_trapdoor"

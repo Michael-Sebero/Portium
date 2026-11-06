@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:brick_wall"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:brick_block"
+    }
+  },
+  "result": {
+    "item": "minecraft:brick_wall",
+    "count": 6,
+    "data": 0
+  }
+}

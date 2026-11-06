@@ -29,6 +29,19 @@ public final class PortiumLootTables {
     public static final ResourceLocation TURTLE = register("entities/turtle");
     public static final ResourceLocation DROWNED = register("entities/drowned");
     public static final ResourceLocation PHANTOM = register("entities/phantom");
+    public static final ResourceLocation PANDA = register("entities/panda");
+    public static final ResourceLocation PILLAGER = register("entities/pillager");
+    public static final ResourceLocation RAVAGER = register("entities/ravager");
+    public static final ResourceLocation WANDERING_TRADER = register("entities/wandering_trader");
+    public static final ResourceLocation CAT = register("entities/cat");
+    public static final ResourceLocation CAT_MORNING_GIFT = register("gameplay/cat_morning_gift");
+    public static final ResourceLocation PIGLIN = register("entities/piglin");
+    public static final ResourceLocation HOGLIN = register("entities/hoglin");
+    public static final ResourceLocation ZOGLIN = register("entities/zoglin");
+    public static final ResourceLocation PIGLIN_BRUTE = register("entities/piglin_brute");
+    public static final ResourceLocation STRIDER = register("entities/strider");
+    public static final ResourceLocation BEE = register("entities/bee");
+    public static final ResourceLocation PIGLIN_BARTERING = register("gameplay/piglin_bartering");
 
     public static final ResourceLocation SHIPWRECK_MAP = register("chests/shipwreck_map");
     public static final ResourceLocation SHIPWRECK_SUPPLY = register("chests/shipwreck_supply");
@@ -48,6 +61,8 @@ public final class PortiumLootTables {
     public static void init() {
         LootFunctionManager.registerFunction(new SetName.Serializer());
         LootFunctionManager.registerFunction(new ExplorationMap.Serializer());
+        LootFunctionManager.registerFunction(new com.michaelsebero.portium.loot.SetStewEffect.Serializer());
+        com.michaelsebero.portium.loot.ModernConditions.register();
     }
 
     /** 1.13 fishing: nautilus shells are treasure, and lily pads become junk. */

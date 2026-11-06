@@ -99,6 +99,32 @@ public final class ClientShims {
 
     // Key bindings: 1.13 asks for GLFW inputs; 1.12 holds LWJGL 2 codes.
 
+    // Forge 1.14+'s key binding constructors.
+
+    public static KeyBinding keyBinding(String description, net.minecraftforge.client.settings.IKeyConflictContext context,
+                                        net.minecraftforge.client.settings.KeyModifier modifier, InputMappings.Input input, String category) {
+        return new KeyBinding(description, context, modifier, InputMappings.toLegacy(input), category);
+    }
+
+    public static KeyBinding keyBinding(String description, net.minecraftforge.client.settings.IKeyConflictContext context, InputMappings.Input input,
+                                        String category) {
+        return new KeyBinding(description, context, InputMappings.toLegacy(input), category);
+    }
+
+    public static KeyBinding keyBinding(String description, net.minecraftforge.client.settings.IKeyConflictContext context,
+                                        net.minecraftforge.client.settings.KeyModifier modifier, InputMappings.Type type, int code, String category) {
+        return new KeyBinding(description, context, modifier, InputMappings.toLegacy(type.getOrMakeInput(code)), category);
+    }
+
+    public static KeyBinding keyBinding(String description, net.minecraftforge.client.settings.IKeyConflictContext context, InputMappings.Type type, int code,
+                                        String category) {
+        return new KeyBinding(description, context, InputMappings.toLegacy(type.getOrMakeInput(code)), category);
+    }
+
+    public static KeyBinding keyBinding(String description, InputMappings.Type type, int code, String category) {
+        return new KeyBinding(description, InputMappings.toLegacy(type.getOrMakeInput(code)), category);
+    }
+
     public static InputMappings.Input getKey(KeyBinding binding) {
         return InputMappings.fromLegacy(binding.getKeyCode());
     }
@@ -153,6 +179,7 @@ public final class ClientShims {
      * flattened 1.13 item is its 1.12 item, all its variants).
      */
     public static void registerItemColor(ItemColors colors, IItemColor color, IItemProvider... providers) {
+        color = safe(color);
         for (IItemProvider provider : providers) {
             if (provider instanceof Block) {
                 colors.registerItemColorHandler(color, (Block) provider);
@@ -163,5 +190,50 @@ public final class ClientShims {
         }
     }
 
+    /**
+     * A newer mod's block colours, registered with 1.12's: wrapped so that one failing (a 1.13+ method Portium lacks)
+     * draws its blocks uncoloured and is reported once, instead of crashing the chunk renderer and the game.
+     */
+    public static void registerBlockColor(net.minecraft.client.renderer.color.BlockColors colors, net.minecraft.client.renderer.color.IBlockColor color,
+                                          Block... blocks) {
+        colors.registerBlockColorHandler(safe(color), blocks);
+    }
+
+    private static final java.util.Set<Class<?>> FAILED_COLORS = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
+
+    static net.minecraft.client.renderer.color.IBlockColor safe(net.minecraft.client.renderer.color.IBlockColor color) {
+        return (state, world, pos, tint) -> {
+            try {
+                return color.colorMultiplier(state, world, pos, tint);
+            } catch (RuntimeException | LinkageError e) {
+                colorFailed(color, e);
+                return -1;
+            }
+        };
+    }
+
+    static IItemColor safe(IItemColor color) {
+        return (stack, tint) -> {
+            try {
+                return color.colorMultiplier(stack, tint);
+            } catch (RuntimeException | LinkageError e) {
+                colorFailed(color, e);
+                return -1;
+            }
+        };
+    }
+
+    private static void colorFailed(Object color, Throwable e) {
+        if (!FAILED_COLORS.add(color.getClass())) return;
+        org.apache.logging.log4j.LogManager.getLogger("Portium").error("Mod problem: the colour handler {} failed; its blocks or items are drawn uncoloured",
+                color.getClass().getName(), e);
+        com.michaelsebero.portium.diagnostics.ProblemReport.record("A colour handler failed (blocks/items drawn uncoloured): " + color.getClass().getName(), e);
+    }
+
     private ClientShims() {}
+
+    /** Forge 1.13's {@code binding.isActiveAndMatches(input)}: Forge 1.12's, by the key's LWJGL 2 code. */
+    public static boolean isActiveAndMatches(KeyBinding binding, InputMappings.Input input) {
+        return binding.isActiveAndMatches(InputMappings.toLegacy(input));
+    }
 }

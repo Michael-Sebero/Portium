@@ -25,8 +25,9 @@ public class BlockStateArgument implements ArgumentType<BlockStateInput> {
     @Override
     public BlockStateInput parse(StringReader reader) throws CommandSyntaxException {
         BlockStateParser parser = new BlockStateParser(reader, false).parse(true);
-        return new BlockStateInput(LegacyBlockStates.convert(parser.getId().toString(), parser.getProperties()), parser.getNbt(),
-                "true".equals(parser.getProperties().get("waterlogged")));
+        String name = parser.getId().toString();
+        return new BlockStateInput(LegacyBlockStates.convert(name, parser.getProperties()), parser.getNbt(),
+                "true".equals(parser.getProperties().get("waterlogged")), name, parser.getProperties());
     }
 
     @Override

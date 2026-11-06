@@ -25,6 +25,9 @@ public final class PortiumPotions {
     public static final Potion CONDUIT_POWER = new PotionPortium("conduit_power", false, 0x1DC2D1);
     public static final Potion DOLPHINS_GRACE = new PotionPortium("dolphins_grace", false, 0x88A3BE);
     public static final Potion SLOW_FALLING = new PotionPortium("slow_falling", false, 0xFFEFD1);
+    /** 1.14: from killing a patrol leader; walking into a village with it starts a raid. Neutral, as in 1.14. */
+    public static final Potion BAD_OMEN = new PotionPortium("bad_omen", false, false, 0x0B6138);
+    public static final Potion HERO_OF_THE_VILLAGE = new PotionPortium("hero_of_the_village", false, true, 0x44FF44);
 
     public static PotionType SLOW_FALLING_TYPE;
     public static PotionType LONG_SLOW_FALLING_TYPE;
@@ -36,9 +39,11 @@ public final class PortiumPotions {
     public static void registerPotions(RegistryEvent.Register<Potion> event) {
         IForgeRegistry<Potion> registry = event.getRegistry();
         PortiumConfig.Effects enabled = PortiumConfig.effects;
-        if (enabled.conduitPower) registry.register(CONDUIT_POWER.setRegistryName(new ResourceLocation(Tags.MOD_ID, "conduit_power")));
-        if (enabled.dolphinsGrace) registry.register(DOLPHINS_GRACE.setRegistryName(new ResourceLocation(Tags.MOD_ID, "dolphins_grace")));
-        if (enabled.slowFalling) registry.register(SLOW_FALLING.setRegistryName(new ResourceLocation(Tags.MOD_ID, "slow_falling")));
+        if (enabled.conduitPower) registry.register(CONDUIT_POWER.setRegistryName(PortiumNames.of(registry, "conduit_power")));
+        if (enabled.dolphinsGrace) registry.register(DOLPHINS_GRACE.setRegistryName(PortiumNames.of(registry, "dolphins_grace")));
+        if (enabled.slowFalling) registry.register(SLOW_FALLING.setRegistryName(PortiumNames.of(registry, "slow_falling")));
+        if (PortiumConfig.mobs.pillagers) registry.register(BAD_OMEN.setRegistryName(PortiumNames.of(registry, "bad_omen")));
+        if (PortiumConfig.mobs.villagers) registry.register(HERO_OF_THE_VILLAGE.setRegistryName(PortiumNames.of(registry, "hero_of_the_village")));
     }
 
     @SubscribeEvent
@@ -65,7 +70,7 @@ public final class PortiumPotions {
     /** @param baseName the shared translation name, so long and strong variants reuse the base potion's name. */
     private static PotionType register(IForgeRegistry<PotionType> registry, String name, String baseName, PotionEffect... effects) {
         PotionType type = new PotionType(Tags.MOD_ID + "." + baseName, effects);
-        type.setRegistryName(new ResourceLocation(Tags.MOD_ID, name));
+        type.setRegistryName(PortiumNames.of(registry, name));
         registry.register(type);
         return type;
     }

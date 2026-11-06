@@ -45,6 +45,8 @@ public final class ModernCapabilities {
         Function<Capability<?>, Object> callback = registered -> {
             try {
                 int paren = member.indexOf('(');
+                // The class is set up first: its own initialiser sets the field (to null), and would undo the injection.
+                Class.forName(owner.getName(), true, owner.getClassLoader());
                 if (paren < 0) {
                     Field field = owner.getDeclaredField(member);
                     field.setAccessible(true);
@@ -60,7 +62,7 @@ public final class ModernCapabilities {
             return null;
         };
         try {
-            String name = capability.intern();
+            String name = ownName(capability).intern();
             Map<String, Capability<?>> providers = (Map<String, Capability<?>>) PROVIDERS.get(CapabilityManager.INSTANCE);
             Capability<?> existing = providers.get(name);
             if (existing != null) {
@@ -72,6 +74,40 @@ public final class ModernCapabilities {
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    /**
+     * The capability name a 1.16 interface goes by: 1.16's fluid handlers are another API from 1.12's interfaces of the
+     * same names (Portium keeps Forge 1.16's fluid package whole), so they get capabilities of their own, registered
+     * here when first asked for.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static String ownName(String capability) {
+        if (capability.startsWith("forge116.")) capability = capability.substring("forge116.".length());
+        if (!capability.startsWith("net.minecraftforge.fluids.")) return capability;
+        String name = (capability + " (1.16)").intern();
+        try {
+            Map<String, Capability<?>> providers = (Map<String, Capability<?>>) PROVIDERS.get(CapabilityManager.INSTANCE);
+            synchronized (providers) {
+                if (!providers.containsKey(name)) {
+                    java.lang.reflect.Constructor<Capability> make = Capability.class.getDeclaredConstructor(String.class, Capability.IStorage.class, java.util.concurrent.Callable.class);
+                    make.setAccessible(true);
+                    Capability.IStorage storage = new Capability.IStorage() {
+                        @Override
+                        public net.minecraft.nbt.NBTBase writeNBT(Capability capability, Object instance, EnumFacing side) {
+                            return null;
+                        }
+
+                        @Override
+                        public void readNBT(Capability capability, Object instance, EnumFacing side, net.minecraft.nbt.NBTBase nbt) {}
+                    };
+                    providers.put(name, make.newInstance(name, storage, (java.util.concurrent.Callable<Object>) () -> null));
+                }
+            }
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Couldn't make the 1.16 capability " + capability, e);
+        }
+        return name;
     }
 
     private static Field managerField(String name) {

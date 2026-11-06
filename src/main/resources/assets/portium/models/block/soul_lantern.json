@@ -1,0 +1,6 @@
+{
+  "parent": "portium:block/template_lantern",
+  "textures": {
+    "lantern": "portium:blocks/soul_lantern"
+  }
+}

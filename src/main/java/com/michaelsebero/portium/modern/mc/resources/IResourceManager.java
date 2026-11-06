@@ -18,6 +18,16 @@ public interface IResourceManager {
     @Srg("func_199002_a")
     IResource getResource(ResourceLocation location) throws IOException;
 
+    /** 1.14's {@code hasResource}. */
+    @Srg("func_219533_b")
+    default boolean hasResource(ResourceLocation location) {
+        try (IResource resource = this.getResource(location)) {
+            return resource != null;
+        } catch (IOException | RuntimeException e) {
+            return false;
+        }
+    }
+
     @Srg("func_199004_b")
     List<IResource> getAllResources(ResourceLocation location) throws IOException;
 

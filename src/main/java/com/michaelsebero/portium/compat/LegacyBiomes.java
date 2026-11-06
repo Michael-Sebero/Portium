@@ -17,6 +17,8 @@ public final class LegacyBiomes {
 
     static {
         String[] pairs = {
+                // 1.16's name for the Nether's biome (first, so 1.13's "nether" stays the name going the other way).
+                "nether_wastes", "hell",
                 "mountains", "extreme_hills", "swamp", "swampland", "nether", "hell", "the_end", "sky", "snowy_tundra", "ice_flats",
                 "snowy_mountains", "ice_mountains", "mushroom_fields", "mushroom_island", "mushroom_field_shore", "mushroom_island_shore",
                 "beach", "beaches", "wooded_hills", "forest_hills", "mountain_edge", "smaller_extreme_hills", "stone_shore", "stone_beach",

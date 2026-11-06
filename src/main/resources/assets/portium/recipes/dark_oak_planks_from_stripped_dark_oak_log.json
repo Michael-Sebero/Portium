@@ -2,13 +2,13 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:stripped_dark_oak_log"
+      "item": "minecraft:stripped_dark_oak_log"
     }
   ],
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "portium:stripped_dark_oak_log"
+      "item": "minecraft:stripped_dark_oak_log"
     }
   ],
   "result": {

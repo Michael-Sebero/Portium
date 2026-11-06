@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:prismarine_stairs"
+      "item": "minecraft:prismarine_stairs"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -18,7 +18,7 @@
     }
   },
   "result": {
-    "item": "portium:prismarine_stairs",
+    "item": "minecraft:prismarine_stairs",
     "count": 4
   }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "portium:blocks/target_top",
+    "side": "portium:blocks/target_side"
+  }
+}

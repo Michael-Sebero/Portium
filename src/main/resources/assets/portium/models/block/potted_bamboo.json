@@ -1,0 +1,10 @@
+{
+  "parent": "portium:block/template_potted_bamboo",
+  "textures": {
+    "particle": "blocks/flower_pot",
+    "flowerpot": "blocks/flower_pot",
+    "dirt": "blocks/dirt",
+    "bamboo": "portium:blocks/bamboo_stalk",
+    "leaf": "portium:blocks/bamboo_singleleaf"
+  }
+}

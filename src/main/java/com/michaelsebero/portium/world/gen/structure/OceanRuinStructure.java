@@ -46,7 +46,7 @@ public class OceanRuinStructure extends OceanStructure {
     static final String[] TEMPLATES = concat(BRICK, CRACKED, MOSSY, BIG_BRICK, BIG_CRACKED, BIG_MOSSY, WARM, BIG_WARM);
 
     OceanRuinStructure() {
-        super("Ocean_Ruin", 16, 8, 14357621);
+        super("Ocean_Ruin", 16, 8, 20, 8, 14357621);
     }
 
     private static String[] numbered(String prefix, int from, int to) {

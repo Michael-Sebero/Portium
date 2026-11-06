@@ -30,6 +30,11 @@ public class StairsBlock116 extends BlockStairs {
         if (!resolve()) PENDING.add(this);
     }
 
+    /** 1.16's (deprecated) constructor naming the block's state itself (Botania's stairs). */
+    public StairsBlock116(IBlockState model, Block$Properties properties) {
+        this(() -> model, properties);
+    }
+
     private static IBlockState standIn(Block$Properties properties) {
         return new Block(properties.getMaterial(), properties.getMapColor()).getDefaultState();
     }
@@ -63,5 +68,17 @@ public class StairsBlock116 extends BlockStairs {
     @Override
     public String getLocalizedName() {
         return ModernBlocks.localize(getTranslationKey());
+    }
+
+    /** Forge 1.13's tile entity factory, taking a block reader, which newer blocks override. */
+    @javax.annotation.Nullable
+    public net.minecraft.tileentity.TileEntity createTileEntity(IBlockState state, net.minecraft.world.IBlockAccess world) {
+        return null;
+    }
+
+    @javax.annotation.Nullable
+    @Override
+    public net.minecraft.tileentity.TileEntity createTileEntity(net.minecraft.world.World world, IBlockState state) {
+        return createTileEntity(state, (net.minecraft.world.IBlockAccess) world);
     }
 }

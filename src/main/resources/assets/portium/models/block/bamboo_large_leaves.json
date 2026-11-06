@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_bamboo_large_leaves",
+  "textures": {
+    "texture": "portium:blocks/bamboo_large_leaves",
+    "particle": "portium:blocks/bamboo_large_leaves"
+  }
+}

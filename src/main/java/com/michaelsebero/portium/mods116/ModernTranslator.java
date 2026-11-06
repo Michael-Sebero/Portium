@@ -70,7 +70,9 @@ final class ModernTranslator {
 
         @Override
         public String mapMethodName(String owner, String name, String desc) {
-            return ModernTranslator.this.mappings.mapMember(relocate(unmark(owner)), name);
+            String mapped = ModernTranslator.this.mappings.mapMember(relocate(unmark(owner)), name);
+            if (mapped.equals(name)) checkProduction(owner, name, desc, true);
+            return mapped;
         }
 
         /** A lambda's method: named as the interface it implements names it. */
@@ -83,7 +85,9 @@ final class ModernTranslator {
 
         @Override
         public String mapFieldName(String owner, String name, String desc) {
-            return ModernTranslator.this.mappings.mapMember(relocate(unmark(owner)), name);
+            String mapped = ModernTranslator.this.mappings.mapMember(relocate(unmark(owner)), name);
+            if (mapped.equals(name)) checkProduction(owner, name, desc, false);
+            return mapped;
         }
 
         @Override
@@ -96,6 +100,51 @@ final class ModernTranslator {
             return new Signatures(next);
         }
     };
+
+    /** The class being translated on this thread, for the development check below. */
+    private final ThreadLocal<String> translating = new ThreadLocal<>();
+    private final Set<String> devOnly = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
+
+    /**
+     * In a development environment, where Minecraft has MCP names: a 1.16 mod's reference that reaches one of
+     * Minecraft's members by its MCP name works here only, as a normal install names that member by its SRG id, so
+     * it's logged (once) with the id, for a redirect to a Portium shim (see {@link ModernMappings#productionName}).
+     */
+    private void checkProduction(String owner, String name, String desc, boolean method) {
+        String modern = relocate(unmark(owner));
+        if (!this.mappings.isDevelopment() || modern.startsWith("java/") || modern.startsWith("[")) return;
+        // Renamed by Portium's table to the SRG id, which a normal install has too.
+        if (this.mappings.isForgeRenamed(modern, name)) return;
+        // A reference that stops at a member of a class running as 1.16 code (the mod's own) reaches no MCP name.
+        if (method ? this.hierarchy.declaresBelowAdapters(modern, name, desc) : this.hierarchy.declaresFieldBelowAdapters(modern, name, desc)) return;
+        String type = this.mappings.mapClass(modern);
+        String production = this.mappings.productionName(type, name, method ? this.names.mapMethodDesc(desc) : this.names.mapDesc(desc), method);
+        if (production == null) return;
+        String key = owner + "." + name + desc;
+        if (!this.devOnly.add(key)) return;
+        org.apache.logging.log4j.LogManager.getLogger("Portium/1.16.5").warn(
+                "Dev-only link: {} reaches {}.{}{} by its MCP name; a normal install has it only as {}, so add a redirect for it (first seen in {})",
+                method ? "a call" : "a field", owner, name, desc, production, this.translating.get());
+    }
+
+    /**
+     * In a development environment: a 1.16 class's own method that overrides one of Minecraft's by the MCP name does so
+     * here only (a normal install names Minecraft's by its SRG id), so 1.12 calls it here and not there. Logged once.
+     */
+    private void checkOverrides(ClassNode node) {
+        if (node.superName == null || (node.access & Opcodes.ACC_INTERFACE) != 0) return;
+        String parent = this.mappings.mapClass(relocate(node.superName));
+        for (MethodNode method : node.methods) {
+            if (method.name.startsWith("<") || method.name.startsWith("func_") || method.name.startsWith("lambda$")
+                    || (method.access & (Opcodes.ACC_STATIC | Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC)) != 0) continue;
+            if (this.mappings.isForgeRenamed(node.superName, method.name)) continue;
+            String production = this.mappings.productionName(parent, method.name, this.names.mapMethodDesc(method.desc), true);
+            if (production == null || !this.devOnly.add(node.name + "." + method.name + method.desc + " override")) continue;
+            org.apache.logging.log4j.LogManager.getLogger("Portium/1.16.5").warn(
+                    "Dev-only override: {}.{}{} overrides 1.12's {} by its MCP name; a normal install names that {}, so 1.12 doesn't call it there",
+                    node.name, method.name, method.desc, method.name, production);
+        }
+    }
 
     private static String unmark(String type) {
         return type.startsWith(ModernMappings.LEGACY) ? type.substring(ModernMappings.LEGACY.length()) : type;
@@ -176,10 +225,43 @@ final class ModernTranslator {
 
     @Nullable
     private String nativeVersion(String name) {
+        if (name.startsWith(PARTICLES)) return nativeParticle(name);
+        if (name.startsWith(ENTITY_RENDERERS)) return nativeRenderer(name);
+        if (NATIVE_SUPERCLASSES.contains(name)) return ModernMappings.NATIVE + name;
         if (!name.startsWith("net/minecraft/block/") && !name.startsWith("net/minecraft/item/")) return null;
         // Recipes' classes are 1.12's: 1.16 code's ingredients are 1.12's ingredients.
         if (name.startsWith("net/minecraft/item/crafting/")) return null;
         return nativeVersionOfAny(name);
+    }
+
+    private static final String PARTICLES = "net/minecraft/client/particle/";
+    private static final String ENTITY_RENDERERS = "net/minecraft/client/renderer/entity/";
+    /** 1.16 classes mods build on as they are, though other references to them mean one of 1.12's (see ModernMappings). */
+    private static final Set<String> NATIVE_SUPERCLASSES = new HashSet<>(java.util.Arrays.asList("net/minecraft/entity/projectile/ProjectileEntity"));
+
+    /**
+     * An entity renderer or layer class a mod builds on (a mob renderer, a biped renderer, an armour layer) is
+     * Minecraft 1.16.5's own: it draws 1.16's models (see {@code ModernMappings#isNativePackage}) under 1.16's matrix
+     * stack. Its base, 1.16's {@code EntityRenderer} or {@code LayerRenderer}, is Portium's adapter onto 1.12's. Other
+     * references to these classes still mean 1.12's renderers, so vanilla mobs are still drawn by 1.12.
+     */
+    @Nullable
+    private String nativeRenderer(String name) {
+        if (name.startsWith(ENTITY_RENDERERS + "model/")) return null;
+        if (!this.hierarchy.inMinecraft113(name)) return null;
+        return ModernMappings.NATIVE + name;
+    }
+
+    /**
+     * A particle class 1.12 has too (under whatever name) is extended as Minecraft 1.16.5's own: 1.16's particles
+     * draw themselves another way, from other fields, and a mod's particle overrides those.
+     */
+    @Nullable
+    private String nativeParticle(String name) {
+        String mapped = this.mappings.mapClass(name);
+        if (mapped.startsWith(ModernMappings.NATIVE) || !this.hierarchy.exists(mapped) || !this.hierarchy.inMinecraft113(name)) return null;
+        if (!this.hierarchy.isTranslatedSubtype(mapped, "net/minecraft/client/particle/Particle")) return null;
+        return ModernMappings.NATIVE + name;
     }
 
     /** Minecraft 1.13.2's own version of any class 1.12 has by the same name, moved under {@link ModernMappings#NATIVE}. */
@@ -212,14 +294,47 @@ final class ModernTranslator {
         return (name.startsWith("net/minecraft/block/") || name.startsWith("net/minecraft/item/")) && !name.startsWith("net/minecraft/item/crafting/");
     }
 
+    /**
+     * Two methods that are one once translated, which the JVM refuses: a compiler's bridge beside the method it bridges
+     * once their return types are the same class here (Create's {@code ServerTickList getBlockTicks()} beside the bridge
+     * {@code ITickList getBlockTicks()}, both Portium's tick list), or, in a development environment, a mod's own method
+     * named as MCP names one of Minecraft's the class also has by SRG id (an enum's {@code getName()} beside
+     * {@code IStringSerializable}'s). The bridge goes, else the second; they answer alike in the mods seen.
+     */
+    private static void dropDuplicates(ClassNode node) {
+        Map<String, MethodNode> seen = new HashMap<>();
+        List<MethodNode> dropped = new ArrayList<>();
+        for (MethodNode method : node.methods) {
+            String key = method.name + method.desc;
+            MethodNode first = seen.get(key);
+            if (first == null) {
+                seen.put(key, method);
+                continue;
+            }
+            boolean firstBridge = (first.access & Opcodes.ACC_BRIDGE) != 0;
+            boolean bridge = (method.access & Opcodes.ACC_BRIDGE) != 0;
+            if (firstBridge && !bridge) {
+                dropped.add(first);
+                seen.put(key, method);
+            } else {
+                dropped.add(method);
+            }
+            org.apache.logging.log4j.LogManager.getLogger("Portium/1.16.5").debug("{} has two methods {}{} once translated; one was dropped", node.name, method.name, method.desc);
+        }
+        node.methods.removeAll(dropped);
+    }
+
     private byte[] translate(byte[] bytes, boolean forSide) {
         ClassReader reader = new ClassReader(bytes);
         ClassNode node = new ClassNode();
         // Expanded: ASM 5.2's remapper fails on compressed frames that drop locals.
         reader.accept(node, ClassReader.EXPAND_FRAMES);
+        this.translating.set(node.name);
+        if (this.mappings.isDevelopment()) checkOverrides(node);
         if (forSide) ModernDist.clean(node, this.dist);
         ClassNode translated = new ClassNode();
         node.accept(new Redirecting(new ClassRemapper(translated, this.names)));
+        dropDuplicates(translated);
         this.linker.fixAccess(translated);
         this.completion.complete(translated);
         if (forSide && !"CLIENT".equals(this.dist)) ModernDist.stubClientCode(translated, this.hierarchy);
@@ -234,6 +349,9 @@ final class ModernTranslator {
      * signature that gives a class more type arguments than it declares, as Forge's event bus finds out when it reads
      * a listener's {@code RegistryEvent.Register<TileEntityType<?>>}.
      */
+    /** Classes of the parent's, by internal name: whether they declare no type parameters. */
+    private static final Map<String, Boolean> NON_GENERIC = new java.util.concurrent.ConcurrentHashMap<>();
+
     private final class Signatures extends SignatureRemapper {
 
         private final Deque<Boolean> stripping = new ArrayDeque<>();
@@ -244,7 +362,7 @@ final class ModernTranslator {
 
         @Override
         public void visitClassType(String name) {
-            this.stripping.push(isMissing(name));
+            this.stripping.push(isMissing(name) || takesNoArguments(name));
             super.visitClassType(name);
         }
 
@@ -271,6 +389,24 @@ final class ModernTranslator {
         private boolean isMissing(String name) {
             return name.startsWith("net/minecraft/") && ModernTranslator.this.mappings.mapClass(name).equals(name)
                     && !ModernTranslator.this.hierarchy.exists(name) && !ModernTranslator.this.hierarchy.isNative(name);
+        }
+
+        /**
+         * A 1.16 generic class Portium maps to one of 1.12's that isn't generic (1.16's {@code IRecipe<C>} is 1.12's
+         * {@code IRecipe}): its type arguments go too, or reflection on the signature fails (Forge's registry entries
+         * read their type that way: Botania's recipe serializers).
+         */
+        private boolean takesNoArguments(String name) {
+            if (!name.startsWith("net/minecraft")) return false;
+            String mapped = ModernTranslator.this.mappings.mapClass(name);
+            if (mapped.equals(name)) return false;
+            return NON_GENERIC.computeIfAbsent(mapped, type -> {
+                try {
+                    return Class.forName(type.replace('/', '.'), false, ModernTranslator.class.getClassLoader()).getTypeParameters().length == 0;
+                } catch (ClassNotFoundException | LinkageError e) {
+                    return false;
+                }
+            });
         }
     }
 
@@ -428,8 +564,8 @@ final class ModernTranslator {
         get.visitVarInsn(Opcodes.ALOAD, 1);
         get.visitVarInsn(Opcodes.ALOAD, 2);
         get.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, CAPABILITY, MODERN_CAPABILITY_DESC, false);
-        get.visitInsn(Opcodes.ACONST_NULL);
-        get.visitMethodInsn(Opcodes.INVOKEVIRTUAL, LAZY_OPTIONAL, "orElse", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
+        // Null-safe: a mod's getCapability can answer null (asked before its constructor has set its optional).
+        get.visitMethodInsn(Opcodes.INVOKESTATIC, CAPABILITY_GLUE, "orNull", "(L" + LAZY_OPTIONAL + ";)Ljava/lang/Object;", false);
         get.visitInsn(Opcodes.ARETURN);
         get.visitMaxs(3, 3);
         get.visitEnd();
@@ -440,13 +576,22 @@ final class ModernTranslator {
         has.visitVarInsn(Opcodes.ALOAD, 1);
         has.visitVarInsn(Opcodes.ALOAD, 2);
         has.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, CAPABILITY, MODERN_CAPABILITY_DESC, false);
-        has.visitMethodInsn(Opcodes.INVOKEVIRTUAL, LAZY_OPTIONAL, "isPresent", "()Z", false);
+        has.visitMethodInsn(Opcodes.INVOKESTATIC, CAPABILITY_GLUE, "isPresent", "(L" + LAZY_OPTIONAL + ";)Z", false);
         has.visitInsn(Opcodes.IRETURN);
         has.visitMaxs(3, 3);
         has.visitEnd();
     }
 
+    @Nullable
+    private ModernMixins mixins;
+
+    void setMixins(ModernMixins mixins) {
+        this.mixins = mixins;
+    }
+
     private void redirect(MethodNode method, String className, @Nullable String replacedSuper, String superName, Redirecting owner) {
+        if (this.mixins != null) this.mixins.rewrite(method);
+        serverChunkProviders(method);
         casts(method);
         registryCodecCalls(method);
         registryCodecArguments(method);
@@ -515,8 +660,10 @@ final class ModernTranslator {
             call.name = TOOLTIP_PREFIX + call.name;
         }
         if (call.getOpcode() == Opcodes.INVOKESPECIAL && replacedSuper != null && call.owner.equals(replacedSuper)) call.owner = superName;
-        if (call.getOpcode() == Opcodes.INVOKESPECIAL && CAPABILITY.equals(call.name) && MODERN_CAPABILITY_DESC.equals(call.desc) && isParentClass(call.owner)) {
-            // super.getCapability: 1.12's, made a LazyOptional.
+        if (call.getOpcode() == Opcodes.INVOKESPECIAL && CAPABILITY.equals(call.name) && MODERN_CAPABILITY_DESC.equals(call.desc)
+                && (isParentClass(call.owner) || !this.hierarchy.declaresBelowAdapters(call.owner, call.name, call.desc))) {
+            // super.getCapability: 1.12's, made a LazyOptional. Also through a mod's own superclasses that don't declare
+            // 1.16's (Create's KineticTileEntity): left alone, the call was linked to 1.12's, its answer unwrapped.
             call.desc = LEGACY_CAPABILITY_DESC;
             method.instructions.insert(call, new MethodInsnNode(Opcodes.INVOKESTATIC, CAPABILITY_GLUE, "optional",
                     "(Ljava/lang/Object;)L" + LAZY_OPTIONAL + ";", false));
@@ -527,7 +674,8 @@ final class ModernTranslator {
         if (redirect != null && call.getOpcode() == Opcodes.INVOKESPECIAL && this.linker.superHasMethod(call)) redirect = null;
         // A mod's class with its own version of the method keeps it (a redirect declared on the very class called, as for
         // Minecraft 1.16.5's own classes, still applies).
-        if (redirect != null && call.getOpcode() != Opcodes.INVOKESTATIC && !redirect.declarer.equals(call.owner)
+        // So does a static of its own hiding Minecraft's (a mod's node processor's own getFloorNodeType).
+        if (redirect != null && !redirect.declarer.equals(call.owner)
                 && this.hierarchy.declaresBelowAdapters(call.owner, call.name, call.desc)) redirect = null;
         if (redirect != null) {
             set(call, Opcodes.INVOKESTATIC, redirect.owner, redirect.name, redirect.desc(call.getOpcode(), call.desc));
@@ -594,6 +742,24 @@ final class ModernTranslator {
      * Casts and {@code instanceof}s of classes 1.12's objects can't be, though they're the same thing (see
      * {@link ModernRedirects#cast}): through the shim's converting and testing methods instead.
      */
+    /**
+     * {@code (ServerChunkProvider) world.getChunkProvider()} (Botania's block entity sync): 1.12's getChunkProvider,
+     * whose server provider is that class here. Uncast, 1.16's provider stays as it was (Create hands it to its own
+     * wrapped worlds, typed as 1.16's).
+     */
+    private static void serverChunkProviders(MethodNode method) {
+        for (AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+            if (!(insn instanceof MethodInsnNode)) continue;
+            MethodInsnNode call = (MethodInsnNode) insn;
+            if (!"func_72863_F".equals(call.name) || !"()Lnet/minecraft/world/chunk/AbstractChunkProvider;".equals(call.desc)) continue;
+            AbstractInsnNode next = call.getNext();
+            while (next != null && next.getOpcode() < 0) next = next.getNext();
+            if (next != null && next.getOpcode() == Opcodes.CHECKCAST && "net/minecraft/world/server/ServerChunkProvider".equals(((TypeInsnNode) next).desc)) {
+                call.desc = "()Lnet/minecraft/world/chunk/IChunkProvider;";
+            }
+        }
+    }
+
     private void casts(MethodNode method) {
         for (AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
             if (insn.getOpcode() != Opcodes.CHECKCAST && insn.getOpcode() != Opcodes.INSTANCEOF) continue;
@@ -601,6 +767,8 @@ final class ModernTranslator {
             String[] shim = this.redirects.cast(cast.desc);
             if (shim == null) continue;
             boolean converting = insn.getOpcode() == Opcodes.CHECKCAST;
+            // Some only test (no converting method): their casts stay casts.
+            if (converting && shim[1] == null) continue;
             MethodInsnNode call = new MethodInsnNode(Opcodes.INVOKESTATIC, shim[0], converting ? shim[1] : shim[2],
                     converting ? "(Ljava/lang/Object;)L" + cast.desc + ";" : "(Ljava/lang/Object;)Z", false);
             method.instructions.set(insn, call);
@@ -745,6 +913,7 @@ final class ModernTranslator {
                     int paren = factory.indexOf('(');
                     set(constructor, Opcodes.INVOKESTATIC, factory.substring(0, dot), factory.substring(dot + 1, paren), factory.substring(paren));
                     AbstractInsnNode after = next.getNext();
+                    forgetUninitialized(method, insn);
                     method.instructions.remove(insn);
                     method.instructions.remove(next);
                     changed.add(constructor);
@@ -755,6 +924,37 @@ final class ModernTranslator {
             insn = next;
         }
         return changed;
+    }
+
+    /**
+     * Before a {@code new} goes (a factory makes the object instead), the stack map frames between it and the
+     * constructor call stop listing the uninitialised object (and its {@code dup}): left in, they name an offset with
+     * no {@code new}, which the JVM refuses (Botania's {@code new ItemStack(burning ? cooked : raw)}, a branch
+     * among the arguments).
+     */
+    static void forgetUninitialized(MethodNode method, AbstractInsnNode made) {
+        java.util.Set<Object> labels = new HashSet<>();
+        for (AbstractInsnNode before = made.getPrevious(); before != null
+                && (before instanceof org.objectweb.asm.tree.LabelNode || before instanceof org.objectweb.asm.tree.LineNumberNode
+                || before instanceof org.objectweb.asm.tree.FrameNode); before = before.getPrevious()) {
+            if (before instanceof org.objectweb.asm.tree.LabelNode) labels.add(before);
+        }
+        if (labels.isEmpty()) return;
+        for (AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+            if (!(insn instanceof org.objectweb.asm.tree.FrameNode)) continue;
+            org.objectweb.asm.tree.FrameNode frame = (org.objectweb.asm.tree.FrameNode) insn;
+            // The frames' lists can be fixed-size (ASM makes them with Arrays.asList): made anew.
+            if (frame.stack != null && frame.stack.stream().anyMatch(labels::contains)) {
+                List<Object> stack = new ArrayList<>(frame.stack);
+                stack.removeIf(labels::contains);
+                frame.stack = stack;
+            }
+            if (frame.local != null && frame.local.stream().anyMatch(labels::contains)) {
+                List<Object> local = new ArrayList<>(frame.local);
+                local.replaceAll(value -> labels.contains(value) ? Opcodes.TOP : value);
+                frame.local = local;
+            }
+        }
     }
 
     /**
@@ -912,6 +1112,19 @@ final class ModernTranslator {
         }
     }
 
+    /** {@link #fixInterfaceCall} for a method reference: 1.16's state class::method is a reference to 1.12's interface. */
+    private Handle interfaceFixed(Handle handle) {
+        int tag = handle.getTag();
+        if (tag != Opcodes.H_INVOKEVIRTUAL && tag != Opcodes.H_INVOKEINTERFACE) return handle;
+        String mapped = this.mappings.mapClass(handle.getOwner());
+        if (mapped.equals(handle.getOwner()) || mapped.startsWith("[")) return handle;
+        Boolean isInterface = this.hierarchy.isInterface(mapped);
+        if (isInterface == null) return handle;
+        if (isInterface && tag == Opcodes.H_INVOKEVIRTUAL) return new Handle(Opcodes.H_INVOKEINTERFACE, handle.getOwner(), handle.getName(), handle.getDesc(), true);
+        if (!isInterface && tag == Opcodes.H_INVOKEINTERFACE) return new Handle(Opcodes.H_INVOKEVIRTUAL, handle.getOwner(), handle.getName(), handle.getDesc(), false);
+        return handle;
+    }
+
     private static void set(MethodInsnNode call, int opcode, String owner, String name, String desc) {
         call.setOpcode(opcode);
         call.owner = owner;
@@ -1002,6 +1215,18 @@ final class ModernTranslator {
     }
 
     /** Method references to redirected methods, as in {@code this::addParticle}. */
+    /** The class a method reference's receiver is: the object it captures, or else its function's first parameter. */
+    @Nullable
+    private static String receiverOf(InvokeDynamicInsnNode call, Object[] arguments) {
+        Type[] captured = Type.getArgumentTypes(call.desc);
+        if (captured.length > 0) return captured[0].getSort() == Type.OBJECT ? captured[0].getInternalName() : null;
+        if (arguments.length > 2 && arguments[2] instanceof Type) {
+            Type[] parameters = ((Type) arguments[2]).getArgumentTypes();
+            if (parameters.length > 0 && parameters[0].getSort() == Type.OBJECT) return parameters[0].getInternalName();
+        }
+        return null;
+    }
+
     private void redirect(InvokeDynamicInsnNode call, String className, Redirecting owner) {
         Object[] arguments = call.bsmArgs;
         for (int i = 0; i < arguments.length; i++) {
@@ -1048,13 +1273,37 @@ final class ModernTranslator {
                 tag = extension.getTag();
             }
             ModernRedirects.Redirect redirect = this.redirects.find(handle.getOwner(), handle.getName(), handle.getDesc(), this.hierarchy);
+            // A reference to a Java collection's method on a Minecraft class (listTag::add, where 1.16's list tag is a
+            // Java list and 1.12's isn't): the redirect for the receiver's own class.
+            if (redirect == null && tag != Opcodes.H_INVOKESTATIC && handle.getOwner().startsWith("java/")) {
+                String receiver = receiverOf(call, arguments);
+                if (receiver != null && receiver.startsWith("net/minecraft/")) redirect = this.redirects.find(receiver, handle.getName(), handle.getDesc(), this.hierarchy);
+            }
             if (redirect == null) {
                 Handle linked = this.linker.link(handle);
-                if (linked != null) arguments[i] = linked;
+                arguments[i] = linked != null ? linked : interfaceFixed(handle);
                 continue;
             }
             int opcode = tag == Opcodes.H_INVOKESTATIC ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
-            arguments[i] = new Handle(Opcodes.H_INVOKESTATIC, redirect.owner, redirect.name, redirect.desc(opcode, handle.getDesc()), false);
+            String target = redirect.desc(opcode, handle.getDesc());
+            arguments[i] = new Handle(Opcodes.H_INVOKESTATIC, redirect.owner, redirect.name, target, false);
+            // Java 8's lambda factory wants each captured value (the receiver of te::getLidAngle, say) typed exactly
+            // as the method it calls takes it: the call site captures it as the redirect's parameter type instead.
+            if (i == 1 && "java/lang/invoke/LambdaMetafactory".equals(call.bsm.getOwner())) call.desc = capturedAs(call.desc, Type.getArgumentTypes(target));
         }
+    }
+
+    /** An invokedynamic's descriptor with its captured values typed as the implementation's leading parameters. */
+    private static String capturedAs(String indyDesc, Type[] implementation) {
+        Type[] captured = Type.getArgumentTypes(indyDesc);
+        if (captured.length > implementation.length) return indyDesc;
+        boolean changed = false;
+        for (int j = 0; j < captured.length; j++) {
+            if (captured[j].getSort() == Type.OBJECT && implementation[j].getSort() == Type.OBJECT && !captured[j].equals(implementation[j])) {
+                captured[j] = implementation[j];
+                changed = true;
+            }
+        }
+        return changed ? Type.getMethodDescriptor(Type.getReturnType(indyDesc), captured) : indyDesc;
     }
 }

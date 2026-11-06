@@ -7,6 +7,43 @@ import net.minecraft.util.EnumActionResult;
 public final class MiscShims116 {
 
     /** 1.16's CONSUME: an action that worked without the swing; 1.12 knows success. */
+    public static net.minecraft.block.material.MapColor dyeMapColor(net.minecraft.item.EnumDyeColor color) {
+        return net.minecraft.block.material.MapColor.getBlockColor(color);
+    }
+
+    public static int dyeFireworkColor(net.minecraft.item.EnumDyeColor color) {
+        return net.minecraft.item.ItemDye.DYE_COLORS[color.getDyeDamage()];
+    }
+
+    public static int dyeTextColor(net.minecraft.item.EnumDyeColor color) {
+        return color.getColorValue();
+    }
+
+    /** The name 1.12's inventory wants, for 1.16's that has none. */
+    public static String inventoryName(int size) {
+        return "container.inventory";
+    }
+
+    public static boolean notCustom(int size) {
+        return false;
+    }
+
+    public static Throwable pauseDevMode(Throwable error) {
+        return error;
+    }
+
+    public static double spawnX(net.minecraftforge.event.entity.living.LivingSpawnEvent event) {
+        return event.getX();
+    }
+
+    public static double spawnY(net.minecraftforge.event.entity.living.LivingSpawnEvent event) {
+        return event.getY();
+    }
+
+    public static double spawnZ(net.minecraftforge.event.entity.living.LivingSpawnEvent event) {
+        return event.getZ();
+    }
+
     public static EnumActionResult consume() {
         return EnumActionResult.SUCCESS;
     }
@@ -170,5 +207,80 @@ public final class MiscShims116 {
 
     public static net.minecraft.entity.Entity self(net.minecraft.entity.Entity entity) {
         return entity;
+    }
+
+    /** Forge 1.16's {@code BlockSnapshot.create(dimension, world, pos)}: Forge 1.12's snapshot of the world's block. */
+    public static net.minecraftforge.common.util.BlockSnapshot blockSnapshot(Object dimension, net.minecraft.world.World world,
+                                                                              net.minecraft.util.math.BlockPos pos) {
+        return net.minecraftforge.common.util.BlockSnapshot.getBlockSnapshot(world, pos);
+    }
+
+    /** As {@link #blockSnapshot(Object, net.minecraft.world.World, net.minecraft.util.math.BlockPos)}, with its update flags. */
+    public static net.minecraftforge.common.util.BlockSnapshot blockSnapshot(Object dimension, net.minecraft.world.World world,
+                                                                              net.minecraft.util.math.BlockPos pos, int flag) {
+        return net.minecraftforge.common.util.BlockSnapshot.getBlockSnapshot(world, pos, flag);
+    }
+
+    /** A 1.12 attribute modifier's operation number (for 1.16's {@code getOperation()}, made an enum by the glue). */
+    public static int operationOf(Object modifier) {
+        return ((net.minecraft.entity.ai.attributes.AttributeModifier) modifier).getOperation();
+    }
+
+    public static boolean isBadEffect(Object potion) {
+        return ((net.minecraft.potion.Potion) potion).isBadEffect();
+    }
+
+    public static boolean isBeneficialEffect(Object potion) {
+        return ((net.minecraft.potion.Potion) potion).isBeneficial();
+    }
+
+    /**
+     * 1.16's {@code Attribute.getDescriptionId()}: 1.16 mods' attributes are named by it already; 1.12's own (named
+     * {@code generic.maxHealth}) have 1.12's lang keys under {@code attribute.name.}.
+     */
+    public static String attributeDescription(net.minecraft.entity.ai.attributes.IAttribute attribute) {
+        String name = attribute.getName();
+        return name.startsWith("attribute.") ? name : "attribute.name." + name;
+    }
+
+    /** 1.16's {@code profiler.endStartSection(name)}. */
+    public static void endStartSection(net.minecraft.profiler.Profiler profiler, String name) {
+        profiler.endStartSection(name);
+    }
+
+    /** 1.16's {@code profiler.endStartSection(() -> name)}. */
+    public static void endStartSection(net.minecraft.profiler.Profiler profiler, java.util.function.Supplier<String> name) {
+        profiler.endSection();
+        profiler.func_194340_a(name);
+    }
+
+    /** 1.16's {@code DyeColor.byId(id)}: 1.12's by metadata (the same numbers). */
+    public static net.minecraft.item.EnumDyeColor dyeById(int id) {
+        return net.minecraft.item.EnumDyeColor.byMetadata(id);
+    }
+
+    /** 1.16's {@code DyeColor.byTranslationKey(key, fallback)}: by 1.16's name (light_gray is 1.12's silver). */
+    public static net.minecraft.item.EnumDyeColor dyeByName(String name, net.minecraft.item.EnumDyeColor fallback) {
+        for (net.minecraft.item.EnumDyeColor color : net.minecraft.item.EnumDyeColor.values()) {
+            String modern = color == net.minecraft.item.EnumDyeColor.SILVER ? "light_gray" : color.getName();
+            if (modern.equals(name)) return color;
+        }
+        return fallback;
+    }
+
+    /** Forge 1.16's {@code IForgeBlock.getBlock()}: the block itself. */
+    public static net.minecraft.block.Block selfBlock(Object block) {
+        return (net.minecraft.block.Block) block;
+    }
+
+    /** Forge 1.16's {@code IForgeItem.getItem()}: the item itself. */
+    public static net.minecraft.item.Item selfItem(Object item) {
+        return (net.minecraft.item.Item) item;
+    }
+
+    /** 1.16's {@code entity.entityDropItem(item, offsetY)}: one of the item, dropped at the entity. */
+    @javax.annotation.Nullable
+    public static net.minecraft.entity.item.EntityItem dropItem(net.minecraft.entity.Entity entity, com.michaelsebero.portium.modern.mc.util.IItemProvider item, int offsetY) {
+        return entity.entityDropItem(new net.minecraft.item.ItemStack(item.asItem()), offsetY);
     }
 }

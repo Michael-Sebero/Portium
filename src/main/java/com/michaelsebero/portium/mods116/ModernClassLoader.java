@@ -111,6 +111,8 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
     private final ModernMappings mappings;
     private final ModernRedirects redirects;
     private final ModernTranslator translator;
+    /** The mods' mixins: accessor interfaces are served by helper classes made here. */
+    private final ModernMixins mixins;
     private final Map<String, String[]> supertypes = new HashMap<>();
     private final Map<String, Boolean> existing = new HashMap<>();
 
@@ -133,7 +135,13 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
                 LOGGER.warn("Couldn't write the redirects to {}", dump, e);
             }
         }
+        this.mixins = new ModernMixins(mods);
         this.translator = new ModernTranslator(mappings, this.redirects, this, new ModernMembers(parent), this.bridges, Mods116.isClient());
+        this.translator.setMixins(this.mixins);
+    }
+
+    ModernMixins mixins() {
+        return this.mixins;
     }
 
     ModernTranslator translator() {
@@ -153,6 +161,8 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
                 } else if (ModernBridges.isBridgeName(name)) {
                     if (this.bridges == null) throw new ClassNotFoundException(name);
                     loaded = define(name, this.nativeSource, this.bridges.generate(name.replace('.', '/')));
+                } else if (this.mixins.isHelper(name)) {
+                    loaded = define(name, this.mods.get(0), this.mixins.helper(name));
                 } else if (owns(name)) {
                     throw new ClassNotFoundException(name);
                 } else {
@@ -363,6 +373,7 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
         try {
             bytes = relocated != null ? this.translator.translateRelocated(bytes, relocated) : this.translator.translate(bytes);
             bytes = prepareEvent(bytes);
+            if (relocated == null) bytes = DevTrace.apply(bytes);
         } catch (RuntimeException e) {
             throw new ClassNotFoundException("Couldn't translate " + name + " from " + source.file.getName(), e);
         }
@@ -452,8 +463,20 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
         return sourceOf(type.replace('/', '.')) != null || isNative(type);
     }
 
+    private final Map<String, java.util.Optional<ClassNode>> translatedNodes = new HashMap<>();
+
     @Nullable
     private ClassNode translatedNode(String type) {
+        java.util.Optional<ClassNode> known = this.translatedNodes.get(type);
+        if (known == null) {
+            known = java.util.Optional.ofNullable(readTranslatedNode(type));
+            this.translatedNodes.put(type, known);
+        }
+        return known.orElse(null);
+    }
+
+    @Nullable
+    private ClassNode readTranslatedNode(String type) {
         String name = type.replace('/', '.');
         Source source = sourceOf(name);
         try {
@@ -477,6 +500,12 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
             if (field.name.equals(name) && field.desc.equals(desc)) return true;
         }
         return false;
+    }
+
+    /** A translated class's interfaces (translated names); none if it isn't found. */
+    List<String> interfacesOf(String type) {
+        ClassNode node = translatedNode(type);
+        return node == null || node.interfaces == null ? java.util.Collections.<String>emptyList() : node.interfaces;
     }
 
     @Nullable
@@ -644,7 +673,16 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
         return declaresModern(type, name, desc, true);
     }
 
+    @Override
+    public boolean declaresFieldBelowAdapters(String type, String name, String desc) {
+        return declaresModern(type, name, desc, true, true);
+    }
+
     private boolean declaresModern(String type, String name, String desc, boolean runtimeOnly) {
+        return declaresModern(type, name, desc, runtimeOnly, false);
+    }
+
+    private boolean declaresModern(String type, String name, String desc, boolean runtimeOnly, boolean field) {
         Set<String> seen = new HashSet<>();
         boolean below = false;
         for (String current = type; current != null && seen.add(current); ) {
@@ -663,8 +701,14 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
             }
             ClassNode node = modernNode(current);
             if (node == null) return false;
-            for (MethodNode method : node.methods) {
-                if (method.name.equals(name) && method.desc.equals(desc)) return true;
+            if (field) {
+                for (org.objectweb.asm.tree.FieldNode declared : node.fields) {
+                    if (declared.name.equals(name) && declared.desc.equals(desc)) return true;
+                }
+            } else {
+                for (MethodNode method : node.methods) {
+                    if (method.name.equals(name) && method.desc.equals(desc)) return true;
+                }
             }
             current = node.superName;
         }
@@ -674,6 +718,33 @@ final class ModernClassLoader extends ClassLoader implements ModernRedirects.Hie
     @Override
     public String[] supertypes(String type) {
         return translatedSupertypes(type);
+    }
+
+    private final Map<String, java.util.Set<String>> declaredFields = new java.util.concurrent.ConcurrentHashMap<>();
+
+    @Override
+    public java.util.Set<String> declaredFields(String type) {
+        java.util.Set<String> known = this.declaredFields.get(type);
+        if (known != null) return known;
+        java.util.Set<String> found = new java.util.HashSet<>();
+        String name = type.replace('/', '.');
+        Source source = sourceOf(name);
+        try {
+            byte[] bytes = source != null ? source.read(path(name)) : nativeBytes(name);
+            if (bytes != null) {
+                new ClassReader(bytes).accept(new org.objectweb.asm.ClassVisitor(org.objectweb.asm.Opcodes.ASM5) {
+                    @Override
+                    public org.objectweb.asm.FieldVisitor visitField(int access, String field, String desc, String signature, Object value) {
+                        found.add(field);
+                        return null;
+                    }
+                }, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+            }
+        } catch (IOException | RuntimeException e) {
+            // Unreadable: nothing known of it.
+        }
+        this.declaredFields.put(type, found);
+        return found;
     }
 
     private String[] translatedSupertypes(String type) {

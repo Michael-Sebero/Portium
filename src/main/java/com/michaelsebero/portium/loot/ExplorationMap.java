@@ -54,7 +54,6 @@ public class ExplorationMap extends LootFunction {
     }
 
     private static MapDecoration.Type decoration(String name) {
-        if ("red_x".equals(name)) return MapDecoration.Type.TARGET_X;
         for (MapDecoration.Type type : MapDecoration.Type.values()) {
             if (type.name().toLowerCase(Locale.ROOT).equals(name)) return type;
         }

@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_slab"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:warped_planks"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_slab",
+    "count": 6,
+    "data": 0
+  },
+  "group": "wooden_slab"
+}

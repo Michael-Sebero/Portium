@@ -80,5 +80,26 @@ public final class ModernEntityTypes {
         return id == null ? null : EntityType.getById("minecraft:" + id.getPath());
     }
 
+    private static final java.util.Set<String> SPAWNS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
+    /** A 1.16 mod's spawn in a biome (Forge 1.16's biome loading), as 1.12's biome spawn list entry. */
+    @SuppressWarnings("unchecked")
+    public static void addSpawn(String biomeName, Object type, Object classification, Object weighted, int min, int max) {
+        int weight;
+        try {
+            weight = net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPrivateValue(net.minecraft.util.WeightedRandom.Item.class,
+                    (net.minecraft.util.WeightedRandom.Item) weighted, "field_76292_a");
+        } catch (RuntimeException e) {
+            return;
+        }
+        if (!(type instanceof EntityType) || !(classification instanceof net.minecraft.entity.EnumCreatureType) || weight <= 0) return;
+        net.minecraft.world.biome.Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeName));
+        Class<? extends Entity> entityClass = ((EntityType<?>) type).getEntityClass();
+        if (biome == null || entityClass == null || !net.minecraft.entity.EntityLiving.class.isAssignableFrom(entityClass)) return;
+        if (!SPAWNS.add(biomeName + "|" + entityClass.getName() + "|" + classification)) return;
+        biome.getSpawnableList((net.minecraft.entity.EnumCreatureType) classification).add(new net.minecraft.world.biome.Biome.SpawnListEntry(
+                (Class<? extends net.minecraft.entity.EntityLiving>) entityClass, weight, Math.max(1, min), Math.max(1, max)));
+    }
+
     private ModernEntityTypes() {}
 }

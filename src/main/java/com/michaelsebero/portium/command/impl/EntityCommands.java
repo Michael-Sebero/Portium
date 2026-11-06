@@ -251,7 +251,14 @@ public final class EntityCommands {
             EntityPlayerMP player = (EntityPlayerMP) entity;
             player.dismountRidingEntity();
             if (player.isPlayerSleeping()) player.wakeUpPlayer(true, true, false);
-            player.connection.setPlayerLocation(x, y, z, yaw, pitch, relative);
+            // 1.13's setPlayerLocation takes the destination and works out the deltas itself; 1.12's wants the deltas
+            // for the axes marked relative, so this does that subtraction here.
+            player.connection.setPlayerLocation(
+                    relative.contains(SPacketPlayerPosLook.EnumFlags.X) ? x - player.posX : x,
+                    relative.contains(SPacketPlayerPosLook.EnumFlags.Y) ? y - player.posY : y,
+                    relative.contains(SPacketPlayerPosLook.EnumFlags.Z) ? z - player.posZ : z,
+                    relative.contains(SPacketPlayerPosLook.EnumFlags.Y_ROT) ? yaw - player.rotationYaw : yaw,
+                    relative.contains(SPacketPlayerPosLook.EnumFlags.X_ROT) ? pitch - player.rotationPitch : pitch, relative);
             player.setRotationYawHead(yaw);
         } else {
             float wrappedPitch = MathHelper.clamp(MathHelper.wrapDegrees(pitch), -90.0F, 90.0F);

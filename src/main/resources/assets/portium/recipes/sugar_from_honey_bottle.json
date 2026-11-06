@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:sugar"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "result": {
+    "item": "minecraft:sugar",
+    "count": 3
+  },
+  "group": "sugar"
+}

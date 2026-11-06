@@ -19,10 +19,15 @@ public class PotionPortium extends Potion {
     private final ResourceLocation icon;
 
     public PotionPortium(String name, boolean harmful, int color) {
+        this(name, harmful, !harmful, color);
+    }
+
+    /** @param beneficial shown in the HUD's top row; 1.14's neutral effects (Bad Omen) are neither this nor harmful. */
+    public PotionPortium(String name, boolean harmful, boolean beneficial, int color) {
         super(harmful, color);
         this.icon = new ResourceLocation(Tags.MOD_ID, "textures/mob_effect/" + name + ".png");
         this.setPotionName("effect." + Tags.MOD_ID + "." + name);
-        if (!harmful) this.setBeneficial();
+        if (beneficial) this.setBeneficial();
     }
 
     @Override

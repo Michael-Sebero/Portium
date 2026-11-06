@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "portium:loom"
+    },
+    "facing=east": {
+      "model": "portium:loom",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "portium:loom",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "portium:loom",
+      "y": 270
+    }
+  }
+}

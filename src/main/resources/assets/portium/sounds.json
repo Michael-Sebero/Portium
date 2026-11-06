@@ -3670,5 +3670,4509 @@
   },
   "music.nether.warped_forest": {
     "sounds": []
+  },
+  "block.netherite_block.break": {
+    "sounds": [
+      {
+        "name": "portium:block/netherite/break1",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break2",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break3",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break4",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break1",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break2",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break3",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break4",
+        "volume": 0.95,
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.netherite_block.step": {
+    "sounds": [
+      "portium:block/netherite/step1",
+      "portium:block/netherite/step2",
+      "portium:block/netherite/step3",
+      "portium:block/netherite/step4",
+      "portium:block/netherite/step5",
+      "portium:block/netherite/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.netherite_block.place": {
+    "sounds": [
+      {
+        "name": "portium:block/netherite/break1",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break2",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break3",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break4",
+        "volume": 0.95
+      },
+      {
+        "name": "portium:block/netherite/break1",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break2",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break3",
+        "volume": 0.95,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/netherite/break4",
+        "volume": 0.95,
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.netherite_block.hit": {
+    "sounds": [
+      "portium:block/netherite/step1",
+      "portium:block/netherite/step2",
+      "portium:block/netherite/step3",
+      "portium:block/netherite/step4",
+      "portium:block/netherite/step5",
+      "portium:block/netherite/step6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.netherite_block.fall": {
+    "sounds": [
+      "portium:block/netherite/step1",
+      "portium:block/netherite/step2",
+      "portium:block/netherite/step3",
+      "portium:block/netherite/step4",
+      "portium:block/netherite/step5",
+      "portium:block/netherite/step6"
+    ]
+  },
+  "item.armor.equip_netherite": {
+    "sounds": [
+      {
+        "name": "portium:item/armor/equip_netherite1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/armor/equip_netherite2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/armor/equip_netherite3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/armor/equip_netherite4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:item/armor/equip_netherite1",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/armor/equip_netherite2",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/armor/equip_netherite3",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/armor/equip_netherite4",
+        "volume": 0.8,
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.item.armor.equip"
+  },
+  "block.smithing_table.use": {
+    "sounds": [
+      {
+        "name": "portium:block/smithing_table/smithing_table1",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/smithing_table/smithing_table2",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/smithing_table/smithing_table3",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.portium.block.smithing_table.use"
+  },
+  "block.lantern.break": {
+    "sounds": [
+      "portium:block/lantern/break1",
+      "portium:block/lantern/break2",
+      "portium:block/lantern/break3",
+      "portium:block/lantern/break4",
+      "portium:block/lantern/break5",
+      "portium:block/lantern/break6"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.lantern.step": {
+    "sounds": [
+      "portium:block/lantern/break1",
+      "portium:block/lantern/break2",
+      "portium:block/lantern/break3",
+      "portium:block/lantern/break4",
+      "portium:block/lantern/break5",
+      "portium:block/lantern/break6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.lantern.place": {
+    "sounds": [
+      {
+        "name": "portium:block/lantern/place1",
+        "volume": 1,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/lantern/place2",
+        "volume": 1,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/lantern/place3",
+        "volume": 1,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/lantern/place4",
+        "volume": 1,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/lantern/place5",
+        "volume": 1,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:block/lantern/place6",
+        "volume": 1,
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.lantern.hit": {
+    "sounds": [
+      "portium:block/lantern/place1",
+      "portium:block/lantern/place2",
+      "portium:block/lantern/place3",
+      "portium:block/lantern/place4",
+      "portium:block/lantern/place5",
+      "portium:block/lantern/place6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.lantern.fall": {
+    "sounds": [
+      "portium:block/lantern/break1",
+      "portium:block/lantern/break2",
+      "portium:block/lantern/break3",
+      "portium:block/lantern/break4",
+      "portium:block/lantern/break5",
+      "portium:block/lantern/break6"
+    ]
+  },
+  "block.chain.break": {
+    "sounds": [
+      {
+        "name": "portium:block/chain/break1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break3",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.chain.step": {
+    "sounds": [
+      "portium:block/chain/step1",
+      "portium:block/chain/step2",
+      "portium:block/chain/step3",
+      "portium:block/chain/step4",
+      "portium:block/chain/step5",
+      "portium:block/chain/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.chain.place": {
+    "sounds": [
+      {
+        "name": "portium:block/chain/break1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break3",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/chain/break4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.chain.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/chain/step1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/chain/step2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/chain/step3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/chain/step4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/chain/step5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/chain/step6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.chain.fall": {
+    "sounds": [
+      "portium:block/chain/step1",
+      "portium:block/chain/step2",
+      "portium:block/chain/step3",
+      "portium:block/chain/step4",
+      "portium:block/chain/step5",
+      "portium:block/chain/step6"
+    ]
+  },
+  "block.campfire.crackle": {
+    "sounds": [
+      "portium:block/campfire/crackle1",
+      "portium:block/campfire/crackle2",
+      "portium:block/campfire/crackle3",
+      "portium:block/campfire/crackle4",
+      "portium:block/campfire/crackle5",
+      "portium:block/campfire/crackle6"
+    ],
+    "subtitle": "subtitles.block.campfire.crackle"
+  },
+  "block.lodestone.break": {
+    "sounds": [
+      "minecraft:dig/stone1",
+      "minecraft:dig/stone2",
+      "minecraft:dig/stone3",
+      "minecraft:dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.lodestone.step": {
+    "sounds": [
+      "minecraft:step/stone1",
+      "minecraft:step/stone2",
+      "minecraft:step/stone3",
+      "minecraft:step/stone4",
+      "minecraft:step/stone5",
+      "minecraft:step/stone6"
+    ]
+  },
+  "block.lodestone.place": {
+    "sounds": [
+      "portium:block/lodestone/place1",
+      "portium:block/lodestone/place2",
+      "portium:block/lodestone/place3",
+      "portium:block/lodestone/place4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.lodestone.hit": {
+    "sounds": [
+      "minecraft:step/stone1",
+      "minecraft:step/stone2",
+      "minecraft:step/stone3",
+      "minecraft:step/stone4",
+      "minecraft:step/stone5",
+      "minecraft:step/stone6"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.lodestone.fall": {
+    "sounds": [
+      "minecraft:step/stone1",
+      "minecraft:step/stone2",
+      "minecraft:step/stone3",
+      "minecraft:step/stone4",
+      "minecraft:step/stone5",
+      "minecraft:step/stone6"
+    ]
+  },
+  "block.respawn_anchor.ambient": {
+    "sounds": [
+      {
+        "attenuation_distance": 7,
+        "name": "portium:block/respawn_anchor/ambient1"
+      },
+      {
+        "attenuation_distance": 7,
+        "name": "portium:block/respawn_anchor/ambient2"
+      },
+      {
+        "attenuation_distance": 7,
+        "name": "portium:block/respawn_anchor/ambient3"
+      }
+    ],
+    "subtitle": "subtitles.block.respawn_anchor.ambient"
+  },
+  "block.respawn_anchor.charge": {
+    "sounds": [
+      "portium:block/respawn_anchor/charge1",
+      "portium:block/respawn_anchor/charge2",
+      "portium:block/respawn_anchor/charge3"
+    ],
+    "subtitle": "subtitles.block.respawn_anchor.charge"
+  },
+  "block.respawn_anchor.deplete": {
+    "sounds": [
+      "portium:block/respawn_anchor/deplete1",
+      "portium:block/respawn_anchor/deplete2"
+    ],
+    "subtitle": "subtitles.block.respawn_anchor.deplete"
+  },
+  "block.respawn_anchor.set_spawn": {
+    "sounds": [
+      "portium:block/respawn_anchor/set_spawn1",
+      "portium:block/respawn_anchor/set_spawn2",
+      "portium:block/respawn_anchor/set_spawn3"
+    ],
+    "subtitle": "subtitles.block.respawn_anchor.set_spawn"
+  },
+  "item.lodestone_compass.lock": {
+    "sounds": [
+      {
+        "name": "portium:block/lodestone/lock1",
+        "pitch": 0.85
+      },
+      {
+        "name": "portium:block/lodestone/lock2",
+        "pitch": 0.85
+      },
+      {
+        "name": "portium:block/lodestone/lock1",
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:block/lodestone/lock2",
+        "pitch": 0.95
+      }
+    ],
+    "subtitle": "subtitles.item.lodestone_compass.lock"
+  },
+  "block.bamboo.break": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/place1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.bamboo.step": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step2",
+        "volume": 1,
+        "pitch": 0.7
+      },
+      {
+        "name": "portium:block/bamboo/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step4",
+        "volume": 1,
+        "pitch": 0.7
+      },
+      {
+        "name": "portium:block/bamboo/step5",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.bamboo.place": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/place1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/place6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.bamboo.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step5",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.bamboo.fall": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step5",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/bamboo/step6",
+        "volume": 1
+      }
+    ]
+  },
+  "block.bamboo_sapling.place": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/sapling_place1",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place2",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place3",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place4",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place5",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place6",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.bamboo_sapling.break": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/sapling_place1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place5",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/bamboo/sapling_place6",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.bamboo_sapling.hit": {
+    "sounds": [
+      {
+        "name": "portium:block/bamboo/sapling_hit1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/sapling_hit2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/sapling_hit3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/sapling_hit4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/bamboo/sapling_hit5",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.sweet_berry_bush.break": {
+    "sounds": [
+      {
+        "name": "portium:block/sweet_berry_bush/break1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/break2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/break3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/break4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.sweet_berry_bush.place": {
+    "sounds": [
+      {
+        "name": "portium:block/sweet_berry_bush/place1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/place2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/place3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/place4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/place5",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/sweet_berry_bush/place6",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "entity.player.hurt_sweet_berry_bush": {
+    "sounds": [
+      "portium:entity/player/hurt/berrybush_hurt1",
+      "portium:entity/player/hurt/berrybush_hurt2"
+    ],
+    "subtitle": "subtitles.entity.player.hurt"
+  },
+  "item.sweet_berries.pick_from_bush": {
+    "sounds": [
+      "portium:item/sweet_berries/pick_from_bush1",
+      "portium:item/sweet_berries/pick_from_bush2"
+    ],
+    "subtitle": "subtitles.item.berries.pick"
+  },
+  "block.barrel.open": {
+    "sounds": [
+      {
+        "name": "portium:block/barrel/open1",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/barrel/open2",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.block.barrel.open"
+  },
+  "block.barrel.close": {
+    "sounds": [
+      {
+        "name": "portium:block/barrel/close",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.barrel.close"
+  },
+  "block.smoker.smoke": {
+    "sounds": [
+      "portium:block/smoker/smoker1",
+      "portium:block/smoker/smoker2",
+      "portium:block/smoker/smoker3",
+      "portium:block/smoker/smoker4",
+      "portium:block/smoker/smoker5"
+    ],
+    "subtitle": "subtitles.block.smoker.smoke"
+  },
+  "block.blastfurnace.fire_crackle": {
+    "sounds": [
+      {
+        "name": "portium:block/blastfurnace/blastfurnace1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace4",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.blastfurnace.fire_crackle"
+  },
+  "block.composter.fill": {
+    "sounds": [
+      {
+        "name": "portium:block/composter/fill1",
+        "volume": 0.3,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:block/composter/fill2",
+        "volume": 0.3,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:block/composter/fill3",
+        "volume": 0.3,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:block/composter/fill4",
+        "volume": 0.3,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.composter.fill"
+  },
+  "block.composter.fill_success": {
+    "sounds": [
+      {
+        "name": "portium:block/composter/fill_success1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.composter.fill"
+  },
+  "block.composter.empty": {
+    "sounds": [
+      {
+        "name": "portium:block/composter/empty1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/empty2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/empty3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.composter.empty"
+  },
+  "block.composter.ready": {
+    "sounds": [
+      {
+        "name": "portium:block/composter/ready1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/ready2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/ready3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/ready4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.composter.ready"
+  },
+  "block.grindstone.use": {
+    "sounds": [
+      {
+        "name": "portium:block/grindstone/grindstone1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/grindstone/grindstone2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/grindstone/grindstone3",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.block.grindstone.use"
+  },
+  "ui.stonecutter.take_result": {
+    "sounds": [
+      {
+        "name": "portium:ui/stonecutter/cut1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/stonecutter/cut1",
+        "volume": 1,
+        "pitch": 0.92
+      },
+      {
+        "name": "portium:ui/stonecutter/cut2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/stonecutter/cut2",
+        "volume": 1,
+        "pitch": 0.92
+      }
+    ],
+    "subtitle": "subtitles.ui.stonecutter.take_result"
+  },
+  "ui.stonecutter.select_recipe": {
+    "sounds": [
+      "minecraft:random/click"
+    ]
+  },
+  "ui.loom.select_pattern": {
+    "sounds": [
+      {
+        "name": "portium:ui/loom/select_pattern1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/loom/select_pattern2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/loom/select_pattern3",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/loom/select_pattern4",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/loom/select_pattern5",
+        "volume": 1
+      }
+    ]
+  },
+  "ui.loom.take_result": {
+    "sounds": [
+      {
+        "name": "portium:ui/loom/take_result1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ui/loom/take_result2",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.ui.loom.take_result"
+  },
+  "ui.cartography_table.take_result": {
+    "sounds": [
+      "portium:ui/cartography_table/drawmap1",
+      "portium:ui/cartography_table/drawmap2",
+      "portium:ui/cartography_table/drawmap3"
+    ],
+    "subtitle": "subtitles.ui.cartography_table.take_result"
+  },
+  "block.bell.use": {
+    "sounds": [
+      {
+        "name": "portium:block/bell/bell_use01",
+        "volume": 12,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:block/bell/bell_use02",
+        "volume": 12,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:block/bell/bell_use01",
+        "volume": 12,
+        "pitch": 0.93
+      },
+      {
+        "name": "portium:block/bell/bell_use02",
+        "volume": 12,
+        "pitch": 0.93
+      },
+      {
+        "name": "portium:block/bell/bell_use01",
+        "volume": 12,
+        "pitch": 0.97
+      },
+      {
+        "name": "portium:block/bell/bell_use02",
+        "volume": 12,
+        "pitch": 0.97
+      }
+    ],
+    "subtitle": "subtitles.block.bell.use"
+  },
+  "block.bell.resonate": {
+    "sounds": [
+      {
+        "name": "portium:block/bell/resonate",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/bell/resonate",
+        "volume": 1,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/bell/resonate",
+        "volume": 1,
+        "pitch": 0.85
+      }
+    ],
+    "subtitle": "subtitles.block.bell.resonate"
+  },
+  "item.book.page_turn": {
+    "sounds": [
+      {
+        "name": "portium:item/book/open_flip1",
+        "volume": 2
+      },
+      {
+        "name": "portium:item/book/open_flip2",
+        "volume": 2
+      },
+      {
+        "name": "portium:item/book/open_flip3",
+        "volume": 2
+      }
+    ],
+    "subtitle": "subtitles.item.book.page_turn"
+  },
+  "item.book.put": {
+    "sounds": [
+      "portium:item/book/close_put1",
+      "portium:item/book/close_put2"
+    ],
+    "subtitle": "subtitles.item.book.put"
+  },
+  "block.scaffolding.break": {
+    "sounds": [
+      {
+        "name": "portium:block/scaffold/place1",
+        "volume": 0.8,
+        "pitch": 1.4
+      },
+      {
+        "name": "portium:block/scaffold/place2",
+        "volume": 0.8,
+        "pitch": 1.4
+      },
+      {
+        "name": "portium:block/scaffold/place3",
+        "volume": 0.8,
+        "pitch": 1.4
+      },
+      {
+        "name": "portium:block/scaffold/place4",
+        "volume": 0.8,
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.scaffolding.step": {
+    "sounds": [
+      "portium:step/scaffold1",
+      "portium:step/scaffold2",
+      "portium:step/scaffold3",
+      "portium:step/scaffold4",
+      "portium:step/scaffold5",
+      "portium:step/scaffold6",
+      "portium:step/scaffold7"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.scaffolding.place": {
+    "sounds": [
+      {
+        "name": "portium:block/scaffold/place1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/scaffold/place2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/scaffold/place3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/scaffold/place4",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.scaffolding.hit": {
+    "sounds": [
+      "portium:step/scaffold1",
+      "portium:step/scaffold2",
+      "portium:step/scaffold3",
+      "portium:step/scaffold4",
+      "portium:step/scaffold5",
+      "portium:step/scaffold6",
+      "portium:step/scaffold7"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.scaffolding.fall": {
+    "sounds": [
+      "portium:step/scaffold1",
+      "portium:step/scaffold2",
+      "portium:step/scaffold3",
+      "portium:step/scaffold4",
+      "portium:step/scaffold5",
+      "portium:step/scaffold6",
+      "portium:step/scaffold7"
+    ]
+  },
+  "block.honey_block.break": {
+    "sounds": [
+      "portium:block/honeyblock/break1",
+      "portium:block/honeyblock/break2",
+      "portium:block/honeyblock/break3",
+      "portium:block/honeyblock/break4",
+      "portium:block/honeyblock/break5"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.honey_block.step": {
+    "sounds": [
+      "portium:block/honeyblock/step1",
+      "portium:block/honeyblock/step2",
+      "portium:block/honeyblock/step3",
+      "portium:block/honeyblock/step4",
+      "portium:block/honeyblock/step5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.honey_block.place": {
+    "sounds": [
+      "portium:block/honeyblock/break1",
+      "portium:block/honeyblock/break2",
+      "portium:block/honeyblock/break3",
+      "portium:block/honeyblock/break4",
+      "portium:block/honeyblock/break5"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.honey_block.hit": {
+    "sounds": [
+      "portium:block/honeyblock/step1",
+      "portium:block/honeyblock/step2",
+      "portium:block/honeyblock/step3",
+      "portium:block/honeyblock/step4",
+      "portium:block/honeyblock/step5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.honey_block.fall": {
+    "sounds": [
+      "portium:block/honeyblock/step1",
+      "portium:block/honeyblock/step2",
+      "portium:block/honeyblock/step3",
+      "portium:block/honeyblock/step4",
+      "portium:block/honeyblock/step5"
+    ]
+  },
+  "block.honey_block.slide": {
+    "sounds": [
+      {
+        "name": "portium:block/honeyblock/slide1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide1",
+        "pitch": 0.9,
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide2",
+        "pitch": 0.8,
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide3",
+        "pitch": 0.8,
+        "volume": 0.8
+      },
+      {
+        "name": "portium:block/honeyblock/slide4",
+        "pitch": 0.8,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.honey_block.slide"
+  },
+  "item.honey_bottle.drink": {
+    "sounds": [
+      "portium:item/bottle/drink_honey1",
+      "portium:item/bottle/drink_honey2",
+      {
+        "name": "portium:item/bottle/drink_honey3",
+        "volume": 0.35
+      },
+      {
+        "name": "portium:item/bottle/drink_honey3",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.item.honey_bottle.drink"
+  },
+  "entity.fox.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/idle1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/fox/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/fox/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/fox/idle4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/fox/idle5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/fox/idle6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.ambient"
+  },
+  "entity.fox.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/hurt1",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/fox/hurt2",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/fox/hurt3",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/fox/hurt4",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.hurt"
+  },
+  "entity.fox.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/death1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/fox/death2",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.death"
+  },
+  "entity.fox.aggro": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/aggro1",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro2",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro3",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro4",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro5",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro6",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/aggro7",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.aggro"
+  },
+  "entity.fox.sniff": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/sniff1",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/fox/sniff2",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/fox/sniff3",
+        "volume": 0.6
+      },
+      {
+        "name": "portium:mob/fox/sniff4",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.sniff"
+  },
+  "entity.fox.bite": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/bite1",
+        "volume": 0.6,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/fox/bite2",
+        "volume": 0.6,
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/fox/bite3",
+        "volume": 0.6,
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.bite"
+  },
+  "entity.fox.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/eat1",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/eat2",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/fox/eat3",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.eat"
+  },
+  "entity.fox.screech": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/screech1",
+        "attenuation_distance": 32,
+        "volume": 0.45
+      },
+      {
+        "name": "portium:mob/fox/screech2",
+        "attenuation_distance": 32,
+        "volume": 0.45
+      },
+      {
+        "name": "portium:mob/fox/screech3",
+        "attenuation_distance": 32,
+        "volume": 0.45
+      },
+      {
+        "name": "portium:mob/fox/screech4",
+        "attenuation_distance": 32,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.screech"
+  },
+  "entity.fox.sleep": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/sleep1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/fox/sleep2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/fox/sleep3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/fox/sleep4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/fox/sleep5",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.sleep"
+  },
+  "entity.fox.spit": {
+    "sounds": [
+      {
+        "name": "portium:mob/fox/spit1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/fox/spit2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/fox/spit3",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.fox.spit"
+  },
+  "entity.fox.teleport": {
+    "sounds": [
+      "minecraft:mob/endermen/portal",
+      "minecraft:mob/endermen/portal2"
+    ],
+    "subtitle": "subtitles.entity.fox.teleport"
+  },
+  "entity.panda.pre_sneeze": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/pre_sneeze",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.pre_sneeze"
+  },
+  "entity.panda.sneeze": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/sneeze1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/sneeze2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/sneeze3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.sneeze"
+  },
+  "entity.panda.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/idle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/idle4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/nosebreath1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/nosebreath2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/nosebreath3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/pant1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/pant2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.ambient"
+  },
+  "entity.panda.bite": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/bite1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/bite2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/bite3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.bite"
+  },
+  "entity.panda.cant_breed": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/cant_breed1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/cant_breed2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/cant_breed3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/cant_breed4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/cant_breed5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.cant_breed"
+  },
+  "entity.panda.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/death1",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/death2",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/death3",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/death4",
+        "volume": 0.82
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.death"
+  },
+  "entity.panda.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/eat1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat5",
+        "volume": 0.85
+      },
+      {
+        "name": "portium:mob/panda/eat6",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat7",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat8",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat9",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat10",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat11",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/eat12",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.eat"
+  },
+  "entity.panda.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/step5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.step"
+  },
+  "entity.panda.aggressive_ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/aggressive/aggressive1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/aggressive/aggressive2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/aggressive/aggressive3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/aggressive/aggressive4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/panda/nosebreath2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/nosebreath3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/pant1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/pant2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.aggressive_ambient"
+  },
+  "entity.panda.worried_ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/worried/worried2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/worried/worried3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/worried/worried4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/worried/worried5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/worried/worried6",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/panda/pant2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.worried_ambient"
+  },
+  "entity.panda.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/panda/hurt1",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/hurt2",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/hurt3",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/hurt4",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/hurt5",
+        "volume": 0.82
+      },
+      {
+        "name": "portium:mob/panda/hurt6",
+        "volume": 0.82
+      }
+    ],
+    "subtitle": "subtitles.entity.panda.hurt"
+  },
+  "entity.ocelot.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/cat/ocelot/idle1",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:mob/cat/ocelot/idle2",
+        "volume": 0.3
+      },
+      {
+        "name": "portium:mob/cat/ocelot/idle3",
+        "volume": 0.35
+      },
+      {
+        "name": "portium:mob/cat/ocelot/idle4",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.ambient"
+  },
+  "entity.ocelot.hurt": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/hitt1",
+        "volume": 0.45
+      },
+      {
+        "name": "minecraft:mob/cat/hitt2",
+        "volume": 0.45
+      },
+      {
+        "name": "minecraft:mob/cat/hitt3",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.hurt"
+  },
+  "entity.ocelot.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/cat/ocelot/death1",
+        "volume": 0.45,
+        "pitch": 1
+      },
+      {
+        "name": "portium:mob/cat/ocelot/death2",
+        "volume": 0.45,
+        "pitch": 1
+      },
+      {
+        "name": "portium:mob/cat/ocelot/death3",
+        "volume": 0.45,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.death"
+  },
+  "entity.cat.ambient": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/meow1",
+        "volume": 0.6
+      },
+      {
+        "name": "minecraft:mob/cat/meow2",
+        "volume": 0.5
+      },
+      {
+        "name": "minecraft:mob/cat/meow3",
+        "volume": 0.6
+      },
+      {
+        "name": "minecraft:mob/cat/meow4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.ambient"
+  },
+  "entity.cat.stray_ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/cat/stray/idle1",
+        "volume": 0.35
+      },
+      {
+        "name": "portium:mob/cat/stray/idle2",
+        "volume": 0.35
+      },
+      {
+        "name": "portium:mob/cat/stray/idle3",
+        "volume": 0.35
+      },
+      {
+        "name": "portium:mob/cat/stray/idle4",
+        "volume": 0.35
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.ambient"
+  },
+  "entity.cat.purr": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/purr1",
+        "volume": 0.7
+      },
+      {
+        "name": "minecraft:mob/cat/purr2",
+        "volume": 0.7
+      },
+      {
+        "name": "minecraft:mob/cat/purr3",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.purr"
+  },
+  "entity.cat.purreow": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/purreow1",
+        "volume": 0.5
+      },
+      {
+        "name": "minecraft:mob/cat/purreow2",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.ambient"
+  },
+  "entity.cat.hiss": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/hiss1",
+        "volume": 0.4
+      },
+      {
+        "name": "minecraft:mob/cat/hiss2",
+        "volume": 0.4
+      },
+      {
+        "name": "minecraft:mob/cat/hiss3",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.hiss"
+  },
+  "entity.cat.hurt": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/hitt1",
+        "volume": 0.65
+      },
+      {
+        "name": "minecraft:mob/cat/hitt2",
+        "volume": 0.65
+      },
+      {
+        "name": "minecraft:mob/cat/hitt3",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.hurt"
+  },
+  "entity.cat.death": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/cat/hitt1",
+        "volume": 0.75,
+        "pitch": 0.9
+      },
+      {
+        "name": "minecraft:mob/cat/hitt2",
+        "volume": 0.75,
+        "pitch": 0.9
+      },
+      {
+        "name": "minecraft:mob/cat/hitt3",
+        "volume": 0.75,
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.death"
+  },
+  "entity.cat.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/cat/eat1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/cat/eat2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.eat"
+  },
+  "entity.cat.beg_for_food": {
+    "sounds": [
+      {
+        "name": "portium:mob/cat/beg1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/cat/beg2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/cat/beg3",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.cat.beg_for_food"
+  },
+  "item.crossbow.quick_charge_1": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/quick_charge/quick1_1",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick1_1",
+        "volume": 0.5,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick1_2",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick1_2",
+        "volume": 0.65,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick1_3",
+        "volume": 0.65,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.charge"
+  },
+  "item.crossbow.quick_charge_2": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_1",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_1",
+        "volume": 0.5,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_2",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_2",
+        "volume": 0.65,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_2",
+        "volume": 0.65,
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_3",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_3",
+        "volume": 0.65,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick2_3",
+        "volume": 0.65,
+        "pitch": 1.05
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.charge"
+  },
+  "item.crossbow.quick_charge_3": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_1",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_1",
+        "volume": 0.5,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_2",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_2",
+        "volume": 0.65,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_2",
+        "volume": 0.65,
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_3",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_3",
+        "volume": 0.65,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/quick_charge/quick3_3",
+        "volume": 0.65,
+        "pitch": 1.05
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.charge"
+  },
+  "item.crossbow.loading_start": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/loading_start",
+        "volume": 0.3,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.charge"
+  },
+  "item.crossbow.loading_middle": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/loading_middle1",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle1",
+        "volume": 0.65,
+        "pitch": 1.2
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle1",
+        "volume": 0.65,
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle2",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle2",
+        "volume": 0.65,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle2",
+        "volume": 0.65,
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle3",
+        "volume": 0.65,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle3",
+        "volume": 0.65,
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle3",
+        "volume": 0.65,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/loading_middle4",
+        "volume": 0.65,
+        "pitch": 1
+      }
+    ]
+  },
+  "item.crossbow.loading_end": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/loading_end",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.load"
+  },
+  "item.crossbow.shoot": {
+    "sounds": [
+      {
+        "name": "portium:item/crossbow/shoot1",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/shoot2",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/shoot3",
+        "volume": 0.9,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:item/crossbow/shoot1",
+        "volume": 0.9,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/shoot2",
+        "volume": 0.9,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/shoot3",
+        "volume": 0.9,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/shoot1",
+        "volume": 0.8,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/shoot2",
+        "volume": 0.8,
+        "pitch": 1
+      },
+      {
+        "name": "portium:item/crossbow/shoot3",
+        "volume": 0.8,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.item.crossbow.shoot"
+  },
+  "item.crossbow.hit": {
+    "sounds": [
+      "minecraft:random/bowhit1",
+      "minecraft:random/bowhit2",
+      "minecraft:random/bowhit3",
+      "minecraft:random/bowhit4"
+    ],
+    "subtitle": "subtitles.item.crossbow.hit"
+  },
+  "entity.pillager.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/pillager/idle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/idle4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.pillager.ambient"
+  },
+  "entity.pillager.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/pillager/hurt1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/hurt2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/hurt3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.pillager.hurt"
+  },
+  "entity.pillager.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/pillager/death1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/death2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.pillager.death"
+  },
+  "entity.pillager.celebrate": {
+    "sounds": [
+      {
+        "name": "portium:mob/pillager/celebrate1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/celebrate2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/celebrate3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/celebrate4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/pillager/horn_celebrate",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.pillager.celebrate"
+  },
+  "entity.vindicator.celebrate": {
+    "sounds": [
+      "portium:mob/vindication_illager/celebrate1",
+      "portium:mob/vindication_illager/celebrate2"
+    ],
+    "subtitle": "subtitles.entity.vindicator.celebrate"
+  },
+  "entity.evoker.celebrate": {
+    "sounds": [
+      "portium:mob/evocation_illager/celebrate",
+      "minecraft:mob/evocation_illager/idle1",
+      "minecraft:mob/evocation_illager/idle2"
+    ],
+    "subtitle": "subtitles.entity.evoker.celebrate"
+  },
+  "entity.witch.celebrate": {
+    "sounds": [
+      "portium:entity/witch/celebrate",
+      "minecraft:entity/witch/ambient1",
+      "minecraft:entity/witch/ambient4"
+    ],
+    "subtitle": "subtitles.entity.witch.celebrate"
+  },
+  "entity.ravager.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/idle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle6",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle7",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/idle8",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.ambient"
+  },
+  "entity.ravager.attack": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/bite1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/bite2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/bite3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.attack"
+  },
+  "entity.ravager.celebrate": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/celebrate1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/celebrate2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.celebrate"
+  },
+  "entity.ravager.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/death1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/death2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/death3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.death"
+  },
+  "entity.ravager.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/hurt1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/hurt2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/hurt3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/hurt4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.hurt"
+  },
+  "entity.ravager.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/step5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.step"
+  },
+  "entity.ravager.stunned": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/stun1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/stun2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/ravager/stun3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.stunned"
+  },
+  "entity.ravager.roar": {
+    "sounds": [
+      {
+        "name": "portium:mob/ravager/roar1",
+        "volume": 1,
+        "attenuation_distance": 35
+      },
+      {
+        "name": "portium:mob/ravager/roar2",
+        "volume": 1,
+        "attenuation_distance": 35
+      },
+      {
+        "name": "portium:mob/ravager/roar3",
+        "volume": 1,
+        "attenuation_distance": 35
+      },
+      {
+        "name": "portium:mob/ravager/roar4",
+        "volume": 1,
+        "attenuation_distance": 35
+      }
+    ],
+    "subtitle": "subtitles.entity.ravager.roar"
+  },
+  "entity.wandering_trader.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/idle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/idle4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/idle5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.ambient"
+  },
+  "entity.wandering_trader.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/death",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.death"
+  },
+  "entity.wandering_trader.disappeared": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/disappeared1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/wandering_trader/disappeared2",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.disappeared"
+  },
+  "entity.wandering_trader.drink_milk": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/drink_milk1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/drink_milk2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/drink_milk3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/drink_milk4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/drink_milk5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.drink_milk"
+  },
+  "entity.wandering_trader.drink_potion": {
+    "sounds": [
+      {
+        "name": "minecraft:random/drink",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/wandering_trader/drink_potion",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.drink_potion"
+  },
+  "entity.wandering_trader.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/hurt1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/hurt2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/hurt3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/hurt4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.hurt"
+  },
+  "entity.wandering_trader.no": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/no1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/no2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/no3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/no4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/no5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.no"
+  },
+  "entity.wandering_trader.reappeared": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/reappeared1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/wandering_trader/reappeared2",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.reappeared"
+  },
+  "entity.wandering_trader.trade": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/haggle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/haggle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/haggle3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.trade"
+  },
+  "entity.wandering_trader.yes": {
+    "sounds": [
+      {
+        "name": "portium:mob/wandering_trader/yes1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/yes2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/yes3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/wandering_trader/yes4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.wandering_trader.yes"
+  },
+  "entity.piglin.admiring_item": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/admire1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/admire2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/celebrate2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/celebrate4",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.admiring_item"
+  },
+  "entity.piglin.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/idle1",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:mob/piglin/idle2",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:mob/piglin/idle3",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:mob/piglin/idle4",
+        "volume": 0.66
+      },
+      {
+        "name": "portium:mob/piglin/idle5",
+        "volume": 0.66
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.ambient"
+  },
+  "entity.piglin.angry": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/angry1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/angry2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/angry3",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/angry4",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.angry"
+  },
+  "entity.piglin.celebrate": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/celebrate1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/celebrate2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/celebrate3",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin/celebrate4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.celebrate"
+  },
+  "entity.piglin.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/death1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/death2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/death3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/death4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.death"
+  },
+  "entity.piglin.jealous": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/jealous1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/jealous2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/jealous3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/jealous4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin/jealous5",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.jealous"
+  },
+  "entity.piglin.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/hurt1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/hurt2",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/piglin/hurt3",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.hurt"
+  },
+  "entity.piglin.retreat": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/retreat1",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/piglin/retreat2",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/piglin/retreat3",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/piglin/retreat4",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.retreat"
+  },
+  "entity.piglin.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/step1",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin/step2",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin/step3",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin/step4",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin/step5",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.step"
+  },
+  "entity.piglin.converted_to_zombified": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/converted1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/piglin/converted2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin.converted_to_zombified"
+  },
+  "entity.hoglin.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/idle1",
+        "volume": 0.65
+      },
+      {
+        "name": "portium:mob/hoglin/idle2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle4",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/hoglin/idle5",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle6",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle7",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle8",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle9",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle10",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/idle11",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.ambient"
+  },
+  "entity.hoglin.angry": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/angry1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/angry2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/angry3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/angry4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/angry5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/angry6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.angry"
+  },
+  "entity.hoglin.attack": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/attack1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/attack2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/attack1",
+        "volume": 0.8,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/attack2",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.attack"
+  },
+  "entity.hoglin.converted_to_zombified": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/converted1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/converted2",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.converted_to_zombified"
+  },
+  "entity.hoglin.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/death1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/death2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/hoglin/death3",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.death"
+  },
+  "entity.hoglin.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/hurt1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/hurt2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/hurt3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/hurt4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.hurt"
+  },
+  "entity.hoglin.retreat": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/retreat1",
+        "volume": 0.7
+      },
+      {
+        "name": "portium:mob/hoglin/retreat2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/retreat3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/hoglin/idle11",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.retreat"
+  },
+  "entity.hoglin.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/hoglin/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/step5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/hoglin/step6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.hoglin.step"
+  },
+  "entity.zoglin.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/idle1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/idle1",
+        "volume": 0.9,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/idle2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/idle3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/idle4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/idle5",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/idle6",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.ambient"
+  },
+  "entity.zoglin.angry": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/angry1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/angry2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/angry3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.angry"
+  },
+  "entity.zoglin.attack": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/attack1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/attack2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/attack1",
+        "volume": 0.8,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:mob/zoglin/attack2",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.attack"
+  },
+  "entity.zoglin.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/death1",
+        "volume": 0.93
+      },
+      {
+        "name": "portium:mob/zoglin/death2",
+        "volume": 0.93
+      },
+      {
+        "name": "portium:mob/zoglin/death3",
+        "volume": 0.93
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.death"
+  },
+  "entity.zoglin.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/hurt1",
+        "volume": 0.83
+      },
+      {
+        "name": "portium:mob/zoglin/hurt2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/zoglin/hurt3",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.hurt"
+  },
+  "entity.zoglin.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/zoglin/step1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/zoglin/step2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/zoglin/step3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/zoglin/step4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/zoglin/step5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.zoglin.step"
+  },
+  "particle.soul_escape": {
+    "sounds": [
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed1",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed2",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed3",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed4",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed5",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed6",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed7",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed8",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed9",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed10",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed11",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed12",
+        "volume": 0.25
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:enchant/soulspeed/soulspeed13",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.particle.soul_escape"
+  },
+  "entity.piglin_brute.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin_brute/idle1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle5",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle6",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle7",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle8",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/idle9",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.ambient"
+  },
+  "entity.piglin_brute.angry": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin_brute/angry1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/angry2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/angry3",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/angry4",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:mob/piglin_brute/angry5",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.angry"
+  },
+  "entity.piglin_brute.converted_to_zombified": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin/converted1",
+        "volume": 1,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/piglin/converted2",
+        "volume": 1,
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.converted_to_zombified"
+  },
+  "entity.piglin_brute.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin_brute/death1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin_brute/death2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/piglin_brute/death3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.death"
+  },
+  "entity.piglin_brute.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin_brute/hurt1",
+        "volume": 0.64
+      },
+      {
+        "name": "portium:mob/piglin_brute/hurt2",
+        "volume": 0.64
+      },
+      {
+        "name": "portium:mob/piglin_brute/hurt3",
+        "volume": 0.64
+      },
+      {
+        "name": "portium:mob/piglin_brute/hurt4",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.hurt"
+  },
+  "entity.piglin_brute.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/piglin_brute/step1",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin_brute/step2",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin_brute/step3",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin_brute/step4",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/piglin_brute/step5",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.entity.piglin_brute.step"
+  },
+  "entity.strider.ambient": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/idle1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/idle2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/idle3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/idle4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/idle5",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/idle6",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.idle"
+  },
+  "entity.strider.death": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/death1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/death2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/death3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/death4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.death"
+  },
+  "entity.strider.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/eat1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/eat2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/eat3",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.eat"
+  },
+  "entity.strider.happy": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/happy1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/happy2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/happy3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/happy4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/happy5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.happy"
+  },
+  "entity.strider.hurt": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/hurt1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/hurt2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/hurt3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/strider/hurt4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.hurt"
+  },
+  "entity.strider.retreat": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/retreat1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/strider/retreat2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/strider/retreat3",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/strider/retreat4",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/strider/retreat5",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.strider.retreat"
+  },
+  "entity.strider.saddle": {
+    "sounds": [
+      "minecraft:mob/horse/leather"
+    ]
+  },
+  "entity.strider.step": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/step1",
+        "volume": 0.25
+      },
+      {
+        "name": "portium:mob/strider/step2",
+        "volume": 0.25
+      },
+      {
+        "name": "portium:mob/strider/step3",
+        "volume": 0.25
+      },
+      {
+        "name": "portium:mob/strider/step4",
+        "volume": 0.25
+      },
+      {
+        "name": "portium:mob/strider/step5",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "entity.strider.step_lava": {
+    "sounds": [
+      {
+        "name": "portium:mob/strider/step_lava1",
+        "volume": 0.2
+      },
+      {
+        "name": "portium:mob/strider/step_lava2",
+        "volume": 0.2
+      },
+      {
+        "name": "portium:mob/strider/step_lava3",
+        "volume": 0.2
+      },
+      {
+        "name": "portium:mob/strider/step_lava4",
+        "volume": 0.2
+      },
+      {
+        "name": "portium:mob/strider/step_lava5",
+        "volume": 0.2
+      },
+      {
+        "name": "portium:mob/strider/step_lava6",
+        "volume": 0.2
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "entity.bee.death": {
+    "sounds": [
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/death1",
+        "volume": 1
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/death2",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.death"
+  },
+  "entity.bee.hurt": {
+    "sounds": [
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt1",
+        "volume": 1
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt2",
+        "volume": 1
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt3",
+        "volume": 1
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt1",
+        "volume": 1,
+        "pitch": 1.2
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt2",
+        "volume": 1,
+        "pitch": 1.2
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/hurt3",
+        "volume": 1,
+        "pitch": 1.2
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.hurt"
+  },
+  "entity.bee.loop": {
+    "sounds": [
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop5",
+        "volume": 0.75
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop5",
+        "volume": 0.7
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop1",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop2",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop3",
+        "volume": 0.65
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "portium:mob/bee/loop4",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.loop"
+  },
+  "entity.bee.loop_aggressive": {
+    "sounds": [
+      {
+        "attenuation_distance": 10,
+        "name": "portium:mob/bee/aggressive1",
+        "volume": 0.8
+      },
+      {
+        "attenuation_distance": 10,
+        "name": "portium:mob/bee/aggressive2",
+        "volume": 0.8
+      },
+      {
+        "attenuation_distance": 10,
+        "name": "portium:mob/bee/aggressive3",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.loop_aggressive"
+  },
+  "entity.bee.pollinate": {
+    "sounds": [
+      {
+        "attenuation_distance": 12,
+        "name": "portium:mob/bee/pollinate1",
+        "volume": 0.8
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:mob/bee/pollinate2",
+        "volume": 0.8
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:mob/bee/pollinate3",
+        "volume": 0.8
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:mob/bee/pollinate4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.pollinate"
+  },
+  "entity.bee.sting": {
+    "sounds": [
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/sting"
+      },
+      {
+        "attenuation_distance": 16,
+        "name": "portium:mob/bee/sting",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.bee.sting"
+  },
+  "block.beehive.drip": {
+    "sounds": [
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip1",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip2",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip3",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip4",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip5",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip6",
+        "volume": 0.3,
+        "pitch": 0.9
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip1",
+        "volume": 0.3,
+        "pitch": 0.7
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip2",
+        "volume": 0.3,
+        "pitch": 0.7
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip3",
+        "volume": 0.3,
+        "pitch": 0.7
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip4",
+        "volume": 0.3,
+        "pitch": 0.7
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip5",
+        "volume": 0.3,
+        "pitch": 0.7
+      },
+      {
+        "attenuation_distance": 8,
+        "name": "portium:block/beehive/drip6",
+        "volume": 0.3,
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.drip"
+  },
+  "block.beehive.enter": {
+    "sounds": [
+      {
+        "attenuation_distance": 14,
+        "name": "portium:block/beehive/enter",
+        "pitch": 0.8
+      },
+      {
+        "attenuation_distance": 14,
+        "name": "portium:block/beehive/enter",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.enter"
+  },
+  "block.beehive.exit": {
+    "sounds": [
+      {
+        "attenuation_distance": 14,
+        "name": "portium:block/beehive/exit"
+      },
+      {
+        "attenuation_distance": 14,
+        "name": "portium:block/beehive/exit",
+        "pitch": 1.1
+      },
+      {
+        "attenuation_distance": 14,
+        "name": "portium:block/beehive/exit",
+        "pitch": 0.9
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.exit"
+  },
+  "block.beehive.shear": {
+    "sounds": [
+      {
+        "name": "portium:block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.shear"
+  },
+  "block.beehive.work": {
+    "sounds": [
+      {
+        "attenuation_distance": 12,
+        "name": "portium:block/beehive/work1",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:block/beehive/work2",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:block/beehive/work3",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 12,
+        "name": "portium:block/beehive/work4",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.work"
+  },
+  "entity.iron_golem.damage": {
+    "sounds": [
+      {
+        "name": "portium:mob/irongolem/damage1",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/irongolem/damage2",
+        "volume": 0.8
+      },
+      {
+        "name": "portium:mob/irongolem/damage1",
+        "volume": 0.8,
+        "pitch": 0.8
+      },
+      {
+        "name": "portium:mob/irongolem/damage2",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.entity.iron_golem.damage"
+  },
+  "entity.iron_golem.repair": {
+    "sounds": [
+      "portium:mob/irongolem/repair"
+    ],
+    "subtitle": "subtitles.entity.iron_golem.repair"
+  },
+  "music_disc.pigstep": {
+    "sounds": [
+      {
+        "name": "portium:records/pigstep",
+        "stream": true
+      }
+    ]
+  },
+  "entity.zombified_piglin.ambient": {
+    "sounds": [
+      "portium:mob/zombified_piglin/zpig1",
+      "portium:mob/zombified_piglin/zpig2",
+      "portium:mob/zombified_piglin/zpig3",
+      "portium:mob/zombified_piglin/zpig4"
+    ],
+    "subtitle": "subtitles.entity.zombified_piglin.ambient"
+  },
+  "entity.zombified_piglin.angry": {
+    "sounds": [
+      "portium:mob/zombified_piglin/zpigangry1",
+      "portium:mob/zombified_piglin/zpigangry2",
+      "portium:mob/zombified_piglin/zpigangry3",
+      "portium:mob/zombified_piglin/zpigangry4"
+    ],
+    "subtitle": "subtitles.entity.zombified_piglin.angry"
+  },
+  "entity.zombified_piglin.death": {
+    "sounds": [
+      "portium:mob/zombified_piglin/zpigdeath"
+    ],
+    "subtitle": "subtitles.entity.zombified_piglin.death"
+  },
+  "entity.zombified_piglin.hurt": {
+    "sounds": [
+      "portium:mob/zombified_piglin/zpighurt1",
+      "portium:mob/zombified_piglin/zpighurt2"
+    ],
+    "subtitle": "subtitles.entity.zombified_piglin.hurt"
+  },
+  "entity.villager.work_armorer": {
+    "sounds": [
+      {
+        "name": "portium:block/blastfurnace/blastfurnace1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace4",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/blastfurnace/blastfurnace5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.blastfurnace.fire_crackle"
+  },
+  "entity.villager.work_butcher": {
+    "sounds": [
+      {
+        "name": "portium:block/smoker/smoker1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/smoker/smoker2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/smoker/smoker3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/smoker/smoker4",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/smoker/smoker5",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_butcher"
+  },
+  "entity.villager.work_cartographer": {
+    "sounds": [
+      "portium:ui/cartography_table/drawmap1",
+      "portium:ui/cartography_table/drawmap2",
+      "portium:ui/cartography_table/drawmap3"
+    ],
+    "subtitle": "subtitles.entity.villager.work_cartographer"
+  },
+  "entity.villager.work_cleric": {
+    "sounds": [
+      "minecraft:block/brewing_stand/brew1",
+      "minecraft:block/brewing_stand/brew2"
+    ],
+    "subtitle": "subtitles.block.brewing_stand.brew"
+  },
+  "entity.villager.work_farmer": {
+    "sounds": [
+      {
+        "name": "portium:block/composter/fill_success1",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success2",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success3",
+        "volume": 1
+      },
+      {
+        "name": "portium:block/composter/fill_success4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_farmer"
+  },
+  "entity.villager.work_fisherman": {
+    "sounds": [
+      {
+        "name": "portium:block/barrel/open1",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/barrel/open2",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_fisherman"
+  },
+  "entity.villager.work_fletcher": {
+    "sounds": [
+      {
+        "name": "portium:block/fletching_table/fletching_table1",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/fletching_table/fletching_table2",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_fletcher"
+  },
+  "entity.villager.work_leatherworker": {
+    "sounds": [
+      {
+        "name": "portium:block/cauldron/dye1",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/cauldron/dye2",
+        "volume": 0.9
+      },
+      {
+        "name": "portium:block/cauldron/dye3",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_leatherworker"
+  },
+  "entity.villager.work_librarian": {
+    "sounds": [
+      {
+        "name": "portium:item/book/open_flip1",
+        "volume": 2
+      },
+      {
+        "name": "portium:item/book/open_flip2",
+        "volume": 2
+      },
+      {
+        "name": "portium:item/book/open_flip3",
+        "volume": 2
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_librarian"
+  },
+  "entity.villager.work_mason": {
+    "sounds": [
+      {
+        "name": "portium:ui/stonecutter/cut1",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/stonecutter/cut1",
+        "volume": 1,
+        "pitch": 0.92
+      },
+      {
+        "name": "portium:ui/stonecutter/cut2",
+        "volume": 1
+      },
+      {
+        "name": "portium:ui/stonecutter/cut2",
+        "volume": 1,
+        "pitch": 0.92
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_mason"
+  },
+  "entity.villager.work_shepherd": {
+    "sounds": [
+      {
+        "name": "portium:ui/loom/take_result1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:ui/loom/take_result2",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_shepherd"
+  },
+  "entity.villager.work_toolsmith": {
+    "sounds": [
+      {
+        "name": "portium:block/smithing_table/smithing_table1",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/smithing_table/smithing_table2",
+        "volume": 1,
+        "pitch": 1
+      },
+      {
+        "name": "portium:block/smithing_table/smithing_table3",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.villager.work_toolsmith"
+  },
+  "entity.villager.work_weaponsmith": {
+    "sounds": [
+      {
+        "name": "portium:block/grindstone/grindstone1",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/grindstone/grindstone2",
+        "volume": 0.5
+      },
+      {
+        "name": "portium:block/grindstone/grindstone3",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.block.grindstone.use"
+  },
+  "entity.villager.celebrate": {
+    "sounds": [
+      "minecraft:mob/villager/yes1",
+      "minecraft:mob/villager/yes2",
+      "minecraft:mob/villager/yes3"
+    ],
+    "subtitle": "subtitles.entity.villager.celebrate"
+  },
+  "entity.zombie_villager.converted": {
+    "sounds": [
+      "minecraft:mob/zombie/unfect"
+    ],
+    "subtitle": "subtitles.entity.zombie_villager.converted"
+  },
+  "entity.zombie_villager.cure": {
+    "sounds": [
+      "minecraft:mob/zombie/remedy"
+    ],
+    "subtitle": "subtitles.entity.zombie_villager.cure"
+  },
+  "event.raid.horn": {
+    "sounds": [
+      {
+        "name": "portium:event/raid/raidhorn_01",
+        "volume": 0.01
+      },
+      {
+        "name": "portium:event/raid/raidhorn_02",
+        "volume": 0.01
+      },
+      {
+        "name": "portium:event/raid/raidhorn_03",
+        "volume": 0.01
+      },
+      {
+        "name": "portium:event/raid/raidhorn_04",
+        "volume": 0.01
+      }
+    ],
+    "subtitle": "subtitles.event.raid.horn"
+  },
+  "entity.mooshroom.convert": {
+    "sounds": [
+      {
+        "name": "portium:mob/mooshroom/convert1",
+        "volume": 0.75
+      },
+      {
+        "name": "portium:mob/mooshroom/convert2",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.entity.mooshroom.convert"
+  },
+  "entity.mooshroom.eat": {
+    "sounds": [
+      {
+        "name": "portium:mob/mooshroom/eat1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/eat2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/eat3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/eat4",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/eat1",
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:mob/mooshroom/eat2",
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:mob/mooshroom/eat3",
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:mob/mooshroom/eat4",
+        "pitch": 0.95
+      },
+      {
+        "name": "portium:mob/mooshroom/eat1",
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:mob/mooshroom/eat2",
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:mob/mooshroom/eat3",
+        "pitch": 1.05
+      },
+      {
+        "name": "portium:mob/mooshroom/eat4",
+        "pitch": 1.05
+      }
+    ],
+    "subtitle": "subtitles.entity.mooshroom.eat"
+  },
+  "entity.mooshroom.milk": {
+    "sounds": [
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.entity.mooshroom.milk"
+  },
+  "entity.mooshroom.suspicious_milk": {
+    "sounds": [
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "volume": 1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "pitch": 0.9
+      },
+      {
+        "name": "portium:mob/mooshroom/milk1",
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk2",
+        "pitch": 1.1
+      },
+      {
+        "name": "portium:mob/mooshroom/milk3",
+        "pitch": 1.1
+      }
+    ],
+    "subtitle": "subtitles.entity.mooshroom.suspicious_milk"
+  },
+  "block.note_block.iron_xylophone": {
+    "sounds": [
+      {
+        "name": "portium:note/iron_xylophone",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "block.note_block.cow_bell": {
+    "sounds": [
+      "portium:note/cow_bell"
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "block.note_block.didgeridoo": {
+    "sounds": [
+      "portium:note/didgeridoo"
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "block.note_block.bit": {
+    "sounds": [
+      "portium:note/bit"
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "block.note_block.banjo": {
+    "sounds": [
+      "portium:note/banjo"
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "block.note_block.pling": {
+    "sounds": [
+      "minecraft:note/pling"
+    ],
+    "subtitle": "subtitles.block.note_block.note"
+  },
+  "music.under_water": {
+    "sounds": [
+      {
+        "name": "portium:music/game/water/shuniji",
+        "stream": true,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:music/game/water/dragon_fish",
+        "stream": true,
+        "volume": 0.4
+      },
+      {
+        "name": "portium:music/game/water/axolotl",
+        "stream": true,
+        "volume": 0.4
+      }
+    ]
   }
 }

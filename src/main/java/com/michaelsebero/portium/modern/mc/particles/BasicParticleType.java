@@ -11,6 +11,11 @@ public class BasicParticleType extends ParticleType<BasicParticleType> implement
         super(id, alwaysShow);
     }
 
+    /** 1.16's: named by its registry name. */
+    public BasicParticleType(boolean alwaysShow) {
+        super(alwaysShow, null);
+    }
+
     @Override
     @Srg("func_197554_b")
     public ParticleType<BasicParticleType> getType() {

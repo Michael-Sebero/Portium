@@ -2,21 +2,21 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:dried_kelp_block"
+      "item": "minecraft:dried_kelp_block"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:dried_kelp"
+      "item": "minecraft:dried_kelp"
     }
   ],
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "portium:dried_kelp_block"
+      "item": "minecraft:dried_kelp_block"
     }
   ],
   "result": {
-    "item": "portium:dried_kelp",
+    "item": "minecraft:dried_kelp",
     "count": 9
   }
 }

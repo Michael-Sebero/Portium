@@ -2,11 +2,11 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:stripped_dark_oak_log"
+      "item": "minecraft:stripped_dark_oak_log"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:stripped_dark_oak_wood"
+      "item": "minecraft:stripped_dark_oak_wood"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -16,11 +16,11 @@
   ],
   "key": {
     "#": {
-      "item": "portium:stripped_dark_oak_log"
+      "item": "minecraft:stripped_dark_oak_log"
     }
   },
   "result": {
-    "item": "portium:stripped_dark_oak_wood",
+    "item": "minecraft:stripped_dark_oak_wood",
     "count": 3
   },
   "group": "bark"

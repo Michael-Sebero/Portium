@@ -66,8 +66,17 @@ public final class ModernPackSupport implements IResourcePack {
     }
 
     /** Before the first resource load: above the game's and mods' resources, below the player's packs. */
+    @Nullable
+    private static ModernPackSupport instance;
+
+    /** Whether an enabled pack has 1.13+ block models, which give some of 1.12's model names other meanings. */
+    public static boolean modernModels() {
+        return instance != null && instance.active();
+    }
+
     public static void install(Minecraft minecraft) {
-        ((MinecraftAccessor) minecraft).portium$getDefaultResourcePacks().add(new ModernPackSupport());
+        instance = new ModernPackSupport();
+        ((MinecraftAccessor) minecraft).portium$getDefaultResourcePacks().add(instance);
     }
 
     /** Whether an enabled pack has 1.13's models, checked again whenever the enabled packs change. */
@@ -87,9 +96,96 @@ public final class ModernPackSupport implements IResourcePack {
         return this.active;
     }
 
+    /**
+     * Models that 1.17 to 1.19 renamed, which ResourceFix (made for 1.19.2's assets) names, by the 1.16.5 model each
+     * is the same as: served as a model with that parent when a modern pack is on, so the 1.16.5 assets Portium
+     * imports stand in for 1.19.2's (doors, paths and cauldrons otherwise had no model). A pack's own copy wins.
+     */
+    private static final java.util.Map<String, String> RENAMED_MODELS = new java.util.HashMap<>();
+
+    static {
+        for (String door : new String[] {"oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "iron"}) {
+            RENAMED_MODELS.put("block/" + door + "_door_bottom_left", "block/" + door + "_door_bottom");
+            RENAMED_MODELS.put("block/" + door + "_door_bottom_right", "block/" + door + "_door_bottom_hinge");
+            RENAMED_MODELS.put("block/" + door + "_door_top_left", "block/" + door + "_door_top");
+            RENAMED_MODELS.put("block/" + door + "_door_top_right", "block/" + door + "_door_top_hinge");
+        }
+        RENAMED_MODELS.put("block/dirt_path", "block/grass_path");
+        RENAMED_MODELS.put("block/water_cauldron_level1", "block/cauldron_level1");
+        RENAMED_MODELS.put("block/water_cauldron_level2", "block/cauldron_level2");
+        RENAMED_MODELS.put("block/water_cauldron_full", "block/cauldron_level3");
+    }
+
+    /**
+     * 1.12 texture names Portium's own models use (its stairs, slabs, walls, nylium...), by the 1.13+ name of the same
+     * texture. While a modern pack is on, 1.12's blocks show its textures (through its models), so these are served
+     * from it too, or Portium's blocks would keep 1.12's art beside them. Water is left out: 1.13's is grey and tinted.
+     */
+    private static final java.util.Map<String, String> RENAMED_TEXTURES = new java.util.HashMap<>();
+
+    static {
+        String[] pairs = {"brick", "bricks", "cobblestone", "cobblestone", "cobblestone_mossy", "mossy_cobblestone", "dirt", "dirt",
+                "end_bricks", "end_stone_bricks", "flower_pot", "flower_pot", "log_acacia", "acacia_log", "log_big_oak", "dark_oak_log",
+                "log_birch", "birch_log", "log_jungle", "jungle_log", "log_oak", "oak_log", "log_spruce", "spruce_log",
+                "log_acacia_top", "acacia_log_top", "log_big_oak_top", "dark_oak_log_top", "log_birch_top", "birch_log_top",
+                "log_jungle_top", "jungle_log_top", "log_oak_top", "oak_log_top", "log_spruce_top", "spruce_log_top",
+                "mushroom_block_inside", "mushroom_block_inside", "mushroom_block_skin_brown", "brown_mushroom_block",
+                "mushroom_block_skin_red", "red_mushroom_block", "mushroom_block_skin_stem", "mushroom_stem", "nether_brick", "nether_bricks",
+                "netherrack", "netherrack", "planks_acacia", "acacia_planks", "planks_big_oak", "dark_oak_planks", "planks_birch", "birch_planks",
+                "planks_jungle", "jungle_planks", "planks_oak", "oak_planks", "planks_spruce", "spruce_planks", "prismarine_bricks",
+                "prismarine_bricks", "prismarine_dark", "dark_prismarine", "prismarine_rough", "prismarine", "pumpkin_side", "pumpkin_side",
+                "pumpkin_top", "pumpkin_top", "quartz_block_bottom", "quartz_block_bottom", "red_nether_brick", "red_nether_bricks",
+                "red_sandstone_normal", "red_sandstone", "red_sandstone_smooth", "cut_red_sandstone", "red_sandstone_top", "red_sandstone_top",
+                "sandstone_normal", "sandstone", "sandstone_smooth", "cut_sandstone", "sandstone_top", "sandstone_top", "stone", "stone",
+                "stone_andesite", "andesite", "stone_andesite_smooth", "polished_andesite", "stonebrick", "stone_bricks", "stonebrick_mossy",
+                "mossy_stone_bricks", "stone_diorite", "diorite", "stone_diorite_smooth", "polished_diorite", "stone_granite", "granite",
+                "stone_granite_smooth", "polished_granite", "stone_slab_top", "smooth_stone"};
+        for (int i = 0; i < pairs.length; i += 2) RENAMED_TEXTURES.put(pairs[i], pairs[i + 1]);
+    }
+
+    /** "textures/block/granite.png" for "textures/blocks/stone_granite.png" (or its .mcmeta), or null. */
+    @Nullable
+    private static String modernTexture(String path) {
+        if (!path.startsWith("textures/blocks/")) return null;
+        String rest = path.substring("textures/blocks/".length());
+        String suffix = rest.endsWith(".png.mcmeta") ? ".png.mcmeta" : rest.endsWith(".png") ? ".png" : null;
+        if (suffix == null) return null;
+        String modern = RENAMED_TEXTURES.get(rest.substring(0, rest.length() - suffix.length()));
+        return modern == null ? null : "textures/block/" + modern + suffix;
+    }
+
+    /** The topmost enabled pack with a 1.13+ texture (not this one), or null. */
+    @Nullable
+    private IResourcePack texturePack(String modernPath) {
+        ResourceLocation location = new ResourceLocation("minecraft", modernPath);
+        List<ResourcePackRepository.Entry> enabled = Minecraft.getMinecraft().getResourcePackRepository().getRepositoryEntries();
+        for (int i = enabled.size() - 1; i >= 0; i--) {
+            IResourcePack pack = enabled.get(i).getResourcePack();
+            if (pack != this && pack.resourceExists(location)) return pack;
+        }
+        return null;
+    }
+
+    /** The 1.16.5 model a renamed model stands for, if the path is one ("models/block/dirt_path.json"). */
+    @Nullable
+    private static String renamedModel(String path) {
+        if (!path.startsWith("models/") || !path.endsWith(".json")) return null;
+        return RENAMED_MODELS.get(path.substring("models/".length(), path.length() - ".json".length()));
+    }
+
     @Override
     public InputStream getInputStream(ResourceLocation location) throws IOException {
         if (!resourceExists(location)) throw new FileNotFoundException(location.toString());
+        String texture = modernTexture(location.getPath());
+        if (texture != null) {
+            IResourcePack pack = this.texturePack(texture);
+            if (pack == null) throw new FileNotFoundException(location.toString());
+            return pack.getInputStream(new ResourceLocation("minecraft", texture));
+        }
+        String renamed = renamedModel(location.getPath());
+        if (renamed != null) {
+            return new java.io.ByteArrayInputStream(("{\"parent\": \"minecraft:" + renamed + "\"}").getBytes(StandardCharsets.UTF_8));
+        }
         InputStream in = ModernPackSupport.class.getClassLoader().getResourceAsStream(ROOT + "assets/minecraft/" + location.getPath());
         if (in == null) throw new FileNotFoundException(location.toString());
         return in;
@@ -97,7 +193,11 @@ public final class ModernPackSupport implements IResourcePack {
 
     @Override
     public boolean resourceExists(ResourceLocation location) {
-        if (!"minecraft".equals(location.getNamespace()) || !this.files.contains(location.getPath()) || !active()) return false;
+        if (!"minecraft".equals(location.getNamespace())) return false;
+        if (renamedModel(location.getPath()) != null) return active();
+        String texture = modernTexture(location.getPath());
+        if (texture != null) return active() && this.texturePack(texture) != null;
+        if (!this.files.contains(location.getPath()) || !active()) return false;
         if (!location.getPath().startsWith("blockstates/")) return true;
         return this.resolvable.computeIfAbsent(location.getPath(), this::modelsFound);
     }
@@ -116,8 +216,11 @@ public final class ModernPackSupport implements IResourcePack {
         for (ResourcePackRepository.Entry entry : minecraft.getResourcePackRepository().getRepositoryEntries()) packs.add(entry.getResourcePack());
         packs.remove(this);
         for (String model : models) {
-            String path = "models/block/" + model + ".json";
+            String path = "models/" + (model.contains("/") ? model : "block/" + model) + ".json";
             if (this.files.contains(path)) continue;
+            // A renamed model is there when the model it stands for is.
+            String renamed = renamedModel(path);
+            if (renamed != null) path = "models/" + renamed + ".json";
             ResourceLocation location = new ResourceLocation("minecraft", path);
             boolean found = false;
             for (IResourcePack pack : packs) {

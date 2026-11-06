@@ -2,7 +2,7 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:birch_trapdoor"
+      "item": "minecraft:birch_trapdoor"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "portium:birch_trapdoor",
+    "item": "minecraft:birch_trapdoor",
     "count": 2
   },
   "group": "wooden_trapdoor"

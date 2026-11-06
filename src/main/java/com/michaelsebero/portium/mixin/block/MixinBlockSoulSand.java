@@ -9,10 +9,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-/** Soul sand pushes an upward bubble column into the water above it (1.13). */
+/** Soul sand pushes an upward bubble column into the water above it (1.13), and doesn't slow Soul Speed boots (1.16). */
 @Mixin(BlockSoulSand.class)
 public abstract class MixinBlockSoulSand extends Block {
 
@@ -43,5 +46,10 @@ public abstract class MixinBlockSoulSand extends Block {
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
         BlockBubbleColumn.placeBubbleColumn(world, pos.up(), false);
+    }
+
+    @Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
+    private void portium$soulSpeedDoesntSink(World world, BlockPos pos, IBlockState state, net.minecraft.entity.Entity entity, CallbackInfo ci) {
+        if (com.michaelsebero.portium.entity.SoulSpeed.ignoresSoulSand(entity)) ci.cancel();
     }
 }

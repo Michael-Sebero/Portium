@@ -47,7 +47,9 @@ public class CommonProxy {
 
     public void construct(FMLConstructionEvent event) {
         StructureTemplates.fetch();
+        com.michaelsebero.portium.world.gen.jigsaw.JigsawData.fetch();
         VanillaDataPack.fetch();
+        com.michaelsebero.portium.recipe.StonecuttingRecipes.fetch();
         ModernLang.fetch(this.languages());
     }
 
@@ -59,6 +61,8 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         OceanWorldGen.registerTerrainEvents();
         UnderwaterCarvers.registerTerrainEvents();
+        com.michaelsebero.portium.world.gen.jigsaw.JigsawStructures.registerTerrainEvents();
+        com.michaelsebero.portium.item.MapBanners116.init();
         PortiumStats.init();
         PortiumLootTables.init();
         ForcedChunks.registerCallback();
@@ -67,6 +71,7 @@ public class CommonProxy {
         PortiumTriggers.init();
         WorldTypeBuffet.register();
         DataPackRepository.createGlobalFolder();
+        com.michaelsebero.portium.world.PortiumDataFixes.register();
     }
 
     public void init(FMLInitializationEvent event) {
@@ -75,6 +80,9 @@ public class CommonProxy {
         PortiumSpawns.registerPlacements();
         PortiumSpawns.addBiomeSpawns();
         WaterlogDispensing.register();
+        com.michaelsebero.portium.world.gen.plant.Plants114.addBonemealFlowers();
+        if (com.michaelsebero.portium.init.PortiumBlocks.RESPAWN_ANCHOR != null) com.michaelsebero.portium.handler.RespawnAnchors.registerDispenserBehavior();
+        if (com.michaelsebero.portium.init.PortiumBlocks.BEEHIVE != null || com.michaelsebero.portium.init.PortiumBlocks.BEE_NEST != null) com.michaelsebero.portium.block.bee.HiveDispensing.register();
         EntityParrot.registerMimicSound(EntityDrowned.class, PortiumSounds.ENTITY_PARROT_IMITATE_DROWNED);
         EntityParrot.registerMimicSound(EntityPhantom.class, PortiumSounds.ENTITY_PARROT_IMITATE_PHANTOM);
     }
@@ -86,6 +94,24 @@ public class CommonProxy {
 
     /** Takes one cell's water from the server; does nothing on a dedicated server. */
     public void receiveWaterlogUpdate(WaterlogUpdateMessage message) {}
+
+    /** The player of this client, for client-side checks such as what's held while aiming; null on a server. */
+    @javax.annotation.Nullable
+    /** The next death screen is skipped: the player respawns at once (client only; 1.15's doImmediateRespawn). */
+    public void respawnImmediately() {}
+
+    /** Opens a jigsaw block's screen (client only). */
+    public void openJigsaw(com.michaelsebero.portium.tile.TileEntityJigsaw jigsaw) {}
+
+    public net.minecraft.entity.player.EntityPlayer clientPlayer() {
+        return null;
+    }
+
+    /** Marks the client's copy of a map locked or not; does nothing on a dedicated server. */
+    public void receiveMapLock(com.michaelsebero.portium.network.MapLockMessage message) {}
+
+    /** Fills the open 1.14 trade screen; does nothing on a dedicated server. */
+    public void receiveMerchantOffers(com.michaelsebero.portium.network.MerchantOffersMessage message) {}
 
     public void receiveModernStates(com.michaelsebero.portium.network.ModernStateChunkMessage message) {}
 

@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_campfire_off",
+  "textures": {
+    "particle": "portium:blocks/campfire_log",
+    "log": "portium:blocks/campfire_log"
+  }
+}

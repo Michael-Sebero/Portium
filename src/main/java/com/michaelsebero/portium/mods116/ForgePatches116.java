@@ -22,7 +22,46 @@ final class ForgePatches116 {
         if (BUFFER_BUILDER.equals(node.name)) bufferBuilder(node);
         if (MATRIX_4F.equals(node.name)) matrix4f(node);
         if (REGISTRY_KEY.equals(node.name)) registryKey(node);
+        if (CODEC_ONLY.contains(node.name)) node.methods.removeIf(method -> "<clinit>".equals(method.name));
+        if ("net/minecraft/village/PointOfInterestType".equals(node.name)) skipDuplicateStates(node);
+        if (DATA_REGISTRIES.equals(node.name)) node.methods.removeIf(method -> !DATA_REGISTRY_GETTERS.contains(method.name));
     }
+
+    /**
+     * Classes whose static initialiser only makes their codec, out of 1.16's registry of such codecs, which Portium
+     * doesn't have: left without (nothing of Portium's saves or reads them by codec), so the classes can be used.
+     */
+    /**
+     * 1.16's point-of-interest types each claim their blocks' states, and two claiming one state is an error. Here
+     * several 1.16 blocks are one 1.12 block (every bed colour is 1.12's bed), so the second claim is skipped: the
+     * error made in the state-claiming lambda is dropped instead of thrown.
+     */
+    private static void skipDuplicateStates(ClassNode node) {
+        for (MethodNode method : node.methods) {
+            if (!"func_234169_a_".equals(method.name)) continue;
+            for (org.objectweb.asm.tree.AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+                if (insn.getOpcode() == Opcodes.ATHROW) {
+                    InsnNode pop = new InsnNode(Opcodes.POP);
+                    method.instructions.set(insn, pop);
+                    insn = pop;
+                }
+            }
+        }
+    }
+
+    private static final String DATA_REGISTRIES = "net/minecraft/resources/DataPackRegistries";
+    /**
+     * What's kept of 1.16's server data registries, which Portium makes without their constructor and fills with
+     * what it has (the recipes, the data's resource manager): the getters. The rest builds and reloads 1.16's own
+     * managers, which 1.12 has others of.
+     */
+    private static final java.util.Set<String> DATA_REGISTRY_GETTERS = new java.util.HashSet<>(java.util.Arrays.asList(
+            "func_240960_a_", "func_240964_b_", "func_240965_c_", "func_240967_e_", "func_240968_f_", "func_240969_g_", "func_240970_h_"));
+
+    private static final java.util.Set<String> CODEC_ONLY = new java.util.HashSet<>(java.util.Arrays.asList(
+            "net/minecraft/world/gen/ChunkGenerator", "net/minecraft/world/biome/provider/BiomeProvider",
+            // Their vanilla types are 1.12's serializers (registered by 1.12); the static helpers stay.
+            "net/minecraft/loot/conditions/LootConditionManager", "net/minecraft/loot/functions/LootFunctionManager"));
 
     private static final String REGISTRY_KEY = "net/minecraft/util/RegistryKey";
 

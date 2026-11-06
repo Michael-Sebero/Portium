@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:blackstone_slab"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:blackstone"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:blackstone_slab",
+    "count": 6,
+    "data": 0
+  }
+}

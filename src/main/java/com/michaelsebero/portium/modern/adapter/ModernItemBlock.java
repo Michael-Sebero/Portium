@@ -93,12 +93,18 @@ public class ModernItemBlock extends ItemBlock {
         return true;
     }
 
+    /** 1.14+'s: whether placing checks that the state can stand where it goes (an item placing anywhere says no). */
+    @Srg("func_219987_d")
+    protected boolean checkPosition() {
+        return true;
+    }
+
     /** 1.13's check, on the state being placed: it can stand there, and no entity is in its way. */
     @Srg("func_195944_a")
     protected boolean canPlace(BlockItemUseContext context, IBlockState state) {
         World world = context.getWorld();
         BlockPos pos = context.getPos();
-        if (!BlockShims.isValidPosition(state, world, pos)) return false;
+        if (checkPosition() && !BlockShims.isValidPosition(state, world, pos)) return false;
         AxisAlignedBB box = state.getCollisionBoundingBox(world, pos);
         return box == null || box == Block.NULL_AABB || world.checkNoEntityCollision(box.offset(pos), null);
     }

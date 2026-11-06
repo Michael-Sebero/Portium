@@ -392,7 +392,18 @@ public class EntityPhantom extends EntityFlying implements IMob {
         @Override
         public boolean shouldContinueExecuting() {
             EntityLivingBase target = EntityPhantom.this.getAttackTarget();
-            return EntityPhantom.this.canTarget(target) && this.shouldExecute();
+            if (!EntityPhantom.this.canTarget(target) || !this.shouldExecute()) return false;
+            // 1.14: cats within 16 blocks hiss and scare it off its swoop (checked once a second).
+            if (EntityPhantom.this.ticksExisted % 20 == 0) {
+                java.util.List<com.michaelsebero.portium.entity.passive.EntityCat> cats = EntityPhantom.this.world.getEntitiesWithinAABB(
+                        com.michaelsebero.portium.entity.passive.EntityCat.class, EntityPhantom.this.getEntityBoundingBox().grow(16.0D),
+                        net.minecraft.util.EntitySelectors.IS_ALIVE);
+                if (!cats.isEmpty()) {
+                    for (com.michaelsebero.portium.entity.passive.EntityCat cat : cats) cat.hiss();
+                    return false;
+                }
+            }
+            return true;
         }
 
         @Override

@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:crimson_planks"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:crimson_hyphae"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_hyphae"
+    }
+  ],
+  "result": {
+    "item": "minecraft:crimson_planks",
+    "count": 4
+  },
+  "group": "planks"
+}

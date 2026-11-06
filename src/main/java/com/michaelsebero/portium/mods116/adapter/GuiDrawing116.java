@@ -154,17 +154,27 @@ public final class GuiDrawing116 {
     }
 
     private static void inner(Object stack, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2) {
-        push(stack);
+        // Transformed here, as 1.16's blit does, not by GL's model view: a mod draws its boxes with 1.16's own
+        // buffer (transformed the same way), and an icon at a box's depth must land on exactly that depth.
+        float[] pose = pose(stack);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos(x1, y2, z).tex(u1, v2).endVertex();
-        buffer.pos(x2, y2, z).tex(u2, v2).endVertex();
-        buffer.pos(x2, y1, z).tex(u2, v1).endVertex();
-        buffer.pos(x1, y1, z).tex(u1, v1).endVertex();
+        vertex(buffer, pose, x1, y2, z).tex(u1, v2).endVertex();
+        vertex(buffer, pose, x2, y2, z).tex(u2, v2).endVertex();
+        vertex(buffer, pose, x2, y1, z).tex(u2, v1).endVertex();
+        vertex(buffer, pose, x1, y1, z).tex(u1, v1).endVertex();
         tessellator.draw();
         GlStateManager.enableAlpha();
-        pop(stack);
+    }
+
+    /** A position through a pose (column by column, as 1.16's {@code Matrix4f} hands it over), in floats as 1.16 does. */
+    private static BufferBuilder vertex(BufferBuilder buffer, @Nullable float[] pose, float x, float y, float z) {
+        if (pose == null) return buffer.pos(x, y, z);
+        float tx = pose[0] * x + pose[4] * y + pose[8] * z + pose[12];
+        float ty = pose[1] * x + pose[5] * y + pose[9] * z + pose[13];
+        float tz = pose[2] * x + pose[6] * y + pose[10] * z + pose[14];
+        return buffer.pos(tx, ty, tz);
     }
 
     // Forge 1.16's GuiUtils, on Forge 1.12's (whose tooltips take no colours of their own).

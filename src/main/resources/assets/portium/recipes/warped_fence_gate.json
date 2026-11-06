@@ -1,0 +1,30 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_fence_gate"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:warped_planks"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_fence_gate",
+    "count": 1
+  },
+  "group": "wooden_fence_gate"
+}

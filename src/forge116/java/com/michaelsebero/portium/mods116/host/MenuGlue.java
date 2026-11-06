@@ -27,6 +27,13 @@ public final class MenuGlue {
         return channel;
     }
 
+    /** 1.16's {@code player.openContainer(provider)}: a menu without extra data, opened for a player on the server. */
+    public static java.util.OptionalInt openContainer(net.minecraft.entity.player.PlayerEntity player, INamedContainerProvider provider) {
+        if (provider == null || !(player instanceof ServerPlayerEntity)) return java.util.OptionalInt.empty();
+        open((ServerPlayerEntity) player, provider, buffer -> {});
+        return java.util.OptionalInt.of(0);
+    }
+
     public static void open(ServerPlayerEntity player, INamedContainerProvider provider, Consumer<PacketBuffer> extraDataWriter) {
         if (player.field_70170_p.field_72995_K) return;
         Object out = channel();

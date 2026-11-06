@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "portium:items/netherite_pickaxe"
+  }
+}

@@ -16,6 +16,8 @@ public final class PortiumSoundTypes {
     public static final SoundType WART = v116("wart_block");
     public static final SoundType SHROOMLIGHT = v116("shroomlight");
     public static final SoundType FUNGUS = v116("fungus");
+    public static final SoundType SCAFFOLDING = v116("scaffolding");
+    public static final SoundType HONEY = v116("honey_block");
     public static final SoundType ROOT = v116("roots");
     public static final SoundType NETHER_VINE = v116("weeping_vines");
     public static final SoundType NETHER_SPROUT = v116("nether_sprouts");
@@ -27,6 +29,17 @@ public final class PortiumSoundTypes {
     public static final SoundType NETHER_GOLD = v116("nether_gold_ore");
     public static final SoundType GILDED_BLACKSTONE = v116("gilded_blackstone");
     public static final SoundType NETHER_ORE = v116("nether_ore");
+    public static final SoundType NETHERITE = v116("netherite_block");
+    public static final SoundType LANTERN = v116("lantern");
+    public static final SoundType CHAIN = v116("chain");
+    public static final SoundType LODESTONE = v116("lodestone");
+    public static final SoundType BAMBOO = v116("bamboo");
+    /** 1.14 mixes these with other blocks' events, as 1.14's own sound types do. */
+    public static final SoundType BAMBOO_SAPLING = new SoundType(1.0F, 1.0F, PortiumSounds.create("block.bamboo_sapling.break"), BAMBOO.getStepSound(),
+            PortiumSounds.create("block.bamboo_sapling.place"), PortiumSounds.create("block.bamboo_sapling.hit"), BAMBOO.getFallSound());
+    public static final SoundType SWEET_BERRY_BUSH = new SoundType(1.0F, 1.0F, PortiumSounds.create("block.sweet_berry_bush.break"),
+            net.minecraft.init.SoundEvents.BLOCK_GRASS_STEP, PortiumSounds.create("block.sweet_berry_bush.place"), net.minecraft.init.SoundEvents.BLOCK_GRASS_HIT,
+            net.minecraft.init.SoundEvents.BLOCK_GRASS_FALL);
 
     /** A sound type whose five events are {@code block.<name>.break/step/place/hit/fall}, as 1.16 names them. */
     private static SoundType v116(String name) {

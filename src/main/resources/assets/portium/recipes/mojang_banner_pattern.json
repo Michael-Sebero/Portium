@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:mojang_banner_pattern"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:golden_apple",
+      "data": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:mojang_banner_pattern",
+    "count": 1
+  }
+}

@@ -1,19 +1,94 @@
 {
-    "multipart": [
-        {   "when": { "up": true },
-            "apply": { "model": "mossy_cobblestone_wall_post" }
-        },
-        {   "when": { "north": true },
-            "apply": { "model": "mossy_cobblestone_wall_side", "uvlock": true }
-        },
-        {   "when": { "east": true },
-            "apply": { "model": "mossy_cobblestone_wall_side", "y": 90, "uvlock": true }
-        },
-        {   "when": { "south": true },
-            "apply": { "model": "mossy_cobblestone_wall_side", "y": 180, "uvlock": true }
-        },
-        {   "when": { "west": true },
-            "apply": { "model": "mossy_cobblestone_wall_side", "y": 270, "uvlock": true }
-        }
-    ]
+  "multipart": [
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "north_tall": "false"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north_tall": "true"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side_tall",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "east_tall": "false"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side",
+        "uvlock": true,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east_tall": "true"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side_tall",
+        "uvlock": true,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "south_tall": "false"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side",
+        "uvlock": true,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south_tall": "true"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side_tall",
+        "uvlock": true,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "west_tall": "false"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side",
+        "uvlock": true,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "west_tall": "true"
+      },
+      "apply": {
+        "model": "mossy_cobblestone_wall_side_tall",
+        "uvlock": true,
+        "y": 270
+      }
+    }
+  ]
 }

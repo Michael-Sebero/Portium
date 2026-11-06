@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:crimson_slab"
+    },
+    "half=top": {
+      "model": "portium:crimson_slab_top"
+    }
+  }
+}

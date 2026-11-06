@@ -2,15 +2,15 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:nautilus_shell"
+      "item": "minecraft:nautilus_shell"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:heart_of_the_sea"
+      "item": "minecraft:heart_of_the_sea"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:conduit"
+      "item": "minecraft:conduit"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -21,14 +21,14 @@
   ],
   "key": {
     "#": {
-      "item": "portium:nautilus_shell"
+      "item": "minecraft:nautilus_shell"
     },
     "X": {
-      "item": "portium:heart_of_the_sea"
+      "item": "minecraft:heart_of_the_sea"
     }
   },
   "result": {
-    "item": "portium:conduit",
+    "item": "minecraft:conduit",
     "count": 1
   }
 }

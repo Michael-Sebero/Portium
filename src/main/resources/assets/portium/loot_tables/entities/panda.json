@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "bamboo",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:bamboo",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

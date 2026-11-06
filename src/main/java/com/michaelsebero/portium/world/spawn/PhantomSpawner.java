@@ -38,8 +38,12 @@ public final class PhantomSpawner {
         if (event.phase != TickEvent.Phase.END || !(event.world instanceof WorldServer)) return;
         WorldServer world = (WorldServer) event.world;
         if (world.provider.getDimensionType() != DimensionType.OVERWORLD || !world.getGameRules().getBoolean("doMobSpawning")) return;
+        if (!com.michaelsebero.portium.world.PortiumGameRules.get(world, com.michaelsebero.portium.world.PortiumGameRules.DO_INSOMNIA, true)) return;
         if (world.getDifficulty() == EnumDifficulty.PEACEFUL) return;
         if (!PortiumConfig.mechanics.phantomSpawning || !PortiumEntities.isRegistered(EntityPhantom.class)) return;
+        if (!MobVersions.spawnsIn(world, EntityPhantom.class)) return;
+        // A 1.12.2 world has 1.12's mobs only.
+        if (!com.michaelsebero.portium.world.WorldGeneration.isModern(world)) return;
         tick(world);
     }
 

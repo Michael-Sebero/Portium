@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "portium:blocks/blast_furnace_top",
+    "side": "portium:blocks/blast_furnace_side",
+    "front": "portium:blocks/blast_furnace_front"
+  }
+}

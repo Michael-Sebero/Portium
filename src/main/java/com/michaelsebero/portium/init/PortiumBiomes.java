@@ -2,6 +2,7 @@ package com.michaelsebero.portium.init;
 
 import com.michaelsebero.portium.PortiumConfig;
 import com.michaelsebero.portium.Tags;
+import com.michaelsebero.portium.init.PortiumBlocks;
 import com.michaelsebero.portium.world.biome.BiomeFrozenOcean;
 import com.michaelsebero.portium.world.biome.BiomeNether116;
 import com.michaelsebero.portium.world.biome.BiomePortiumOcean;
@@ -33,6 +34,12 @@ public final class PortiumBiomes {
     public static Biome DEEP_LUKEWARM_OCEAN;
     public static Biome DEEP_COLD_OCEAN;
     public static Biome DEEP_FROZEN_OCEAN;
+    public static Biome BAMBOO_JUNGLE;
+    public static Biome BAMBOO_JUNGLE_HILLS;
+    public static Biome SMALL_END_ISLANDS;
+    public static Biome END_MIDLANDS;
+    public static Biome END_HIGHLANDS;
+    public static Biome END_BARRENS;
     public static Biome SOUL_SAND_VALLEY;
     public static Biome CRIMSON_FOREST;
     public static Biome WARPED_FOREST;
@@ -57,6 +64,22 @@ public final class PortiumBiomes {
                 new BiomePortiumOcean(ocean("Deep Cold Ocean", true, 0.5F), OceanTemperature.COLD, true), BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WET);
         DEEP_FROZEN_OCEAN = register(registry, new ResourceLocation(Tags.MOD_ID, "deep_frozen_ocean"),
                 new BiomeFrozenOcean(ocean("Deep Frozen Ocean", true, 0.5F), true), BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
+        if (PortiumConfig.worldGen.bambooJungle && PortiumBlocks.BAMBOO != null) {
+            BAMBOO_JUNGLE = register(registry, new ResourceLocation(Tags.MOD_ID, "bamboo_jungle"), new com.michaelsebero.portium.world.biome.BiomeBambooJungle(
+                    new Biome.BiomeProperties("Bamboo Jungle").setTemperature(0.95F).setRainfall(0.9F)), BiomeDictionary.Type.JUNGLE, BiomeDictionary.Type.HOT,
+                    BiomeDictionary.Type.WET, BiomeDictionary.Type.DENSE);
+            BAMBOO_JUNGLE_HILLS = register(registry, new ResourceLocation(Tags.MOD_ID, "bamboo_jungle_hills"),
+                    new com.michaelsebero.portium.world.biome.BiomeBambooJungle(new Biome.BiomeProperties("Bamboo Jungle Hills").setTemperature(0.95F)
+                            .setRainfall(0.9F).setBaseHeight(0.45F).setHeightVariation(0.3F)), BiomeDictionary.Type.JUNGLE, BiomeDictionary.Type.HOT,
+                    BiomeDictionary.Type.WET, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.HILLS);
+        }
+        if (PortiumConfig.worldGen.endBiomes) {
+            // 1.13's End biomes: 1.12's End biome (its endermen, its sky) under 1.13's names; the generator shapes the islands.
+            SMALL_END_ISLANDS = register(registry, new ResourceLocation(Tags.MOD_ID, "small_end_islands"), end("Small End Islands"), BiomeDictionary.Type.END);
+            END_MIDLANDS = register(registry, new ResourceLocation(Tags.MOD_ID, "end_midlands"), end("End Midlands"), BiomeDictionary.Type.END);
+            END_HIGHLANDS = register(registry, new ResourceLocation(Tags.MOD_ID, "end_highlands"), end("End Highlands"), BiomeDictionary.Type.END);
+            END_BARRENS = register(registry, new ResourceLocation(Tags.MOD_ID, "end_barrens"), end("End Barrens"), BiomeDictionary.Type.END);
+        }
         registerNether(registry);
     }
 
@@ -87,9 +110,16 @@ public final class PortiumBiomes {
         return new Biome.BiomeProperties(name).setBaseHeight(deep ? -1.8F : -1.0F).setHeightVariation(0.1F).setTemperature(temperature).setRainfall(0.5F);
     }
 
+    private static Biome end(String name) {
+        return new net.minecraft.world.biome.BiomeEnd(new Biome.BiomeProperties(name).setTemperature(0.5F).setRainfall(0.5F).setRainDisabled());
+    }
+
     private static Biome register(IForgeRegistry<Biome> registry, ResourceLocation name, Biome biome, BiomeDictionary.Type... types) {
+        // Portium's biomes take minecraft: ids too (PortiumNames).
+        if (Tags.MOD_ID.equals(name.getNamespace())) name = PortiumNames.of(registry, name.getPath());
         biome.setRegistryName(name);
         registry.register(biome);
+        PortiumNames.alias(registry, name);
         BiomeDictionary.addTypes(biome, types);
         return biome;
     }

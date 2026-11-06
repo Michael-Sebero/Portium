@@ -1,0 +1,6 @@
+{
+  "parent": "block/button",
+  "textures": {
+    "texture": "portium:blocks/crimson_planks"
+  }
+}

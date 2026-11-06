@@ -25,6 +25,11 @@ public class BucketItem116 extends ItemBucket {
     /** The 1.16 fluid's supplier (Minecraft 1.16.5's own fluid classes, which 1.12 lacks). */
     public final Supplier<?> portium$fluid;
 
+    /** 1.16's vanilla constructor, with the fluid itself. */
+    public BucketItem116(com.michaelsebero.portium.modern.mc.fluid.Fluid fluid, Item$Properties properties) {
+        this(() -> fluid, properties);
+    }
+
     public BucketItem116(Supplier<?> fluid, Item$Properties properties) {
         super(Blocks.AIR);
         this.portium$fluid = fluid;

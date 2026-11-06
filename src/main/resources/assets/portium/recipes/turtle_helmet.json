@@ -2,11 +2,11 @@
   "conditions": [
     {
       "type": "minecraft:item_exists",
-      "item": "portium:scute"
+      "item": "minecraft:scute"
     },
     {
       "type": "minecraft:item_exists",
-      "item": "portium:turtle_helmet"
+      "item": "minecraft:turtle_helmet"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -16,11 +16,11 @@
   ],
   "key": {
     "#": {
-      "item": "portium:scute"
+      "item": "minecraft:scute"
     }
   },
   "result": {
-    "item": "portium:turtle_helmet",
+    "item": "minecraft:turtle_helmet",
     "count": 1
   }
 }

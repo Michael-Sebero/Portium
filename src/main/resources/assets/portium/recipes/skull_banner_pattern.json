@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:skull_banner_pattern"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:skull",
+      "data": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:skull_banner_pattern",
+    "count": 1
+  }
+}

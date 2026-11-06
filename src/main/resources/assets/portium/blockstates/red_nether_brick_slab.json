@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "portium:red_nether_brick_slab"
+    },
+    "half=top": {
+      "model": "portium:red_nether_brick_slab_top"
+    }
+  }
+}

@@ -50,6 +50,7 @@ final class ModernCompletion {
     /** @param node a translated class, by runtime names */
     void complete(ClassNode node) {
         if ((node.access & Opcodes.ACC_INTERFACE) != 0 || node.superName == null) return;
+        answerQuadsWithData(node);
 
         // The first of the parent's classes above, and this loader's classes on the way (a mod's, 1.13.2's copies).
         List<String> between = new ArrayList<>();
@@ -300,6 +301,86 @@ final class ModernCompletion {
         return bridge;
     }
 
+    /** 1.12's request for a baked model's quads ({@code getQuads(state, side, seed)}), by its name here; null if unknown. */
+    @Nullable
+    private String legacyQuadsName() {
+        Class<?> model = parent("net/minecraft/client/renderer/block/model/IBakedModel");
+        Method[] methods = model == null ? null : methods(model);
+        if (methods == null) return null;
+        for (Method method : methods) {
+            if (List.class == method.getReturnType() && QUADS_SEED.equals(Type.getMethodDescriptor(method))) return method.getName();
+        }
+        return null;
+    }
+
+    private static final String QUADS_SEED = "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/EnumFacing;J)Ljava/util/List;";
+
+    /**
+     * A Forge 1.16 model that takes model data, under a class of 1.12's that already answers 1.12's request for quads
+     * (Forge 1.12 has {@code BakedModelWrapper} too, which hands over the wrapped model's quads): 1.12's request goes
+     * to the 1.16 version with the block's model data, as Forge 1.16 asks. Create's bracketed shafts and cogs answer
+     * with only their brackets then, their tile entity drawing the rest; asked without data they drew the whole cog,
+     * a second one under the turning one.
+     */
+    private void answerQuadsWithData(ClassNode node) {
+        boolean withData = false;
+        for (MethodNode method : node.methods) {
+            if ("getQuads".equals(method.name) && QUADS_WITH_DATA.equals(method.desc) && (method.access & Opcodes.ACC_STATIC) == 0) withData = true;
+        }
+        if (!withData) return;
+        String name = legacyQuadsName();
+        if (name == null) return;
+        for (MethodNode method : node.methods) {
+            if (method.name.equals(name) && QUADS_SEED.equals(method.desc)) return;
+        }
+        // Only where a 1.12 class above has it concretely; ModernCompletion's usual bridge covers the rest.
+        boolean inherited = false;
+        Set<String> seen = new HashSet<>();
+        for (String current = node.superName; current != null && seen.add(current); ) {
+            Class<?> parent = parent(current);
+            if (parent != null) {
+                for (Class<?> c = parent; c != null && !inherited; c = c.getSuperclass()) {
+                    Method[] own = declared(c);
+                    if (own == null) return;
+                    for (Method method : own) {
+                        if (method.getName().equals(name) && QUADS_SEED.equals(Type.getMethodDescriptor(method)) && !Modifier.isAbstract(method.getModifiers())) {
+                            inherited = true;
+                        }
+                    }
+                }
+                break;
+            }
+            String[] supertypes = this.hierarchy.supertypes(current);
+            current = supertypes.length > 0 ? supertypes[0] : null;
+        }
+        if (!inherited) return;
+        MethodNode bridge = new MethodNode(Opcodes.ACC_PUBLIC | Opcodes.ACC_SYNTHETIC, name, QUADS_SEED, null, null);
+        org.objectweb.asm.tree.LabelNode above = new org.objectweb.asm.tree.LabelNode();
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
+        bridge.instructions.add(new VarInsnNode(Opcodes.LLOAD, 3));
+        bridge.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/michaelsebero/portium/mods116/host/ModelGlue", "quadsOrSuper",
+                "(Ljava/lang/Object;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/EnumFacing;J)Ljava/util/List;", false));
+        bridge.instructions.add(new InsnNode(Opcodes.DUP));
+        bridge.instructions.add(new org.objectweb.asm.tree.JumpInsnNode(Opcodes.IFNULL, above));
+        bridge.instructions.add(new InsnNode(Opcodes.ARETURN));
+        bridge.instructions.add(above);
+        bridge.instructions.add(new org.objectweb.asm.tree.FrameNode(Opcodes.F_NEW, 4,
+                new Object[] {node.name, "net/minecraft/block/state/IBlockState", "net/minecraft/util/EnumFacing", Opcodes.LONG},
+                1, new Object[] {"java/util/List"}));
+        bridge.instructions.add(new InsnNode(Opcodes.POP));
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+        bridge.instructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
+        bridge.instructions.add(new VarInsnNode(Opcodes.LLOAD, 3));
+        bridge.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, node.superName, name, QUADS_SEED, false));
+        bridge.instructions.add(new InsnNode(Opcodes.ARETURN));
+        bridge.maxLocals = 5;
+        bridge.maxStack = 5;
+        node.methods.add(bridge);
+    }
+
     /** The class's own method by 1.12's method's name that takes its arguments as they are and returns what it may. */
     @Nullable
     private MethodNode taking(ClassNode node, Method required) {
@@ -403,6 +484,9 @@ final class ModernCompletion {
         EMPTY.put("java/util/Set", "java/util/Collections.emptySet()Ljava/util/Set;");
         EMPTY.put("java/util/Map", "java/util/Collections.emptyMap()Ljava/util/Map;");
         EMPTY.put("java/util/Optional", "java/util/Optional.empty()Ljava/util/Optional;");
+        // Forge 1.16's capability answers (a tile entity's getCapability with nothing up the chain to ask): none.
+        String lazy = ModernMappings.FORGE + "net/minecraftforge/common/util/LazyOptional";
+        EMPTY.put(lazy, lazy + ".empty()L" + lazy + ";");
     }
 
     private static int access(Method method) {
@@ -432,6 +516,10 @@ final class ModernCompletion {
     @Nullable
     private Class<?> parent(String type) {
         if (type.startsWith("[")) return null;
+        // This loader's own copies (fastutil 8 beside 1.12's fastutil 7, Forge 1.16's classes) aren't the parent's, though
+        // the parent may have classes of the same names: their interfaces' default methods count (fastutil 8's
+        // PriorityQueue.isEmpty), where 1.12's would have them taken for missing and stubbed to return false.
+        if (ModernClassLoader.owns(type.replace('/', '.'))) return null;
         if (type.startsWith("java/")) return javaType(type.replace('/', '.'));
         return this.members.type(type);
     }

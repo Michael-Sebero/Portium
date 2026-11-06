@@ -41,8 +41,9 @@ import static com.michaelsebero.portium.command.impl.Commands.literal;
 /** {@code give}, {@code clear}, {@code effect}, {@code enchant}, {@code experience}, game modes, {@code spawnpoint}, {@code replaceitem} (1.13). */
 public final class PlayerCommands {
 
-    private static final CommandExceptionType.Dynamic CLEAR_FAILED_SINGLE = dynamic("clear.failed.single");
-    private static final CommandExceptionType.Dynamic CLEAR_FAILED_MULTIPLE = dynamic("clear.failed.multiple");
+    // Vanilla names these two without the "commands." the rest have.
+    private static final CommandExceptionType.Dynamic CLEAR_FAILED_SINGLE = new CommandExceptionType.Dynamic(arg -> TextMessage.translate("clear.failed.single", arg));
+    private static final CommandExceptionType.Dynamic CLEAR_FAILED_MULTIPLE = new CommandExceptionType.Dynamic(arg -> TextMessage.translate("clear.failed.multiple", arg));
     private static final CommandExceptionType.Simple EFFECT_GIVE_FAILED = simple("effect.give.failed");
     private static final CommandExceptionType.Simple EFFECT_CLEAR_ALL_FAILED = simple("effect.clear.everything.failed");
     private static final CommandExceptionType.Simple EFFECT_CLEAR_FAILED = simple("effect.clear.specific.failed");

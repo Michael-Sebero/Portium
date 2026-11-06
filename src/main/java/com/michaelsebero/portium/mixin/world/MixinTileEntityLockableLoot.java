@@ -16,6 +16,12 @@ public abstract class MixinTileEntityLockableLoot {
     @Inject(method = "fillWithLoot", at = @At("HEAD"))
     private void portium$recordOrigin(EntityPlayer player, CallbackInfo ci) {
         LootOrigin.set(((TileEntity) (Object) this).getPos());
+        // 1.16's player_generates_container_loot (looting a bastion's chests).
+        net.minecraft.util.ResourceLocation table = ((net.minecraft.tileentity.TileEntityLockableLoot) (Object) this).getLootTable();
+        if (table != null && player instanceof net.minecraft.entity.player.EntityPlayerMP) {
+            com.michaelsebero.portium.advancements.ModernTriggers116.CONTAINER_LOOT.trigger((net.minecraft.entity.player.EntityPlayerMP) player, null, null,
+                    null, null, 0.0F, table.toString());
+        }
     }
 
     @Inject(method = "fillWithLoot", at = @At("RETURN"))

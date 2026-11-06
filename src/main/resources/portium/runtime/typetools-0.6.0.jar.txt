@@ -1,0 +1,8 @@
+sha256 c24fb30e10c00e32260115d9477eab63f0c333d2a68903c06fda4bd290afd747
+META-INF/MANIFEST.MF
+META-INF/maven/net.jodah/typetools/pom.properties
+META-INF/maven/net.jodah/typetools/pom.xml
+net/jodah/typetools/TypeResolver$1.class
+net/jodah/typetools/TypeResolver$ReifiedParameterizedType.class
+net/jodah/typetools/TypeResolver$Unknown.class
+net/jodah/typetools/TypeResolver.class

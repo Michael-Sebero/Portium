@@ -83,21 +83,45 @@ public final class ModernEventBus implements IEventBus {
         private final Consumer<Object> target;
         private volatile boolean off;
 
+        private static final int SWITCH_OFF_AFTER = 20;
+
         Listener(String name, Consumer<Object> target) {
             this.name = name;
             this.target = target;
         }
 
+        /** Failures in a row; a listener that fails this often is switched off. */
+        private int failures;
+        private boolean reported;
+
         void invoke(Object event) {
             if (this.off) return;
             try {
                 this.target.accept(event);
+                this.failures = 0;
             } catch (LinkageError | RuntimeException e) {
-                // Often a listener whose mod failed to set up, or one reaching what 1.12 lacks: the game goes on.
-                this.off = true;
-                ModernFailures.add("Event listener " + this.name + " for " + event.getClass().getSimpleName() + " was switched off", e);
+                // Often a listener reaching what 1.12 lacks. One that fails now and then (Create's client tick, when
+                // a machine's sound stops) keeps running, as its other work matters; one that fails every time is
+                // switched off. Either way the game goes on, and the first failure is reported.
+                if (++this.failures >= SWITCH_OFF_AFTER) {
+                    this.off = true;
+                    ModernFailures.add("Event listener " + this.name + " for " + eventName(event) + " failed "
+                            + SWITCH_OFF_AFTER + " times in a row and was switched off", e);
+                } else if (!this.reported) {
+                    this.reported = true;
+                    ModernFailures.add("Event listener " + this.name + " for " + eventName(event) + " failed (it keeps running)", e);
+                }
             }
         }
+    }
+
+    /**
+     * An event's short name. {@code getSimpleName} can't be used: a Forge 1.16 event nested in an event class Forge
+     * 1.12 has too (PlayerEvent) has an outer class that doesn't list it, which the JVM refuses to look up.
+     */
+    static String eventName(Object event) {
+        String name = event.getClass().getName();
+        return name.substring(Math.max(name.lastIndexOf('.'), name.lastIndexOf('$')) + 1);
     }
 
     /** For a generic event, the class its generic type argument names. */

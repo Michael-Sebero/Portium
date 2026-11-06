@@ -1,0 +1,6 @@
+{
+  "parent": "block/torch",
+  "textures": {
+    "torch": "portium:blocks/soul_torch"
+  }
+}

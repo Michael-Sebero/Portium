@@ -10,6 +10,35 @@ public final class ClientShims116 {
         return language.getLanguageCode();
     }
 
+    /** {@code blockColors.getColor(state, world, pos, tintIndex)}. */
+    public static int blockColor(net.minecraft.client.renderer.color.BlockColors colors, net.minecraft.block.state.IBlockState state,
+                                 @javax.annotation.Nullable net.minecraft.world.IBlockAccess world, @javax.annotation.Nullable net.minecraft.util.math.BlockPos pos, int tintIndex) {
+        return colors.colorMultiplier(state, world, pos, tintIndex);
+    }
+
+    /** 1.16's particle atlas: its sprites are in 1.12's block atlas. */
+    public static net.minecraft.util.ResourceLocation particleAtlas() {
+        return net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
+    }
+
+    public static boolean fancyGraphics(Object settings) {
+        return ((net.minecraft.client.settings.GameSettings) settings).fancyGraphics;
+    }
+
+    public static net.minecraft.client.settings.KeyBinding self(net.minecraft.client.settings.KeyBinding binding) {
+        return binding;
+    }
+
+    private static Language english;
+
+    /** {@code languageManager.getSelected()}: never null (English until the languages have loaded). */
+    public static Language currentLanguage(net.minecraft.client.resources.LanguageManager manager) {
+        Language current = manager.getCurrentLanguage();
+        if (current != null) return current;
+        if (english == null) english = new Language("en_us", "US", "English", false);
+        return english;
+    }
+
     public static String languageName(Language language) {
         return language.toString();
     }
@@ -29,6 +58,24 @@ public final class ClientShims116 {
 
     public static boolean altDown() {
         return net.minecraft.client.gui.GuiScreen.isAltKeyDown();
+    }
+
+    /** 1.16's {@code keyBinding.func_238171_j_()}: the bound key's name, as a component (1.12's display name). */
+    public static net.minecraft.util.text.ITextComponent keyMessage(net.minecraft.client.settings.KeyBinding binding) {
+        return new net.minecraft.util.text.TextComponentString(binding.getDisplayName());
+    }
+
+    /** 1.16's {@code BiomeColors}: 1.12's blended biome colours at a position. */
+    public static int grassColor(net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos) {
+        return net.minecraft.world.biome.BiomeColorHelper.getGrassColorAtPos(world, pos);
+    }
+
+    public static int foliageColor(net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos) {
+        return net.minecraft.world.biome.BiomeColorHelper.getFoliageColorAtPos(world, pos);
+    }
+
+    public static int waterColor(net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos) {
+        return net.minecraft.world.biome.BiomeColorHelper.getWaterColorAtPos(world, pos);
     }
 
     private ClientShims116() {}
@@ -87,8 +134,20 @@ public final class ClientShims116 {
     }
 
     /** 1.16's {@code atlas.getTextureLocation()}: 1.12's blocks atlas goes by the same name 1.16's does. */
+    /**
+     * 1.16's atlases besides the block atlas, whose stitch events mods add their sprites in (a chest's in the chest
+     * atlas): 1.12 has only the block atlas, so its stitch is announced to mods once as each of them.
+     */
+    public static final String[] ATLASES_116 = {"textures/atlas/chest.png", "textures/atlas/shulker_boxes.png", "textures/atlas/beds.png",
+            "textures/atlas/banner_patterns.png", "textures/atlas/shield_patterns.png", "textures/atlas/signs.png"};
+    /** While the block atlas is announced as another of 1.16's atlases: that atlas's name. */
+    @javax.annotation.Nullable
+    public static net.minecraft.util.ResourceLocation announcedAtlas;
+
     public static net.minecraft.util.ResourceLocation atlasLocation(net.minecraft.client.renderer.texture.TextureMap map) {
-        if (map == net.minecraft.client.Minecraft.getMinecraft().getTextureMapBlocks()) return net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
+        if (map == net.minecraft.client.Minecraft.getMinecraft().getTextureMapBlocks()) {
+            return announcedAtlas != null ? announcedAtlas : net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
+        }
         return new net.minecraft.util.ResourceLocation(map.getBasePath());
     }
 
@@ -98,9 +157,79 @@ public final class ClientShims116 {
         return map.getAtlasSprite(name.toString());
     }
 
+    /** 1.16's {@code minecraft.getAtlasSpriteGetter(atlas)}: every atlas's sprites are in 1.12's block atlas. */
+    public static java.util.function.Function<net.minecraft.util.ResourceLocation, net.minecraft.client.renderer.texture.TextureAtlasSprite> atlasSprites(
+            net.minecraft.client.Minecraft minecraft, net.minecraft.util.ResourceLocation atlas) {
+        return name -> minecraft.getTextureMapBlocks().getAtlasSprite(name.toString());
+    }
+
     /** Forge 1.16's {@code TextureStitchEvent.Pre.addSprite(name)}. */
     public static boolean addSprite(net.minecraftforge.client.event.TextureStitchEvent.Pre event, net.minecraft.util.ResourceLocation name) {
         event.getMap().registerSprite(name);
         return true;
+    }
+
+    /**
+     * 1.16's {@code dispatcher.getModelForState(state)}: 1.12's, but nothing where 1.12 answers an invisible block
+     * (air) with the missing model; 1.16's air has an empty model. Create's shafts and cogs ask for air's model when
+     * they have no bracket, and draw it.
+     */
+    public static net.minecraft.client.renderer.block.model.IBakedModel modelForState(net.minecraft.client.renderer.BlockRendererDispatcher dispatcher,
+                                                                                      net.minecraft.block.state.IBlockState state) {
+        return orEmpty(dispatcher.getBlockModelShapes(), state, dispatcher.getModelForState(state));
+    }
+
+    /** 1.16's {@code shapes.getModel(state)}, as {@link #modelForState}. */
+    public static net.minecraft.client.renderer.block.model.IBakedModel modelFor(net.minecraft.client.renderer.BlockModelShapes shapes,
+                                                                                 net.minecraft.block.state.IBlockState state) {
+        return orEmpty(shapes, state, shapes.getModelForState(state));
+    }
+
+    private static net.minecraft.client.renderer.block.model.IBakedModel orEmpty(net.minecraft.client.renderer.BlockModelShapes shapes,
+                                                                                 net.minecraft.block.state.IBlockState state,
+                                                                                 net.minecraft.client.renderer.block.model.IBakedModel model) {
+        if (state != null && state.getRenderType() == net.minecraft.util.EnumBlockRenderType.INVISIBLE && model == shapes.getModelManager().getMissingModel()) {
+            return com.michaelsebero.portium.client.model.EmptyBakedModel.INSTANCE;
+        }
+        return model;
+    }
+
+    /** 1.16's {@code lightTexture.enableLightmap()}: 1.12's lightmap, which its renderer keeps (Create's ponder particles). */
+    public static void enableLightmap(Object lightTexture) {
+        net.minecraft.client.Minecraft.getMinecraft().entityRenderer.enableLightmap();
+    }
+
+    /** 1.16's {@code lightTexture.disableLightmap()}. */
+    public static void disableLightmap(Object lightTexture) {
+        net.minecraft.client.Minecraft.getMinecraft().entityRenderer.disableLightmap();
+    }
+
+    /** 1.16's {@code framebuffer.framebufferClear(onMac)}: 1.12's clear. */
+    public static void clearFramebuffer(net.minecraft.client.shader.Framebuffer framebuffer, boolean onMac) {
+        framebuffer.framebufferClear();
+    }
+
+    /** 1.16's {@code framebuffer.resize(width, height, onMac)}: 1.12's remaking at that size. */
+    public static void resizeFramebuffer(net.minecraft.client.shader.Framebuffer framebuffer, int width, int height, boolean onMac) {
+        framebuffer.createBindFramebuffer(width, height);
+    }
+
+    /** 1.16's {@code tickableSound.finishPlaying()}: done, as 1.12's moving sounds end (Create's machine sounds stop so). */
+    public static void finishPlaying(net.minecraft.client.audio.MovingSound sound) {
+        ((com.michaelsebero.portium.mixin.client.MovingSoundAccessor) sound).portium$setDonePlaying(true);
+    }
+
+    /** Forge 1.16's {@code event.getWindow()} on the overlay events: the window, as 1.16 code sees it. */
+    public static com.michaelsebero.portium.modern.mc.client.MainWindow overlayWindow(net.minecraftforge.client.event.RenderGameOverlayEvent event) {
+        return com.michaelsebero.portium.modern.mc.client.MainWindow.get();
+    }
+
+    /** 1.12's third person view setting (0 first person, 1 behind, 2 in front). */
+    public static int thirdPersonView() {
+        return net.minecraft.client.Minecraft.getMinecraft().gameSettings.thirdPersonView;
+    }
+
+    public static void setThirdPersonView(int view) {
+        net.minecraft.client.Minecraft.getMinecraft().gameSettings.thirdPersonView = view;
     }
 }

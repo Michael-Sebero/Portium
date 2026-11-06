@@ -1,0 +1,94 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "north_tall": "false"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north_tall": "true"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side_tall",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "east_tall": "false"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side",
+        "uvlock": true,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east_tall": "true"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side_tall",
+        "uvlock": true,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "south_tall": "false"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side",
+        "uvlock": true,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south_tall": "true"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side_tall",
+        "uvlock": true,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "west_tall": "false"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side",
+        "uvlock": true,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "west_tall": "true"
+      },
+      "apply": {
+        "model": "portium:prismarine_wall_side_tall",
+        "uvlock": true,
+        "y": 270
+      }
+    }
+  ]
+}

@@ -44,13 +44,31 @@ public final class DataPackAdvancements {
         for (ResourceLocation id : packs.list("advancements", ".json")) {
             try (InputStream stream = packs.open(id, "advancements", ".json")) {
                 if (stream == null) continue;
-                JsonObject json = DataPackJson.read(stream);
+                JsonObject json = conditional(DataPackJson.read(stream));
+                if (json == null) continue;
                 convert(id, json);
                 builders.put(id, JsonUtils.gsonDeserialize(AdvancementManagerAccessor.portium$getGson(), json.toString(), Advancement.Builder.class));
             } catch (IOException | RuntimeException e) {
                 DataPackJson.reportSkipped("advancement", id, e);
             }
         }
+    }
+
+    /**
+     * Forge 1.14+'s conditional advancement ({@code {"advancements": [{"conditions": [...], "advancement": {...}}]}}):
+     * the first variant whose conditions hold, or null if none does. Any other advancement as it is.
+     */
+    @javax.annotation.Nullable
+    private static JsonObject conditional(JsonObject json) {
+        if (!json.has("advancements") || json.has("criteria") || !json.get("advancements").isJsonArray()) return json;
+        for (com.google.gson.JsonElement element : json.getAsJsonArray("advancements")) {
+            if (!element.isJsonObject()) continue;
+            JsonObject variant = element.getAsJsonObject();
+            if (!variant.has("advancement") || !variant.get("advancement").isJsonObject()) continue;
+            if (com.michaelsebero.portium.mods116.Mods116.conditionsMet(variant)
+                    && com.michaelsebero.portium.modern.ModernMods.conditionsMet(variant)) return variant.getAsJsonObject("advancement");
+        }
+        return null;
     }
 
     private static void convert(ResourceLocation id, JsonObject json) {
@@ -63,6 +81,16 @@ public final class DataPackAdvancements {
                     object.addProperty("trigger", "minecraft:impossible");
                     object.remove("conditions");
                     continue;
+                }
+                if (object.has("conditions") && object.get("conditions").isJsonObject()) {
+                    JsonObject conditions = object.getAsJsonObject("conditions");
+                    // 1.14 wraps a location trigger's place in "location" (beside "player"); 1.12 reads the conditions as the place.
+                    String trigger = object.has("trigger") ? DataPackJson.bare(object.get("trigger").getAsString()) : "";
+                    if ((trigger.equals("location") || trigger.equals("slept_in_bed")) && conditions.has("location") && conditions.get("location").isJsonObject()) {
+                        conditions = conditions.getAsJsonObject("location");
+                        object.add("conditions", conditions);
+                    }
+                    foldComposites(conditions);
                 }
                 if (object.has("conditions")) convertTree(object.get("conditions"));
             }
@@ -89,6 +117,70 @@ public final class DataPackAdvancements {
         }
     }
 
+    /** Condition fields 1.16 gives as lists of loot conditions on an entity, where 1.12 wants one entity predicate. */
+    private static final java.util.Set<String> ENTITY_FIELDS = new java.util.HashSet<>(java.util.Arrays.asList("entity", "player", "projectile",
+            "shooter", "parent", "partner", "child", "zombie", "villager", "killer", "direct_entity", "source_entity", "lightning", "bystander"));
+
+    /**
+     * 1.16's composite entity conditions ({@code [{condition: entity_properties, predicate: {...}}, ...]}) become the
+     * one predicate 1.12 reads: the predicates of its plain entity_properties terms merged. Inverted and other terms
+     * have no 1.12 form and are left out, so such a criterion asks a little less than 1.16's.
+     */
+    private static void foldComposites(JsonObject conditions) {
+        for (Map.Entry<String, JsonElement> entry : new java.util.ArrayList<>(conditions.entrySet())) {
+            String key = entry.getKey();
+            JsonElement value = entry.getValue();
+            if (key.equals("victims") && value.isJsonArray()) {
+                JsonArray victims = new JsonArray();
+                for (JsonElement victim : value.getAsJsonArray()) victims.add(victim.isJsonArray() ? fold(victim.getAsJsonArray()) : victim);
+                conditions.add(key, victims);
+            } else if (ENTITY_FIELDS.contains(key) && value.isJsonArray()) {
+                conditions.add(key, fold(value.getAsJsonArray()));
+            } else if (value.isJsonObject()) {
+                foldComposites(value.getAsJsonObject());
+            }
+        }
+    }
+
+    private static JsonObject fold(JsonArray terms) {
+        JsonObject merged = new JsonObject();
+        for (JsonElement term : terms) {
+            if (!term.isJsonObject()) continue;
+            JsonObject condition = term.getAsJsonObject();
+            if (!condition.has("condition") || !DataPackJson.bare(condition.get("condition").getAsString()).equals("entity_properties")) continue;
+            if (condition.has("entity") && !"this".equals(condition.get("entity").getAsString())) continue;
+            if (!condition.has("predicate") || !condition.get("predicate").isJsonObject()) continue;
+            for (Map.Entry<String, JsonElement> property : condition.getAsJsonObject("predicate").entrySet()) {
+                if (!merged.has(property.getKey())) merged.add(property.getKey(), property.getValue());
+            }
+        }
+        return merged;
+    }
+
+    /** 1.16's structure names (lower case) as 1.12's generators and Portium's know them. */
+    private static String structureName(String name) {
+        switch (DataPackJson.bare(name)) {
+            case "fortress": return "Fortress";
+            case "bastion_remnant": return "Bastion_Remnant";
+            case "village": return "Village";
+            case "stronghold": return "Stronghold";
+            case "monument": return "Monument";
+            case "mansion": return "Mansion";
+            case "mineshaft": return "Mineshaft";
+            case "endcity": case "end_city": return "EndCity";
+            case "pillager_outpost": return "Pillager_Outpost";
+            case "ruined_portal": return "Ruined_Portal";
+            case "desert_pyramid": return "Desert_Pyramid";
+            case "jungle_pyramid": return "Jungle_Pyramid";
+            case "igloo": return "Igloo";
+            case "swamp_hut": return "Swamp_Hut";
+            case "shipwreck": return "Shipwreck";
+            case "ocean_ruin": return "Ocean_Ruin";
+            case "buried_treasure": return "Buried_Treasure";
+            default: return name;
+        }
+    }
+
     private static boolean unlocksUnknownRecipe(JsonObject criterion) {
         if (!criterion.has("trigger") || !DataPackJson.bare(criterion.get("trigger").getAsString()).equals("recipe_unlocked")) return false;
         JsonObject conditions = criterion.has("conditions") ? criterion.getAsJsonObject("conditions") : new JsonObject();
@@ -109,6 +201,9 @@ public final class DataPackAdvancements {
         boolean itemPredicate = isString(object, "item") || isString(object, "tag");
         if (itemPredicate) DataPackJson.convertItemPredicate(object);
         if (isString(object, "block")) DataPackJson.convertBlockPredicate(object);
+        if (isString(object, "feature")) object.addProperty("feature", structureName(object.get("feature").getAsString()));
+        // Entity type tags (#minecraft:raiders) have no 1.12 form: the rest of the predicate still has to hold.
+        if (!itemPredicate && isString(object, "type") && object.get("type").getAsString().startsWith("#")) object.remove("type");
         if (!itemPredicate && isString(object, "type")) {
             ResourceLocation legacy = EntityTypes.toLegacy(new ResourceLocation(object.get("type").getAsString()));
             if (legacy != null) object.addProperty("type", legacy.toString());

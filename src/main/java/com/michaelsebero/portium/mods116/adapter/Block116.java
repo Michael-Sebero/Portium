@@ -168,12 +168,28 @@ public class Block116 extends ModernBlock {
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
-        if (world instanceof WorldServer) tick(state, (WorldServer) world, pos, random);
+        if (!(world instanceof WorldServer) || com.michaelsebero.portium.modern.ModernTicks.isOff(this)) return;
+        try {
+            tick(state, (WorldServer) world, pos, random);
+        } catch (LinkageError e) {
+            com.michaelsebero.portium.modern.ModernTicks.switchOff(this, e);
+        } catch (RuntimeException e) {
+            if (!com.michaelsebero.portium.modern.ModernTicks.isLayerFault(e)) throw e;
+            com.michaelsebero.portium.modern.ModernTicks.switchOff(this, e);
+        }
     }
 
     @Override
     public void randomTick(World world, BlockPos pos, IBlockState state, Random random) {
-        if (world instanceof WorldServer) randomTick(state, (WorldServer) world, pos, random);
+        if (!(world instanceof WorldServer) || com.michaelsebero.portium.modern.ModernTicks.isOff(this)) return;
+        try {
+            randomTick(state, (WorldServer) world, pos, random);
+        } catch (LinkageError e) {
+            com.michaelsebero.portium.modern.ModernTicks.switchOff(this, e);
+        } catch (RuntimeException e) {
+            if (!com.michaelsebero.portium.modern.ModernTicks.isLayerFault(e)) throw e;
+            com.michaelsebero.portium.modern.ModernTicks.switchOff(this, e);
+        }
     }
 
     // Entities
@@ -181,9 +197,22 @@ public class Block116 extends ModernBlock {
     @Srg("func_196262_a")
     public void onEntityCollision(IBlockState state, World world, BlockPos pos, Entity entity) {}
 
+    /** Blocks whose entity collisions failed (a part of 1.16 Portium lacks): switched off, not crashing the world. */
+    private static final java.util.Set<Class<?>> COLLISIONS_OFF = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-        onEntityCollision(state, world, pos, entity);
+        if (!COLLISIONS_OFF.isEmpty() && COLLISIONS_OFF.contains(getClass())) return;
+        try {
+            onEntityCollision(state, world, pos, entity);
+        } catch (LinkageError | RuntimeException e) {
+            if (e instanceof RuntimeException && !com.michaelsebero.portium.modern.ModernTicks.isLayerFault((RuntimeException) e)) throw (RuntimeException) e;
+            if (COLLISIONS_OFF.add(getClass())) {
+                org.apache.logging.log4j.LogManager.getLogger("Portium/Mods").error("Mod problem: entity collisions with {} were switched off; it needs something "
+                        + "Portium doesn't provide yet", getClass().getName(), e);
+                com.michaelsebero.portium.diagnostics.ProblemReport.record("Entity collisions with " + getClass().getName() + " were switched off", e);
+            }
+        }
     }
 
     /** Told when an entity lands on the block (a millstone takes dropped items so); 1.16 asks with a block reader. */

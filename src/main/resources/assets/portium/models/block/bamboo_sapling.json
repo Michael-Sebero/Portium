@@ -1,0 +1,6 @@
+{
+  "parent": "block/tinted_cross",
+  "textures": {
+    "cross": "portium:blocks/bamboo_stage0"
+  }
+}

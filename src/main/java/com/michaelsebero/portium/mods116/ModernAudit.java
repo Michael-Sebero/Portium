@@ -117,17 +117,34 @@ final class ModernAudit {
     }
 
     /** Whether a member resolves from {@code owner}; members reached through the mods' own classes are looked for further up. */
+    private static final java.util.Map<String, Boolean> RESOLVED = new java.util.HashMap<>();
+
     private static boolean resolves(ModernClassLoader loader, String owner, String name, String desc, boolean method) {
+        String key = owner + '.' + name + desc + method;
+        Boolean known = RESOLVED.get(key);
+        if (known == null) {
+            known = resolvesUncached(loader, owner, name, desc, method);
+            RESOLVED.put(key, known);
+        }
+        return known;
+    }
+
+    private static boolean resolvesUncached(ModernClassLoader loader, String owner, String name, String desc, boolean method) {
         // Bridges are made as they're loaded, holding exactly what's asked of them.
-        if (owner.startsWith("[") || owner.startsWith("com/michaelsebero/portium/modern/bridge/")) return true;
+        if (owner.startsWith("[") || ModernBridges.isBridgeName(owner)) return true;
         String type = owner;
-        // Walk the mods' own classes up to the first class of the parent's.
+        // Walk the mods' own classes (and their interfaces) up to the first class of the parent's.
         while (loader.ownsTranslated(type)) {
             if (loader.declares(type, name, desc)) return true;
+            for (String itf : loader.interfacesOf(type)) {
+                if (resolves(loader, itf, name, desc, method)) return true;
+            }
             String parent = loader.superclassOf(type);
             if (parent == null) return false;
             type = parent;
         }
+        // Signature-polymorphic calls link whatever their descriptor.
+        if (type.equals("java/lang/invoke/MethodHandle") || type.equals("java/lang/invoke/VarHandle")) return true;
         Class<?> found;
         try {
             found = Class.forName(type.replace('/', '.'), false, loader.getParent());

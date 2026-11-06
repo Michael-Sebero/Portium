@@ -19,7 +19,8 @@ public interface ISelectionContext {
 
     @Srg("func_216374_a")
     static ISelectionContext forEntity(Entity entity) {
-        return new EntitySelectionContext(entity);
+        // 1.16's RayTraceContext asks with a null entity for scenes nobody is in (Create's Ponder); that's "nobody".
+        return entity == null ? EntitySelectionContext.DUMMY : new EntitySelectionContext(entity);
     }
 
     @Srg("func_225581_b_")

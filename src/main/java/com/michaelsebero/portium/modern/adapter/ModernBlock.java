@@ -104,13 +104,38 @@ public class ModernBlock extends Block implements IModernBlock {
     @Override
     @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state) {
-        return ModernBlocks.shapeOf(this, state).isFullCube();
+        VoxelShape shape = this.properties == null ? null : ModernBlocks.shapeOf(this, state);
+        // While 1.12's constructor runs the mod's own fields (its shapes) aren't there yet: a full cube until asked again.
+        return shape == null || shape.isFullCube();
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state) {
-        return state.getMaterial().isOpaque() && ModernBlocks.shapeOf(this, state).isFullCube();
+        // A block made not solid (1.16's notSolid: glass, Create's water wheel) occludes nothing.
+        if (this.properties != null && !this.properties.isSolid()) return false;
+        if (this.properties == null) return state.getMaterial().isOpaque();
+        VoxelShape shape = ModernBlocks.shapeOf(this, state);
+        return state.getMaterial().isOpaque() && (shape == null || shape.isFullCube());
+    }
+
+    /**
+     * 1.16's light opacity: all light stops at a full opaque cube, none at anything else (a chest, a slab: 1.16 lets
+     * skylight through blocks that don't fill their space). 1.12 decides it while its constructor runs, before the
+     * block's own shapes exist, so it's worked out here from the shape instead.
+     */
+    @Override
+    @SuppressWarnings("deprecation")
+    public int getLightOpacity(IBlockState state) {
+        if (this.properties == null || !this.properties.isSolid()) return super.getLightOpacity(state);
+        return isOpaqueCube(state) ? 255 : 0;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean isFullBlock(IBlockState state) {
+        if (this.properties == null) return super.isFullBlock(state);
+        return isOpaqueCube(state);
     }
 
     @Override

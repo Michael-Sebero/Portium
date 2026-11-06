@@ -1,0 +1,7 @@
+{
+  "parent": "portium:block/template_bell_ceiling",
+  "textures": {
+    "particle": "portium:blocks/bell_bottom",
+    "bar": "blocks/planks_big_oak"
+  }
+}

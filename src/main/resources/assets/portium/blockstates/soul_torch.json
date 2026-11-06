@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "portium:soul_torch"
+    },
+    "facing=east": {
+      "model": "portium:soul_torch_wall"
+    },
+    "facing=south": {
+      "model": "portium:soul_torch_wall",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "portium:soul_torch_wall",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "portium:soul_torch_wall",
+      "y": 270
+    }
+  }
+}

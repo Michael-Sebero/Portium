@@ -32,16 +32,17 @@ public final class EntityTypes {
             RENAMED.put("minecraft:" + pairs[i], "minecraft:" + pairs[i + 1]);
             MODERN.put("minecraft:" + pairs[i + 1], "minecraft:" + pairs[i]);
         }
-        // Later renames, read from newer saves only (1.13's names stay the ones shown).
+        // Later renames, read from newer saves only (1.13's names stay the ones shown); unless Portium has the entity itself.
         RENAMED.put("minecraft:zombified_piglin", "minecraft:zombie_pigman");
     }
 
     @Nullable
     public static ResourceLocation toLegacy(ResourceLocation id) {
         if (PLAYER.equals(id)) return PLAYER;
+        // A name registered as it is (Portium's zombified piglin, say) is that entity, before any older name it replaced.
+        if (EntityList.isRegistered(id)) return id;
         String renamed = RENAMED.get(id.toString());
         if (renamed != null) return new ResourceLocation(renamed);
-        if (EntityList.isRegistered(id)) return id;
         if ("minecraft".equals(id.getNamespace())) {
             ResourceLocation portium = new ResourceLocation(Tags.MOD_ID, id.getPath());
             if (EntityList.isRegistered(portium)) return portium;

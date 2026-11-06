@@ -45,6 +45,11 @@ public final class Mods116 {
     private static final List<Map<String, String>> descriptions = new ArrayList<>();
     private static boolean registriesCreated;
 
+    /** Whether any 1.16.5 mod is loaded (a host is up). */
+    public static boolean active() {
+        return host != null;
+    }
+
     /** Finds and constructs the 1.13 mods; Portium's construction stage. */
     public static void construct() {
         if (!PortiumConfig.compatibility.mods116) {
@@ -52,7 +57,9 @@ public final class Mods116 {
             return;
         }
         File gameDir = gameDir();
-        File dir = new File(new File(gameDir, "mods"), FOLDER);
+        // A development aid: another folder of 1.16.5 mods (a test corpus), instead of mods/1.16.5.
+        String devMods = System.getProperty("portium.forge116.mods");
+        File dir = devMods != null ? new File(devMods) : new File(new File(gameDir, "mods"), FOLDER);
         if (!dir.isDirectory() && !dir.mkdirs()) return;
         File[] found = dir.listFiles((parent, name) -> name.endsWith(".jar"));
         if (found == null || found.length == 0) return;
@@ -82,6 +89,12 @@ public final class Mods116 {
             Flattening.setNames(loader.translator().registeredNames("net/minecraft/init/Blocks"), loader.translator().registeredNames("net/minecraft/init/Items"));
             if (Boolean.getBoolean("portium.forge116.audit")) ModernAudit.run(loader, jars);
             ModernRegistries.createMissing(loader);
+            // A development aid: scan the mods (audit, verify) without constructing them, and stop.
+            if (Boolean.getBoolean("portium.forge116.scanOnly")) {
+                if (Boolean.getBoolean("portium.forge116.verify")) ModernVerify.run(loader, jars);
+                LOGGER.info("Scan finished; stopping");
+                net.minecraftforge.fml.common.FMLCommonHandler.instance().exitJava(0, true);
+            }
             host = (IModernHost) loader.loadClass("com.michaelsebero.portium.mods116.host.ModernHost").newInstance();
         } catch (IOException | ReflectiveOperationException e) {
             throw new LoaderException("Couldn't set up Forge " + ModernRuntime.FORGE + " and Minecraft 1.16.5 for the mods in mods/" + FOLDER
@@ -92,6 +105,7 @@ public final class Mods116 {
         }
         for (File jar : jars) dataPacks.put("mod/" + jar.getName().replaceFirst("\\.jar$", ""), jar);
         Portium.proxy.addModernResources(jars, minecraftJar);
+        ((ModernClassLoader) ModernHooks.loader).mixins().runPlugins(ModernHooks.loader);
         List<String> mods = run(() -> host.construct(jars));
         LOGGER.info("Loaded {} Forge {} mod(s): {}", mods.size(), ModernRuntime.FORGE, String.join(", ", mods));
         if (Boolean.getBoolean("portium.forge116.verify")) ModernVerify.run((ModernClassLoader) ModernHooks.loader, jars);
@@ -99,6 +113,12 @@ public final class Mods116 {
         MinecraftForge.EVENT_BUS.register(new ModernEvents(host));
         if (net.minecraftforge.fml.common.FMLCommonHandler.instance().getSide().isClient()) MinecraftForge.EVENT_BUS.register(new ModernClientEvents(host));
         net.minecraftforge.fml.common.registry.GameRegistry.registerWorldGenerator(new ModernWorldGen116(), 100);
+    }
+
+    /** Posts a Forge 1.16 event by its key (see {@link IModernHost#postEvent}); null without 1.16 mods. */
+    @Nullable
+    public static Object postEvent(String name, Object... arguments) {
+        return host == null ? null : host.postEvent(name, arguments);
     }
 
     /** 1.16 mods' features for a chunk 1.12 populates (see {@link ModernWorldGen116}). */
@@ -128,7 +148,11 @@ public final class Mods116 {
 
     /** After a data pack (re)load: the 1.16 mods' recipe manager reads the packs again. */
     public static void dataReloaded() {
-        if (host != null) run(host::dataReloaded);
+        if (host == null) return;
+        run(host::dataReloaded);
+        com.michaelsebero.portium.datapack.DataPackManager packs = com.michaelsebero.portium.datapack.DataPackManager.get();
+        if (packs != null) postEvent("data_reload", new DataResources116(packs), new net.minecraft.profiler.Profiler());
+        postEvent("tags_updated");
     }
 
     public static void createRegistries() {

@@ -51,4 +51,14 @@ public final class ChunkShims {
     }
 
     private ChunkShims() {}
+
+    /** 1.16's {@code chunk.getTopBlockY(heightmap, x, z)}: the top block's height, from 1.12's one height map. */
+    public static int getTopBlockY(net.minecraft.world.chunk.Chunk chunk, Object heightmapType, int x, int z) {
+        return chunk.getHeightValue(x & 15, z & 15) - 1;
+    }
+
+    /** The world a server's chunk provider loads chunks for (a client's has none to give: null). */
+    public static Object worldOf(Object provider) {
+        return provider instanceof net.minecraft.world.gen.ChunkProviderServer ? ((net.minecraft.world.gen.ChunkProviderServer) provider).world : null;
+    }
 }

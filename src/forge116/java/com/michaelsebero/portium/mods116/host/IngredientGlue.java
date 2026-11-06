@@ -14,6 +14,8 @@ public final class IngredientGlue {
 
     @SuppressWarnings("unchecked")
     public static Ingredient fromTag(ITag<Item> tag) {
+        // A tag field read before its mod set it: nothing matches.
+        if (tag == null) return Ingredient.field_193370_a;
         if (tag instanceof ITag.INamedTag) return (Ingredient) IngredientShims116.fromItemTag(((ITag.INamedTag<Item>) tag).func_230234_a_());
         return (Ingredient) IngredientShims116.ofStacks(() -> {
             List<ItemStack> stacks = new ArrayList<>();

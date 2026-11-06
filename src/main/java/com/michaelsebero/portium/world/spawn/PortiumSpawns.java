@@ -19,7 +19,7 @@ import net.minecraft.world.biome.Biome;
 import java.util.Arrays;
 import java.util.List;
 
-/** Where 1.13's new mobs spawn, with 1.13's per-biome spawn tables for the oceans, rivers and beaches. */
+/** Where 1.13-1.16's new mobs spawn, with 1.13's per-biome spawn tables for the oceans, rivers and beaches. */
 public final class PortiumSpawns {
 
     public static void registerPlacements() {
@@ -28,6 +28,10 @@ public final class PortiumSpawns {
         for (Class<? extends EntityLiving> type : swimmers) {
             EntitySpawnPlacementRegistry.setPlacementType(type, EntityLiving.SpawnPlacementType.IN_WATER);
         }
+        // 1.16's IN_LAVA placement, for striders.
+        EntitySpawnPlacementRegistry.setPlacementType(com.michaelsebero.portium.entity.passive.EntityStrider.class,
+                net.minecraftforge.common.util.EnumHelper.addSpawnPlacementType("PORTIUM_IN_LAVA",
+                        (world, pos) -> world.getBlockState(pos).getMaterial() == net.minecraft.block.material.Material.LAVA));
     }
 
     public static void addBiomeSpawns() {
@@ -53,8 +57,42 @@ public final class PortiumSpawns {
         drowned(Biomes.RIVER, 100);
         drowned(Biomes.FROZEN_RIVER, 1);
 
+        // Foxes (1.14): 1.14's taigas, giant tree taigas and snowy taigas, with 1.12's names.
+        if (PortiumEntities.isRegistered(com.michaelsebero.portium.entity.passive.EntityFox.class)) {
+            for (Biome taiga : new Biome[] {Biomes.TAIGA, Biomes.TAIGA_HILLS, Biomes.MUTATED_TAIGA, Biomes.REDWOOD_TAIGA, Biomes.REDWOOD_TAIGA_HILLS,
+                    Biomes.MUTATED_REDWOOD_TAIGA, Biomes.MUTATED_REDWOOD_TAIGA_HILLS, Biomes.COLD_TAIGA, Biomes.COLD_TAIGA_HILLS, Biomes.MUTATED_TAIGA_COLD}) {
+                taiga.getSpawnableList(EnumCreatureType.CREATURE).add(entry(com.michaelsebero.portium.entity.passive.EntityFox.class, 8, 2, 4));
+            }
+        }
+        // Pandas (1.14): 1.14's jungles and jungle hills (1.12 has no bamboo jungle).
+        if (PortiumEntities.isRegistered(com.michaelsebero.portium.entity.passive.EntityPanda.class)) {
+            for (Biome jungle : new Biome[] {Biomes.JUNGLE, Biomes.JUNGLE_HILLS}) {
+                jungle.getSpawnableList(EnumCreatureType.CREATURE).add(entry(com.michaelsebero.portium.entity.passive.EntityPanda.class, 1, 1, 2));
+            }
+        }
         if (PortiumEntities.isRegistered(EntityTurtle.class)) {
             Biomes.BEACH.getSpawnableList(EnumCreatureType.CREATURE).add(entry(EntityTurtle.class, 5, 2, 5));
+        }
+        // Piglins and hoglins (1.16): the nether wastes (1.12's Hell) and the crimson forest.
+        if (PortiumEntities.isRegistered(com.michaelsebero.portium.entity.monster.piglin.EntityPiglin.class)) {
+            Biomes.HELL.getSpawnableList(EnumCreatureType.MONSTER).add(entry(com.michaelsebero.portium.entity.monster.piglin.EntityPiglin.class, 15, 4, 4));
+            if (PortiumBiomes.CRIMSON_FOREST != null) {
+                PortiumBiomes.CRIMSON_FOREST.getSpawnableList(EnumCreatureType.MONSTER)
+                        .add(entry(com.michaelsebero.portium.entity.monster.piglin.EntityPiglin.class, 5, 3, 4));
+            }
+        }
+        // Striders (1.16): in the lava seas of every Nether biome.
+        if (PortiumEntities.isRegistered(com.michaelsebero.portium.entity.passive.EntityStrider.class)) {
+            for (Biome nether : new Biome[] {Biomes.HELL, PortiumBiomes.CRIMSON_FOREST, PortiumBiomes.WARPED_FOREST, PortiumBiomes.SOUL_SAND_VALLEY,
+                    PortiumBiomes.BASALT_DELTAS}) {
+                if (nether != null) {
+                    nether.getSpawnableList(EnumCreatureType.CREATURE).add(entry(com.michaelsebero.portium.entity.passive.EntityStrider.class, 60, 1, 2));
+                }
+            }
+        }
+        if (PortiumEntities.isRegistered(com.michaelsebero.portium.entity.monster.EntityHoglin.class) && PortiumBiomes.CRIMSON_FOREST != null) {
+            PortiumBiomes.CRIMSON_FOREST.getSpawnableList(EnumCreatureType.MONSTER)
+                    .add(entry(com.michaelsebero.portium.entity.monster.EntityHoglin.class, 9, 3, 4));
         }
     }
 

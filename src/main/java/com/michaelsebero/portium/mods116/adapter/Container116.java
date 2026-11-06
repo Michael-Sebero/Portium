@@ -20,6 +20,14 @@ public abstract class Container116 extends Container {
         this.windowId = windowId;
     }
 
+    /** 1.16's check that an inventory has at least the slots a menu shows. */
+    @Srg("func_216962_a")
+    protected static void assertInventorySize(net.minecraft.inventory.IInventory inventory, int size) {
+        if (inventory.getSizeInventory() < size) {
+            throw new IllegalArgumentException("Container size " + inventory.getSizeInventory() + " is smaller than expected " + size);
+        }
+    }
+
     /** 1.16's: the menu type it was made with (which the client opens the same menu by). */
     @Srg("func_216957_a")
     public Object getType() {

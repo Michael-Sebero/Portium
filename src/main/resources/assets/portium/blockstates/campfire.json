@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=south,lit=false": {
+      "model": "portium:campfire_off"
+    },
+    "facing=south,lit=true": {
+      "model": "portium:campfire"
+    },
+    "facing=west,lit=false": {
+      "model": "portium:campfire_off",
+      "y": 90
+    },
+    "facing=west,lit=true": {
+      "model": "portium:campfire",
+      "y": 90
+    },
+    "facing=north,lit=false": {
+      "model": "portium:campfire_off",
+      "y": 180
+    },
+    "facing=north,lit=true": {
+      "model": "portium:campfire",
+      "y": 180
+    },
+    "facing=east,lit=false": {
+      "model": "portium:campfire_off",
+      "y": 270
+    },
+    "facing=east,lit=true": {
+      "model": "portium:campfire",
+      "y": 270
+    }
+  }
+}

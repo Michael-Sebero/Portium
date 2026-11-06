@@ -56,10 +56,25 @@ public final class LegacyItemNbt {
         }
         convertBlockList(tag, "CanDestroy");
         convertBlockList(tag, "CanPlaceOn");
+        if ((stack.getItem() instanceof net.minecraft.item.ItemBanner || stack.getItem() instanceof net.minecraft.item.ItemShield)
+                && tag.hasKey("BlockEntityTag", 10)) {
+            convertBannerColours(tag.getCompoundTag("BlockEntityTag"));
+        }
         if (!tag.isEmpty()) {
             NBTTagCompound existing = stack.getTagCompound();
             if (existing == null) stack.setTagCompound(tag);
             else existing.merge(tag);
+        }
+    }
+
+    /** 1.13 numbers banner and shield colours like wool (white 0); 1.12 like dye (white 15). */
+    private static void convertBannerColours(NBTTagCompound blockEntity) {
+        if (blockEntity.hasKey("Base", 99)) blockEntity.setInteger("Base", 15 - blockEntity.getInteger("Base"));
+        if (!blockEntity.hasKey("Patterns", 9)) return;
+        NBTTagList patterns = blockEntity.getTagList("Patterns", 10);
+        for (int i = 0; i < patterns.tagCount(); i++) {
+            NBTTagCompound pattern = patterns.getCompoundTagAt(i);
+            if (pattern.hasKey("Color", 99)) pattern.setInteger("Color", 15 - pattern.getInteger("Color"));
         }
     }
 

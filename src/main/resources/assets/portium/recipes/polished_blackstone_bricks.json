@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:polished_blackstone_bricks"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "minecraft:polished_blackstone"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:polished_blackstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:polished_blackstone_bricks",
+    "count": 4
+  }
+}

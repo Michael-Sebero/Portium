@@ -12,6 +12,7 @@ public final class PortiumTriggers {
     /** Registers the triggers (by loading this class). */
     public static void init() {
         TagItemPredicate.register();
+        ModernTriggers116.init();
     }
 
     private PortiumTriggers() {}

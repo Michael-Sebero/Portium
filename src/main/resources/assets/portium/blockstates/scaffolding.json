@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bottom=false": {
+      "model": "portium:scaffolding_stable"
+    },
+    "bottom=true": {
+      "model": "portium:scaffolding_unstable"
+    }
+  }
+}

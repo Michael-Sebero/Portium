@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "portium:blocks/polished_blackstone",
+    "top": "portium:blocks/polished_blackstone",
+    "side": "portium:blocks/polished_blackstone"
+  }
+}

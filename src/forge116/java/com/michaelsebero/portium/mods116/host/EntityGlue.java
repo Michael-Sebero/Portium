@@ -21,5 +21,28 @@ public final class EntityGlue {
         return net.minecraft.entity.Pose.valueOf(com.michaelsebero.portium.mods116.shim.EntityShims116.poseName(entity));
     }
 
+    /** {@code entity.areEyesInFluid(tag)}: water or lava (by the tag's name) at the entity's eyes. */
+    public static boolean eyesInFluid(net.minecraft.entity.Entity entity, net.minecraft.tags.ITag<?> tag) {
+        String name = tag instanceof net.minecraft.tags.ITag.INamedTag ? ((net.minecraft.tags.ITag.INamedTag<?>) tag).func_230234_a_().func_110623_a() : "water";
+        return com.michaelsebero.portium.mods116.shim.EntityShims116.eyesIn(entity, name.contains("lava"));
+    }
+
     private EntityGlue() {}
+
+    /** 1.16's {@code AttributeModifier.getOperation()}: the enum for 1.12's number. */
+    public static net.minecraft.entity.ai.attributes.AttributeModifier.Operation modifierOperation(net.minecraft.entity.ai.attributes.AttributeModifier modifier) {
+        return net.minecraft.entity.ai.attributes.AttributeModifier.Operation.func_220372_a(
+                com.michaelsebero.portium.mods116.shim.MiscShims116.operationOf(modifier));
+    }
+
+    /** 1.16's {@code Effect.getCategory()}: a 1.16 mod's effect's own, else from 1.12's bad and beneficial flags. */
+    public static net.minecraft.potion.EffectType effectType(net.minecraft.potion.Effect effect) {
+        Object potion = effect;
+        if (potion instanceof com.michaelsebero.portium.mods116.adapter.Effect116) {
+            return (net.minecraft.potion.EffectType) ((com.michaelsebero.portium.mods116.adapter.Effect116) potion).getEffectType();
+        }
+        if (com.michaelsebero.portium.mods116.shim.MiscShims116.isBadEffect(potion)) return net.minecraft.potion.EffectType.valueOf("HARMFUL");
+        if (com.michaelsebero.portium.mods116.shim.MiscShims116.isBeneficialEffect(potion)) return net.minecraft.potion.EffectType.valueOf("BENEFICIAL");
+        return net.minecraft.potion.EffectType.valueOf("NEUTRAL");
+    }
 }

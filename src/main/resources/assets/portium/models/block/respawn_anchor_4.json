@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "portium:blocks/respawn_anchor_top",
+    "bottom": "portium:blocks/respawn_anchor_bottom",
+    "side": "portium:blocks/respawn_anchor_side4"
+  }
+}

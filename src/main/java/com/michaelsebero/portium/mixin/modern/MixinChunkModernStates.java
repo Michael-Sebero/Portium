@@ -40,8 +40,27 @@ public abstract class MixinChunkModernStates implements IModernStateChunk {
         return ModernStates.full((Chunk) (Object) this, state, x, y, z);
     }
 
+    /** The cell's full state before {@code setBlockState} changes it, for its own comparison (see below). */
+    @Unique
+    private IBlockState portium$before;
+
     @Inject(method = "setBlockState", at = @At("HEAD"))
     private void portium$keepFullState(BlockPos pos, IBlockState state, CallbackInfoReturnable<IBlockState> cir) {
+        this.portium$before = ((Chunk) (Object) this).getBlockState(pos);
         ModernStates.set((Chunk) (Object) this, this.world, pos, state);
+    }
+
+    /**
+     * {@code setBlockState} compares the old state with the new first and does nothing if they're the same. With the
+     * full state already kept, it would read the new one back: a change only the full state shows (a 1.16 block's
+     * {@code powered} beside others in its metadata) would set nothing in motion (no neighbour updates, no light, no
+     * client update). It gets the state from before.
+     */
+    @org.spongepowered.asm.mixin.injection.Redirect(method = "setBlockState", at = @At(value = "INVOKE", ordinal = 0,
+            target = "Lnet/minecraft/world/chunk/Chunk;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;"))
+    private IBlockState portium$stateBefore(Chunk chunk, BlockPos pos) {
+        IBlockState before = this.portium$before;
+        this.portium$before = null;
+        return before != null ? before : chunk.getBlockState(pos);
     }
 }

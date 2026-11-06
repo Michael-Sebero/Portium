@@ -20,6 +20,12 @@ public final class PortiumNetwork {
         CHANNEL.registerMessage(CommandSuggestResponse.Handler.class, CommandSuggestResponse.class, 6, Side.CLIENT);
         CHANNEL.registerMessage(ModernStateChunkMessage.Handler.class, ModernStateChunkMessage.class, 7, Side.CLIENT);
         CHANNEL.registerMessage(ModernStateUpdateMessage.Handler.class, ModernStateUpdateMessage.class, 8, Side.CLIENT);
+        CHANNEL.registerMessage(MapLockMessage.Handler.class, MapLockMessage.class, 9, Side.CLIENT);
+        CHANNEL.registerMessage(MerchantOffersMessage.Handler.class, MerchantOffersMessage.class, 10, Side.CLIENT);
+        CHANNEL.registerMessage(SelectTradeMessage.Handler.class, SelectTradeMessage.class, 11, Side.SERVER);
+        CHANNEL.registerMessage(JigsawUpdateMessage.Handler.class, JigsawUpdateMessage.class, 12, Side.SERVER);
+        CHANNEL.registerMessage(ImmediateRespawnMessage.Handler.class, ImmediateRespawnMessage.class, 13, Side.CLIENT);
+        CHANNEL.registerMessage(ModParticleMessage.Handler.class, ModParticleMessage.class, 14, Side.CLIENT);
     }
 
     private PortiumNetwork() {}
