@@ -1,10 +1,10 @@
 package com.michaelsebero.portium.util;
 
-import net.minecraftforge.fml.common.Loader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,39 +12,60 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * The jars Portium's 1.13 and 1.16.5 mod layers run on (Forge, its libraries, Minecraft itself), which Portium doesn't
- * ship. Portium has no network code of its own: AssetMover fetches each jar's files from the official servers (Forge's
- * and Maven Central's, or Mojang's for Minecraft) during mod construction, and Portium packs them back into the jar
- * under {@code portium/forge-<version>}, checked against a digest of the original's contents. Which files each jar
- * has, and the digest, come with Portium ({@code portium/runtime/<jar>.txt}, made by {@code tools/gen_runtime_lists.py}).
+ * ship. The first time a layer has mods, each missing jar is downloaded from its official server (Forge's and Maven
+ * Central's, or Mojang's for Minecraft) straight into the layer's folder, and checked against the SHA-1 and size of the
+ * original before it is used. A jar that fails the check is never kept.
+ * <p>
+ * Missing jars are downloaded in parallel, and a jar that has been verified once is remembered (by its size and
+ * modification time, in a small {@code .ok} file beside it), so later launches don't read and hash it again.
+ * <p>
+ * The jars are fetched here and not through AssetMover because they are needed at once, during mod construction.
+ * AssetMover 2.5's {@code fromUrlFile} fails on every URL (it hands the URL's path to {@code Files.createTempFile} as a
+ * file name prefix), and AssetMover 3 only queues its 2.x requests until construction is over, and never runs them on a
+ * dedicated server, so waiting here for what they would fetch could never end.
+ * <p>
+ * Jars that earlier Portium versions packed together from AssetMover's files are still accepted: they carry a marker
+ * with the digest of their contents, which comes with Portium ({@code portium/runtime/<jar>.txt}, made by
+ * {@code tools/gen_runtime_lists.py}).
  */
 public final class RuntimeFiles {
 
     private static final Logger LOGGER = LogManager.getLogger("Portium/Runtime");
-    /** Where AssetMover puts the fetched files (inside its own {@code assetmover} folder). */
-    private static final String STAGING = "portium-runtime/";
-    private static final long TIMEOUT_MILLIS = 20L * 60L * 1000L;
-    /** Jars already asked for this launch (asking twice would fetch twice). */
-    private static final java.util.Set<String> REQUESTED = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
+    /** Mojang names a client jar's download after its SHA-1. */
+    private static final String MOJANG_CLIENT_URL = "https://piston-data.mojang.com/v1/objects/%s/client.jar";
+    private static final String USER_AGENT = "Portium (Minecraft 1.12.2 mod)";
+    private static final int ATTEMPTS = 3;
+    private static final int CONNECT_TIMEOUT_MILLIS = 15 * 1000;
+    private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
+    private static final long RETRY_DELAY_MILLIS = 2000L;
+    /** How many jars are downloaded at once. */
+    private static final int MAX_PARALLEL = 4;
+    private static final int BUFFER_SIZE = 64 * 1024;
+    private static final long PROGRESS_INTERVAL_MILLIS = 100L;
+    /** Jars verified during this run, by path, so none is hashed twice. The value is {@link #stamp}. */
+    private static final ConcurrentHashMap<String, String> VERIFIED = new ConcurrentHashMap<>();
 
-    /** One jar: its file name here, where AssetMover gets it, and the original's hash (jars downloaded by earlier Portium versions are kept). */
+    /** One jar: its file name here, where it comes from, and the original's hash and size. */
     public static final class Spec {
 
         final String fileName;
@@ -68,7 +89,7 @@ public final class RuntimeFiles {
             return new Spec(fileName, url, null, sha1, size);
         }
 
-        /** Minecraft's client jar of a version, from Mojang through AssetMover's version lookup. */
+        /** Minecraft's client jar of a version, from Mojang. */
         public static Spec minecraft(String fileName, String version, String sha1, long size) {
             return new Spec(fileName, null, version, sha1, size);
         }
@@ -76,37 +97,34 @@ public final class RuntimeFiles {
         public String fileName() {
             return this.fileName;
         }
+
+        /** Where the jar is downloaded from. */
+        String downloadUrl() {
+            return this.url != null ? this.url : String.format(MOJANG_CLIENT_URL, this.originalSha1);
+        }
+    }
+
+    /** A download that arrived whole but isn't the file Portium expects, which asking again won't change. */
+    private static final class ChecksumException extends IOException {
+
+        private static final long serialVersionUID = 1L;
+
+        ChecksumException(String message) {
+            super(message);
+        }
     }
 
     private RuntimeFiles() {}
 
-    private static File assetMoverDir() {
-        return new File("assetmover");
-    }
-
-    /** The file list and digest that come with Portium for a jar. */
-    private static final class Listing {
-
-        final String digest;
-        final List<String> entries;
-
-        Listing(String digest, List<String> entries) {
-            this.digest = digest;
-            this.entries = entries;
-        }
-    }
-
-    private static Listing listing(Spec spec) throws IOException {
+    /** The digest of the contents of a jar that earlier Portium versions packed, from the file list that comes with Portium. */
+    private static String packedDigest(Spec spec) throws IOException {
         String resource = "/portium/runtime/" + spec.fileName + ".txt";
         InputStream in = RuntimeFiles.class.getResourceAsStream(resource);
         if (in == null) throw new IOException("Portium lacks its file list " + resource);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             String header = reader.readLine();
             if (header == null || !header.startsWith("sha256 ")) throw new IOException("Bad file list " + resource);
-            List<String> entries = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) if (!line.isEmpty()) entries.add(line);
-            return new Listing(header.substring(7).trim(), entries);
+            return header.substring(7).trim();
         }
     }
 
@@ -114,130 +132,196 @@ public final class RuntimeFiles {
         return new File(jar.getPath() + ".sha256");
     }
 
-    /** Whether the jar is here and whole: the original download, or one packed and checked before. */
+    private static File okMarker(File jar) {
+        return new File(jar.getPath() + ".ok");
+    }
+
+    /** What a verified jar looks like on disk; a jar that changes size or time has to be checked again. */
+    private static String stamp(File jar, Spec spec) {
+        return jar.length() + ":" + jar.lastModified() + ":" + spec.originalSha1;
+    }
+
+    private static void remember(File jar, Spec spec) {
+        String stamp = stamp(jar, spec);
+        VERIFIED.put(jar.getAbsolutePath(), stamp);
+        try {
+            Files.write(okMarker(jar).toPath(), stamp.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            // Only costs a check on the next launch.
+        }
+    }
+
+    /**
+     * Whether the jar is here and whole: the original download, or one packed and checked by an earlier Portium version.
+     * A jar that was verified before and hasn't changed since is accepted without reading it.
+     */
     public static boolean isReady(File dir, Spec spec) {
         File jar = new File(dir, spec.fileName);
         if (!jar.isFile()) return false;
         try {
-            if (jar.length() == spec.originalSize && spec.originalSha1.equals(hash(jar, "SHA-1"))) return true;
+            String stamp = stamp(jar, spec);
+            if (stamp.equals(VERIFIED.get(jar.getAbsolutePath()))) return true;
+            File ok = okMarker(jar);
+            if (ok.isFile() && stamp.equals(new String(Files.readAllBytes(ok.toPath()), StandardCharsets.UTF_8).trim())) {
+                VERIFIED.put(jar.getAbsolutePath(), stamp);
+                return true;
+            }
+            if (jar.length() == spec.originalSize && spec.originalSha1.equals(hash(jar, "SHA-1"))) {
+                remember(jar, spec);
+                return true;
+            }
             File marker = marker(jar);
-            return marker.isFile() && new String(Files.readAllBytes(marker.toPath()), StandardCharsets.UTF_8).trim().equals(listing(spec).digest);
+            return marker.isFile() && new String(Files.readAllBytes(marker.toPath()), StandardCharsets.UTF_8).trim().equals(packedDigest(spec));
         } catch (IOException e) {
             return false;
         }
     }
 
-    /** Whether AssetMover is there to fetch anything. */
-    public static boolean canFetch() {
-        return Loader.isModLoaded("assetmover");
-    }
-
     /**
-     * Asks AssetMover for the files of every jar that isn't here yet. Only during mod construction (AssetMover's
-     * rule); the files arrive in the background, and {@link #await} waits for them.
+     * Downloads every jar that isn't here yet (or is damaged), up to {@value #MAX_PARALLEL} at a time, with one bar on
+     * the loading screen. Each is checked before it is kept. Does nothing, and reads nothing, when all are ready.
      *
-     * @return how many jars are being fetched
+     * @return how many jars had to be downloaded
      */
     public static int request(File dir, List<Spec> specs) throws IOException {
-        int requested = 0;
-        for (Spec spec : specs) {
-            if (REQUESTED.contains(spec.fileName) || isReady(dir, spec)) continue;
-            if (!canFetch()) throw new IOException("AssetMover isn't installed, so " + spec.fileName + " can't be fetched. Install AssetMover, "
-                    + "or put " + spec.fileName + " into " + dir);
-            Map<String, String> files = new LinkedHashMap<>();
-            for (String entry : listing(spec).entries) files.put(entry, STAGING + spec.fileName + "/" + entry);
-            LOGGER.info("Asking AssetMover for {} ({} files)", spec.fileName, files.size());
-            if (spec.minecraftVersion != null) {
-                com.cleanroommc.assetmover.AssetMoverAPI.fromMinecraft(spec.minecraftVersion, files);
-            } else {
-                com.cleanroommc.assetmover.AssetMoverAPI.fromUrlFile(spec.url, files);
+        List<Spec> missing = new ArrayList<>();
+        for (Spec spec : specs) if (!isReady(dir, spec)) missing.add(spec);
+        if (missing.isEmpty()) return 0;
+        Files.createDirectories(dir.toPath());
+        long total = 0L;
+        for (Spec spec : missing) total += spec.originalSize;
+        AtomicLong received = new AtomicLong();
+        ExecutorService pool = Executors.newFixedThreadPool(Math.min(MAX_PARALLEL, missing.size()), runnable -> {
+            Thread thread = new Thread(runnable, "Portium download");
+            thread.setDaemon(true);
+            return thread;
+        });
+        ExecutorCompletionService<Void> done = new ExecutorCompletionService<>(pool);
+        List<Future<Void>> futures = new ArrayList<>();
+        String title = "Portium: downloading " + (missing.size() == 1 ? missing.get(0).fileName : missing.size() + " files") + " (first launch only)";
+        try (Progress progress = Progress.start(title, 100)) {
+            for (Spec spec : missing) {
+                futures.add(done.submit(() -> {
+                    download(spec, new File(dir, spec.fileName), received);
+                    return null;
+                }));
             }
-            REQUESTED.add(spec.fileName);
-            requested++;
+            for (int finished = 0; finished < missing.size(); ) {
+                Future<Void> future = done.poll(PROGRESS_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
+                long now = received.get();
+                progress.reach(Math.min(1.0D, (double) now / Math.max(1L, total)), (now / 1024L) + " of " + (total / 1024L) + " KB");
+                if (future == null) continue;
+                finished++;
+                try {
+                    future.get();
+                } catch (java.util.concurrent.ExecutionException e) {
+                    Throwable cause = e.getCause();
+                    if (cause instanceof IOException) throw (IOException) cause;
+                    throw new IOException("Couldn't download Portium's runtime files", cause);
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while downloading Portium's runtime files", e);
+        } finally {
+            for (Future<Void> future : futures) future.cancel(true);
+            pool.shutdownNow();
         }
-        return requested;
+        return missing.size();
     }
 
     /**
-     * The jar, once AssetMover has fetched its files: packed from them and checked. Waits (showing progress) while
-     * they're still coming.
+     * The jar, downloaded first (showing progress) if it isn't here yet or is damaged. It is checked before it is
+     * kept, so what this returns is the file Portium expects.
      */
-    public static File await(File dir, Spec spec) throws IOException {
+    public static synchronized File await(File dir, Spec spec) throws IOException {
         File jar = new File(dir, spec.fileName);
         if (isReady(dir, spec)) return jar;
-        Listing listing = listing(spec);
-        File staged = new File(assetMoverDir(), STAGING + spec.fileName);
-        long deadline = System.currentTimeMillis() + TIMEOUT_MILLIS;
-        try (Progress progress = Progress.start("Portium: fetching " + spec.fileName + " (first launch only)", 20)) {
-            while (true) {
-                int present = 0;
-                for (String entry : listing.entries) if (new File(staged, entry).isFile()) present++;
-                progress.reach((double) present / listing.entries.size(), present + " of " + listing.entries.size() + " files");
-                // AssetMover copies the files one by one; the digest says when the last one is whole.
-                if (present == listing.entries.size() && listing.digest.equals(digest(staged, listing.entries))) break;
-                if (System.currentTimeMillis() > deadline) {
-                    throw new IOException(spec.fileName + " wasn't fetched (" + present + " of " + listing.entries.size()
-                            + " files; see AssetMover's log). Check the connection and restart.");
-                }
-                try {
-                    Thread.sleep(500L);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw new IOException("Interrupted while waiting for " + spec.fileName, e);
-                }
-            }
-        }
-        pack(staged, listing.entries, jar);
-        Files.write(marker(jar).toPath(), listing.digest.getBytes(StandardCharsets.UTF_8));
-        deleteTree(staged.toPath());
-        LOGGER.info("{} is ready", spec.fileName);
+        request(dir, java.util.Collections.singletonList(spec));
         return jar;
     }
 
-    private static void pack(File staged, List<String> entries, File jar) throws IOException {
-        Files.createDirectories(jar.getParentFile().toPath());
+    /** Downloads one jar, trying up to {@value #ATTEMPTS} times; the bytes arriving are added to {@code received}. */
+    private static void download(Spec spec, File jar, AtomicLong received) throws IOException {
         File partial = new File(jar.getPath() + ".part");
-        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(partial))) {
-            byte[] buffer = new byte[16384];
-            for (String entry : entries) {
-                out.putNextEntry(new ZipEntry(entry));
-                try (InputStream in = new FileInputStream(new File(staged, entry))) {
-                    int read;
-                    while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
+        String address = spec.downloadUrl();
+        if (!address.startsWith("https://")) throw new IOException("Refusing to download " + spec.fileName + " from " + address + ", which isn't https");
+        IOException failure = null;
+        for (int attempt = 1; attempt <= ATTEMPTS; attempt++) {
+            try {
+                LOGGER.info("Downloading {} from {}", spec.fileName, address);
+                fetch(address, partial, spec, received);
+                Files.move(partial.toPath(), jar.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                // A marker left by an earlier, packed copy of this jar says nothing about the one just downloaded.
+                Files.deleteIfExists(marker(jar).toPath());
+                remember(jar, spec);
+                LOGGER.info("{} is ready", spec.fileName);
+                return;
+            } catch (ChecksumException e) {
+                deletePartial(partial);
+                throw new IOException(e.getMessage() + " Restart to try again, or put the right " + spec.fileName + " into " + jar.getParent(), e);
+            } catch (IOException e) {
+                failure = e;
+                deletePartial(partial);
+                LOGGER.warn("Couldn't download {} (attempt {} of {}): {}", spec.fileName, attempt, ATTEMPTS, e.toString());
+                if (attempt < ATTEMPTS) pause(RETRY_DELAY_MILLIS * attempt, spec);
+            }
+        }
+        throw new IOException("Couldn't download " + spec.fileName + " from " + address + " (" + failure + "). Check the connection and restart, "
+                + "or put " + spec.fileName + " into " + jar.getParent(), failure);
+    }
+
+    /** Downloads {@code address} into {@code to}, which must come out the size and SHA-1 of the spec's original. */
+    private static void fetch(String address, File to, Spec spec, AtomicLong counter) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
+        connection.setConnectTimeout(CONNECT_TIMEOUT_MILLIS);
+        connection.setReadTimeout(READ_TIMEOUT_MILLIS);
+        connection.setRequestProperty("User-Agent", USER_AGENT);
+        long received = 0L;
+        boolean complete = false;
+        try {
+            int status = connection.getResponseCode();
+            if (status != HttpURLConnection.HTTP_OK) throw new IOException("the server answered " + status + " " + connection.getResponseMessage());
+            MessageDigest sha1 = messageDigest("SHA-1");
+            try (InputStream in = connection.getInputStream(); OutputStream out = new BufferedOutputStream(new FileOutputStream(to), BUFFER_SIZE)) {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    if (Thread.currentThread().isInterrupted()) throw new IOException("Interrupted while downloading " + spec.fileName);
+                    out.write(buffer, 0, read);
+                    sha1.update(buffer, 0, read);
+                    received += read;
+                    counter.addAndGet(read);
                 }
-                out.closeEntry();
             }
+            if (received != spec.originalSize) throw new IOException("got " + received + " bytes, not the " + spec.originalSize + " expected");
+            String actual = hex(sha1.digest());
+            if (!actual.equals(spec.originalSha1)) {
+                throw new ChecksumException(spec.fileName + " from " + address + " doesn't match the file Portium expects (SHA-1 " + actual + ", not " + spec.originalSha1 + ").");
+            }
+            complete = true;
+        } finally {
+            // A failed try's bytes don't count, so the bar doesn't run ahead when it is tried again.
+            if (!complete) counter.addAndGet(-received);
+            connection.disconnect();
         }
-        Files.move(partial.toPath(), jar.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    /** The digest {@code tools/gen_runtime_lists.py} writes: entries by name (as UTF-8 bytes), each name, 0, length, data. */
-    private static String digest(File staged, List<String> entries) throws IOException {
-        List<String> sorted = new ArrayList<>(entries);
-        sorted.sort((a, b) -> compareBytes(a.getBytes(StandardCharsets.UTF_8), b.getBytes(StandardCharsets.UTF_8)));
-        MessageDigest digest = messageDigest("SHA-256");
-        byte[] length = new byte[8];
-        for (String entry : sorted) {
-            byte[] data = Files.readAllBytes(new File(staged, entry).toPath());
-            digest.update(entry.getBytes(StandardCharsets.UTF_8));
-            digest.update((byte) 0);
-            long size = data.length;
-            for (int i = 7; i >= 0; i--) {
-                length[i] = (byte) size;
-                size >>>= 8;
-            }
-            digest.update(length);
-            digest.update(data);
+    private static void deletePartial(File partial) {
+        try {
+            Files.deleteIfExists(partial.toPath());
+        } catch (IOException e) {
+            LOGGER.warn("Couldn't remove {}", partial, e);
         }
-        return hex(digest.digest());
     }
 
-    private static int compareBytes(byte[] a, byte[] b) {
-        for (int i = 0; i < Math.min(a.length, b.length); i++) {
-            int difference = (a[i] & 0xFF) - (b[i] & 0xFF);
-            if (difference != 0) return difference;
+    private static void pause(long millis, Spec spec) throws IOException {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while downloading " + spec.fileName, e);
         }
-        return a.length - b.length;
     }
 
     private static String hash(File file, String algorithm) throws IOException {
@@ -262,26 +346,5 @@ public final class RuntimeFiles {
         StringBuilder hex = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) hex.append(String.format("%02x", b));
         return hex.toString();
-    }
-
-    private static void deleteTree(Path root) {
-        if (!Files.exists(root)) return;
-        try {
-            Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
-                    Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult postVisitDirectory(Path directory, IOException e) throws IOException {
-                    Files.delete(directory);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (IOException e) {
-            LOGGER.warn("Couldn't clear {}", root, e);
-        }
     }
 }
