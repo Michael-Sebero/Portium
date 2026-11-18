@@ -27,7 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.MOD_VERSION,
-        dependencies = "required-after:mixinbooter@[11.0,);required-client-after:assetmover@[2.5,);after:assetmover@[2.5,)")
+        dependencies = "required-after:mixinbooter@[11.0,);required-client-after:assetmover@[3.0.1,);after:assetmover@[3.0.1,)")
 public final class Portium {
 
     public static final String MODID = Tags.MOD_ID;
